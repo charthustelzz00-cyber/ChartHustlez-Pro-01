@@ -1,8 +1,6 @@
-
-Action: file_editor create /app/hostinger_files/script.js --file-text "/* ========== CHARTHUSTLEZ LANDING PAGE SCRIPT ========== */
-
+//* ========== CHARTHUSTLEZ LANDING PAGE SCRIPT ========== *//
 // Matrix characters - binary, Japanese katakana, and symbols
-const MATRIX_CHARS = \"01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$%&@#*+=<>{}[]\";
+const MATRIX_CHARS = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$%&@#*+=<>{}[]";
 
 // Configuration
 const CONFIG = {
@@ -13,14 +11,30 @@ const CONFIG = {
 
 // ========== LOADING PORTAL ==========
 function initPortal() {
+  // Null checks for required elements
   const canvas = document.getElementById('portal-canvas');
+  if (!canvas) {
+    console.error('Portal canvas element not found');
+    return;
+  }
+  
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('Failed to get 2D context from canvas');
+    return;
+  }
+  
   const portalContent = document.getElementById('portal-content');
   const portalRing = document.getElementById('portal-ring');
   const loadingBar = document.getElementById('loading-bar');
   const loadingText = document.getElementById('loading-text');
   const loadingPortal = document.getElementById('loading-portal');
   const landingPage = document.getElementById('landing-page');
+  
+  if (!portalContent || !portalRing || !loadingBar || !loadingText || !loadingPortal || !landingPage) {
+    console.error('One or more required portal elements not found');
+    return;
+  }
 
   // Set canvas size
   canvas.width = window.innerWidth;
@@ -29,6 +43,9 @@ function initPortal() {
   // Matrix rain on portal
   const columns = Math.floor(canvas.width / 20);
   const drops = Array(columns).fill(1);
+  
+  // Get primary color once to avoid expensive recomputation in animation loop
+  const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00ff00';
 
   function drawMatrixRain() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -89,6 +106,10 @@ function initLandingPage() {
 // ========== MATRIX RAIN (Falling from top) ==========
 function initMatrixRain() {
   const container = document.getElementById('matrix-rain');
+  if (!container) {
+    console.error('Matrix rain container not found');
+    return;
+  }
   const chars = [];
 
   for (let i = 0; i < CONFIG.matrixCount; i++) {
@@ -131,7 +152,11 @@ function initMatrixRain() {
 
 // ========== SNOWFLAKES (Rising from bottom) ==========
 function initSnowflakes() {
-  const container = document.getElementById('snowflakes');
+  const container = document.getElementById('snowflakes-container');
+  if (!container) {
+    console.error('Snowflakes container not found');
+    return;
+  }
   const flakes = [];
 
   for (let i = 0; i < CONFIG.snowCount; i++) {
@@ -180,45 +205,70 @@ function initSnowflakes() {
 function initThemeToggle() {
   const themeButtons = document.querySelectorAll('.theme-btn');
   
-  // Load saved theme
-  const savedTheme = localStorage.getItem('charthustlez-theme') || 'green';
-  document.body.setAttribute('data-theme', savedTheme);
+  if (themeButtons.length === 0) {
+    console.warn('No theme buttons found');
+    return;
+  }
   
-  // Update active button
-  themeButtons.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.theme === savedTheme);
+  try {
+    // Load saved theme
+    const savedTheme = localStorage.getItem('charthustlez-theme') || 'green';
+    document.body.setAttribute('data-theme', savedTheme);
     
-    btn.addEventListener('click', () => {
-      const theme = btn.dataset.theme;
-      document.body.setAttribute('data-theme', theme);
-      localStorage.setItem('charthustlez-theme', theme);
+    // Update active button
+    themeButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === savedTheme);
       
-      themeButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('charthustlez-theme', theme);
+        
+        themeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
     });
-  });
+  } catch (error) {
+    console.error('Error initializing theme toggle:', error);
+  }
 }
 
 // ========== CTA BUTTON ==========
 function initCTAButton() {
   const ctaBtn = document.getElementById('cta-btn');
+  
+  if (!ctaBtn) {
+    console.warn('CTA button element not found');
+    return;
+  }
+  
   ctaBtn.addEventListener('click', () => {
-    // Replace with your actual signup URL or action
-    alert('🚀 Coming Soon! Stay tuned for the launch.');
-    // window.open('https://your-signup-url.com', '_blank');
+    try {
+      window.location.href = 'signup.html';
+    } catch (error) {
+      console.error('Error handling CTA button click:', error);
+    }
   });
 }
 
 // ========== INITIALIZE ==========
-document.addEventListener('DOMContentLoaded', initPortal);
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    initPortal();
+  } catch (error) {
+    console.error('Error initializing portal:', error);
+  }
+});
 
 // Handle window resize
 window.addEventListener('resize', () => {
-  const canvas = document.getElementById('portal-canvas');
-  if (canvas) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  try {
+    const canvas = document.getElementById('portal-canvas');
+    if (canvas) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  } catch (error) {
+    console.error('Error handling window resize:', error);
   }
 });
-"
-Observation: Create successful: /app/hostinger_files/script.js
