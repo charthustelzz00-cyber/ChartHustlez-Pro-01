@@ -20,6 +20,26 @@ body {
   pointer-events: none;
 }
 
+/* SNOW LAYER */
+#snow-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.8;
+  filter: blur(0.3px);
+}
+
 /* Top Bar */
 .top-bar {
   position: fixed;

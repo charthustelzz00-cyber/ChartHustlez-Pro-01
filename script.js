@@ -1,4 +1,4 @@
-console.log("Phase 2: Matrix initialized");
+console.log("Phase 3: Matrix + Snow initialized");
 
 /* =========================
    THEME HANDLING
@@ -68,3 +68,46 @@ function drawMatrix() {
 }
 
 setInterval(drawMatrix, 50);
+
+/* =========================
+   SNOW (BOTTOM → UP)
+========================= */
+const snowLayer = document.getElementById('snow-layer');
+const MAX_SNOW = 40;
+
+function createSnowflake() {
+  if (reduceMotionToggle.checked) return;
+
+  const flake = document.createElement('div');
+  flake.className = 'snowflake';
+
+  const startX = Math.random() * window.innerWidth;
+  const size = Math.random() * 2 + 2;
+  const drift = (Math.random() - 0.5) * 40; // wind burst
+  const duration = Math.random() * 4000 + 6000;
+
+  flake.style.left = `${startX}px`;
+  flake.style.width = `${size}px`;
+  flake.style.height = `${size}px`;
+
+  snowLayer.appendChild(flake);
+
+  flake.animate(
+    [
+      { transform: 'translate(0, 0)', opacity: 0.8 },
+      { transform: `translate(${drift}px, -${window.innerHeight + 50}px)`, opacity: 0 }
+    ],
+    {
+      duration,
+      easing: 'linear'
+    }
+  );
+
+  setTimeout(() => flake.remove(), duration);
+}
+
+setInterval(() => {
+  if (snowLayer.children.length < MAX_SNOW) {
+    createSnowflake();
+  }
+}, 400);
