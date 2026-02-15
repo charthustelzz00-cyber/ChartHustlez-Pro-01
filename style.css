@@ -12,7 +12,7 @@ body {
   overflow: hidden;
 }
 
-/* MATRIX CANVAS */
+/* MATRIX */
 #matrix {
   position: fixed;
   inset: 0;
@@ -20,24 +20,51 @@ body {
   pointer-events: none;
 }
 
-/* SNOW LAYER */
+/* SNOW */
 #snow-layer {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  overflow: hidden;
 }
 
-.snowflake {
-  position: absolute;
-  bottom: -10px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--primary);
-  opacity: 0.8;
-  filter: blur(0.3px);
+/* CAUTION TAPES */
+.caution {
+  position: fixed;
+  left: -20%;
+  width: 140%;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(14px, 3vw, 20px);
+  letter-spacing: 2px;
+  padding: 10px 0;
+  background: #fffb00;
+  color: #000;
+  z-index: 3;
+  pointer-events: none; /* VERY IMPORTANT */
+  animation: tapeFloat 6s ease-in-out infinite;
+}
+
+.caution-a {
+  top: 18%;
+  transform: rotate(-35deg);
+}
+
+.caution-b {
+  bottom: 18%;
+  transform: rotate(145deg);
+  animation-delay: -3s;
+}
+
+@keyframes tapeFloat {
+  0% { transform: translateY(0) rotate(var(--angle, 0deg)); }
+  50% { transform: translateY(8px) rotate(var(--angle, 0deg)); }
+  100% { transform: translateY(0) rotate(var(--angle, 0deg)); }
+}
+
+/* Reduce motion support */
+body.reduce-motion .caution {
+  animation: none;
 }
 
 /* Top Bar */

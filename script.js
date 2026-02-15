@@ -1,4 +1,4 @@
-console.log("Phase 3: Matrix + Snow initialized");
+console.log("Phase 4: Caution tape motion active");
 
 /* =========================
    THEME HANDLING
@@ -19,7 +19,15 @@ document.querySelectorAll('[data-theme]').forEach(btn => {
 });
 
 /* =========================
-   MATRIX CANVAS
+   REDUCE MOTION
+========================= */
+const reduceMotionToggle = document.getElementById('reduceMotion');
+reduceMotionToggle.addEventListener('change', () => {
+  document.body.classList.toggle('reduce-motion', reduceMotionToggle.checked);
+});
+
+/* =========================
+   MATRIX
 ========================= */
 const canvas = document.getElementById('matrix');
 const ctx = canvas.getContext('2d');
@@ -37,12 +45,8 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-/* Pulse control */
 let visible = true;
 setInterval(() => visible = !visible, 3500);
-
-/* Reduce motion */
-const reduceMotionToggle = document.getElementById('reduceMotion');
 
 function drawMatrix() {
   if (reduceMotionToggle.checked) return;
@@ -57,20 +61,15 @@ function drawMatrix() {
 
   drops.forEach((y, i) => {
     const text = chars[Math.floor(Math.random() * chars.length)];
-    const x = i * fontSize;
-    ctx.fillText(text, x, y * fontSize);
-
-    if (y * fontSize > height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-    drops[i]++;
+    ctx.fillText(text, i * fontSize, y * fontSize);
+    drops[i] = y * fontSize > height && Math.random() > 0.975 ? 0 : y + 1;
   });
 }
 
 setInterval(drawMatrix, 50);
 
 /* =========================
-   SNOW (BOTTOM → UP)
+   SNOW
 ========================= */
 const snowLayer = document.getElementById('snow-layer');
 const MAX_SNOW = 40;
@@ -81,33 +80,24 @@ function createSnowflake() {
   const flake = document.createElement('div');
   flake.className = 'snowflake';
 
-  const startX = Math.random() * window.innerWidth;
   const size = Math.random() * 2 + 2;
-  const drift = (Math.random() - 0.5) * 40; // wind burst
-  const duration = Math.random() * 4000 + 6000;
-
-  flake.style.left = `${startX}px`;
   flake.style.width = `${size}px`;
   flake.style.height = `${size}px`;
+  flake.style.left = `${Math.random() * window.innerWidth}px`;
 
   snowLayer.appendChild(flake);
 
   flake.animate(
     [
       { transform: 'translate(0, 0)', opacity: 0.8 },
-      { transform: `translate(${drift}px, -${window.innerHeight + 50}px)`, opacity: 0 }
+      { transform: `translate(${(Math.random() - 0.5) * 40}px, -${window.innerHeight}px)`, opacity: 0 }
     ],
-    {
-      duration,
-      easing: 'linear'
-    }
+    { duration: Math.random() * 4000 + 6000, easing: 'linear' }
   );
 
-  setTimeout(() => flake.remove(), duration);
+  setTimeout(() => flake.remove(), 8000);
 }
 
 setInterval(() => {
-  if (snowLayer.children.length < MAX_SNOW) {
-    createSnowflake();
-  }
+  if (snowLayer.children.length < MAX_SNOW) createSnowflake();
 }, 400);
