@@ -1,151 +1,224 @@
-/* ===============================
-   CHART HUSTLEZ MAIN SCRIPT
-   =============================== */
 
-const MATRIX_CHARS =
-  "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$%&@#*+=";
+Action: file_editor create /app/hostinger_files/script.js --file-text "/* ========== CHARTHUSTLEZ LANDING PAGE SCRIPT ========== */
 
+// Matrix characters - binary, Japanese katakana, and symbols
+const MATRIX_CHARS = \"01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$%&@#*+=<>{}[]\";
+
+// Configuration
 const CONFIG = {
-  matrixCount: window.innerWidth < 768 ? 25 : 50,
-  snowCount: window.innerWidth < 768 ? 30 : 60,
-  portalDuration: 3000
+  matrixCount: window.innerWidth < 768 ? 30 : 50,
+  snowCount: window.innerWidth < 768 ? 40 : 60,
+  portalDuration: 3000, // Auto-enter after 3 seconds
 };
 
-/* ---------- PORTAL ---------- */
+// ========== LOADING PORTAL ==========
 function initPortal() {
-  const canvas = document.getElementById("portal-canvas");
-  const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById('portal-canvas');
+  const ctx = canvas.getContext('2d');
+  const portalContent = document.getElementById('portal-content');
+  const portalRing = document.getElementById('portal-ring');
+  const loadingBar = document.getElementById('loading-bar');
+  const loadingText = document.getElementById('loading-text');
+  const loadingPortal = document.getElementById('loading-portal');
+  const landingPage = document.getElementById('landing-page');
 
-  const loadingPortal = document.getElementById("loading-portal");
-  const landingPage = document.getElementById("landing-page");
-  const loadingBar = document.getElementById("loading-bar");
-  const loadingText = document.getElementById("loading-text");
-  const portalContent = document.getElementById("portal-content");
-  const portalRing = document.getElementById("portal-ring");
-
+  // Set canvas size
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
+  // Matrix rain on portal
   const columns = Math.floor(canvas.width / 20);
-  const drops = new Array(columns).fill(1);
+  const drops = Array(columns).fill(1);
 
-  function drawMatrix() {
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
+  function drawMatrixRain() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--primary");
-    ctx.font = "15px monospace";
 
-    drops.forEach((y, i) => {
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00ff00';
+    ctx.font = '15px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
       const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-      ctx.fillText(char, i * 20, y * 20);
-      drops[i] = y * 20 > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-    });
+      ctx.fillText(char, i * 20, drops[i] * 20);
+
+      if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
   }
 
-  const matrixInterval = setInterval(drawMatrix, 35);
+  const matrixInterval = setInterval(drawMatrixRain, 35);
 
-  setTimeout(() => portalContent.classList.add("visible"), 300);
-  setTimeout(() => portalRing.classList.add("expanded"), 900);
+  // Portal animation phases
+  setTimeout(() => portalContent.classList.add('visible'), 300);
+  setTimeout(() => portalRing.classList.add('expanded'), 1000);
 
+  // Loading progress
   let progress = 0;
   const progressInterval = setInterval(() => {
     progress += 2;
-    loadingBar.style.width = progress + "%";
-    loadingText.textContent = `Loading... ${progress}%`;
-    if (progress >= 100) loadingText.textContent = "Entering...";
+    if (progress > 100) progress = 100;
+    loadingBar.style.width = progress + '%';
+    loadingText.textContent = progress < 100 ? `Loading... ${progress}%` : 'Entering...';
   }, 50);
 
+  // Auto-enter after duration
   setTimeout(() => {
     clearInterval(matrixInterval);
     clearInterval(progressInterval);
-    loadingPortal.classList.add("fade-out");
-
+    
+    loadingPortal.classList.add('fade-out');
+    
     setTimeout(() => {
-      loadingPortal.remove();
-      landingPage.classList.remove("hidden");
+      loadingPortal.classList.add('hidden');
+      landingPage.classList.remove('hidden');
       initLandingPage();
     }, 1000);
   }, CONFIG.portalDuration);
 }
 
-/* ---------- LANDING ---------- */
+// ========== LANDING PAGE ==========
 function initLandingPage() {
   initMatrixRain();
   initSnowflakes();
   initThemeToggle();
-  initCTA();
+  initCTAButton();
 }
 
-/* ---------- MATRIX ---------- */
+// ========== MATRIX RAIN (Falling from top) ==========
 function initMatrixRain() {
-  const container = document.getElementById("matrix-rain");
-  if (!container) return;
-
+  const container = document.getElementById('matrix-rain');
   const chars = [];
 
   for (let i = 0; i < CONFIG.matrixCount; i++) {
-    const el = document.createElement("span");
-    el.className = "matrix-char";
-    el.textContent = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-    el.style.left = Math.random() * 100 + "%";
-    el.style.top = Math.random() * -100 + "%";
-    container.appendChild(el);
-    chars.push({ el, y: Math.random() * -100, speed: Math.random() + 0.5 });
+    const char = document.createElement('span');
+    char.className = 'matrix-char';
+    char.textContent = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+    
+    const x = Math.random() * 100;
+    const y = Math.random() * -100;
+    const speed = Math.random() * 2 + 1;
+    const size = Math.random() * 12 + 10;
+    const opacity = Math.random() * 0.5 + 0.5;
+    
+    char.style.left = x + '%';
+    char.style.top = y + '%';
+    char.style.fontSize = size + 'px';
+    char.style.opacity = opacity;
+    char.style.textShadow = '0 0 5px var(--primary)';
+    
+    container.appendChild(char);
+    chars.push({ el: char, x, y, speed });
   }
 
-  function animate() {
+  function animateMatrix() {
     chars.forEach(c => {
-      c.y += c.speed;
-      if (c.y > 110) c.y = -10;
-      c.el.style.top = c.y + "%";
+      c.y += c.speed * 0.3;
+      if (c.y > 110) {
+        c.y = -10;
+        c.x = Math.random() * 100;
+        c.el.textContent = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+      }
+      c.el.style.top = c.y + '%';
+      c.el.style.left = c.x + '%';
     });
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateMatrix);
   }
-
-  animate();
+  
+  animateMatrix();
 }
 
-/* ---------- SNOW ---------- */
+// ========== SNOWFLAKES (Rising from bottom) ==========
 function initSnowflakes() {
-  const container = document.getElementById("snowflakes");
-  if (!container) return;
+  const container = document.getElementById('snowflakes');
+  const flakes = [];
 
   for (let i = 0; i < CONFIG.snowCount; i++) {
-    const flake = document.createElement("span");
-    flake.className = "snowflake";
-    flake.textContent = "❄";
-    flake.style.left = Math.random() * 100 + "%";
-    flake.style.bottom = Math.random() * -100 + "%";
+    const flake = document.createElement('span');
+    flake.className = 'snowflake';
+    flake.textContent = '❄';
+    
+    const x = Math.random() * 100;
+    const y = 100 + Math.random() * 20;
+    const speed = Math.random() * 0.8 + 0.3;
+    const drift = Math.random() * 0.4 - 0.2;
+    const size = Math.random() * 10 + 8;
+    const opacity = Math.random() * 0.6 + 0.4;
+    
+    flake.style.left = x + '%';
+    flake.style.bottom = (100 - y) + '%';
+    flake.style.fontSize = size + 'px';
+    flake.style.opacity = opacity;
+    
     container.appendChild(flake);
+    flakes.push({ el: flake, x, y, speed, drift });
   }
+
+  function animateSnowflakes() {
+    flakes.forEach(f => {
+      f.y -= f.speed * 0.3;
+      f.x += f.drift * 0.3;
+      
+      if (f.y < -5) {
+        f.y = 105;
+        f.x = Math.random() * 100;
+      }
+      if (f.x > 100) f.x = 0;
+      if (f.x < 0) f.x = 100;
+      
+      f.el.style.bottom = (100 - f.y) + '%';
+      f.el.style.left = f.x + '%';
+    });
+    requestAnimationFrame(animateSnowflakes);
+  }
+  
+  animateSnowflakes();
 }
 
-/* ---------- THEMES ---------- */
+// ========== THEME TOGGLE ==========
 function initThemeToggle() {
-  const buttons = document.querySelectorAll(".theme-btn");
-  const saved = localStorage.getItem("charthustlez-theme") || "green";
-  document.body.dataset.theme = saved;
-
-  buttons.forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.theme === saved);
-    btn.onclick = () => {
-      document.body.dataset.theme = btn.dataset.theme;
-      localStorage.setItem("charthustlez-theme", btn.dataset.theme);
-      buttons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    };
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  
+  // Load saved theme
+  const savedTheme = localStorage.getItem('charthustlez-theme') || 'green';
+  document.body.setAttribute('data-theme', savedTheme);
+  
+  // Update active button
+  themeButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === savedTheme);
+    
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.theme;
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('charthustlez-theme', theme);
+      
+      themeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
   });
 }
 
-/* ---------- CTA ---------- */
-function initCTA() {
-  const btn = document.getElementById("cta-btn");
-  if (!btn) return;
-
-  btn.onclick = () => {
-    alert("🚀 ChartHustlez launching soon!");
-  };
+// ========== CTA BUTTON ==========
+function initCTAButton() {
+  const ctaBtn = document.getElementById('cta-btn');
+  ctaBtn.addEventListener('click', () => {
+    // Replace with your actual signup URL or action
+    alert('🚀 Coming Soon! Stay tuned for the launch.');
+    // window.open('https://your-signup-url.com', '_blank');
+  });
 }
 
-/* ---------- START ---------- */
-document.addEventListener("DOMContentLoaded", initPortal);
+// ========== INITIALIZE ==========
+document.addEventListener('DOMContentLoaded', initPortal);
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  const canvas = document.getElementById('portal-canvas');
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+});
+"
+Observation: Create successful: /app/hostinger_files/script.js
