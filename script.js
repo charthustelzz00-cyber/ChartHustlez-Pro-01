@@ -17,6 +17,23 @@ document.querySelectorAll('[data-theme]').forEach(btn => {
 /* ===== REDUCE MOTION ===== */
 const reduceMotionToggle = document.getElementById('reduceMotion');
 
+/* ===== MASTER FX TOGGLE ===== */
+const disableFXToggle = document.getElementById('disableFX');
+const fxOverlay = document.getElementById('fx-disabled-overlay');
+
+let FX_DISABLED = false;
+
+disableFXToggle.addEventListener('change', () => {
+  FX_DISABLED = disableFXToggle.checked;
+
+  fxOverlay.style.display = FX_DISABLED ? 'flex' : 'none';
+
+  if (FX_DISABLED) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    snowLayer.innerHTML = '';
+  }
+});
+
 /* ===== MATRIX (DIMMED, SAFE) ===== */
 const canvas = document.getElementById('matrix');
 const ctx = canvas.getContext('2d');
@@ -52,7 +69,7 @@ setInterval(() => {
 const snowLayer = document.getElementById('snow-layer');
 
 setInterval(() => {
-  if (reduceMotionToggle.checked) return;
+  if (reduceMotionToggle.checked || FX_DISABLED) return;
 
   const flake = document.createElement('div');
   flake.style.cssText = `
@@ -108,3 +125,8 @@ document.addEventListener('click', () => {
   glitchSound.currentTime = 0;
   glitchSound.play().catch(()=>{});
 },{ once:true });
+
+/* ===== FX PRELOAD ===== */
+window.addEventListener('load', () => {
+  glitchSound.load();
+});

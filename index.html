@@ -14,13 +14,14 @@
 </head>
 <body>
 
+  <!-- FX DISABLE OVERLAY (ACCESSIBILITY) -->
+  <div id="fx-disabled-overlay">Effects Disabled</div>
+
   <!-- Glitch overlay -->
   <div id="glitch-overlay"></div>
 
-  <!-- Matrix background -->
+  <!-- Background layers -->
   <canvas id="matrix"></canvas>
-
-  <!-- Snow layer -->
   <div id="snow-layer"></div>
 
   <!-- Caution tapes -->
@@ -40,7 +41,7 @@
     </div>
   </div>
 
-  <!-- UI -->
+  <!-- Controls -->
   <div class="top-bar">
     <button data-theme="green">Green</button>
     <button data-theme="cyan">Cyan</button>
@@ -49,6 +50,11 @@
     <label class="reduce-motion">
       <input type="checkbox" id="reduceMotion">
       Reduce Motion
+    </label>
+
+    <label class="reduce-motion">
+      <input type="checkbox" id="disableFX">
+      Disable FX
     </label>
   </div>
 
@@ -63,6 +69,7 @@
     </div>
   </main>
 
+  <!-- Audio -->
   <audio id="glitchSound" src="sounds/glitch.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>

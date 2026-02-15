@@ -15,6 +15,20 @@ body {
   overflow: hidden;
 }
 
+/* FX DISABLED OVERLAY */
+#fx-disabled-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
 /* ===== LAYERS (LOCKED) ===== */
 #matrix {
   position: fixed;
