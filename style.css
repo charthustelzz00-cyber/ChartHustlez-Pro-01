@@ -77,9 +77,7 @@ button {
   z-index: 50;
 }
 
-.cta {
-  margin-top: 16px;
-}
+.cta { margin-top: 16px; }
 
 /* ===== GLITCH TEXT ===== */
 .glitch {
@@ -105,53 +103,117 @@ button {
   color: #fff;
 }
 
-/* ===== TAPES ===== */
+/* ===== REALISTIC CAUTION TAPE ===== */
 .tape {
   position: fixed;
   left: 0;
   width: 100%;
   height: 42px;
-  background: repeating-linear-gradient(
-    45deg,
-    #ffd400,
-    #ffd400 10px,
-    #000 10px,
-    #000 20px
-  );
   overflow: hidden;
   z-index: 40;
+
+  /* Base tape */
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #ffd400,
+      #ffd400 10px,
+      #000 10px,
+      #000 20px
+    );
+}
+
+/* Vinyl sheen */
+.tape::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0.05) 40%,
+    rgba(0,0,0,0.15)
+  );
+  pointer-events: none;
+}
+
+/* Micro noise */
+.tape::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-radial-gradient(
+      circle,
+      rgba(0,0,0,0.05) 0 1px,
+      transparent 1px 3px
+    );
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 .top-tape {
   top: 120px;
-  animation: floatA 12s ease-in-out infinite;
+  animation: floatA 13s ease-in-out infinite;
 }
 
 .bottom-tape {
   bottom: 120px;
-  animation: floatB 16s ease-in-out infinite;
+  animation: floatB 17s ease-in-out infinite;
 }
 
+/* Billboard text */
 .tape-inner {
+  display: inline-block;
+  padding-left: 100%;
   white-space: nowrap;
-  animation: scroll 18s linear infinite, glow 4s ease-in-out infinite;
+  animation:
+    scroll 22s linear infinite,
+    glow 4s ease-in-out infinite,
+    wobble 6s ease-in-out infinite;
 }
 
+/* Hover slow-down (desktop only) */
+@media (hover: hover) {
+  .tape:hover .tape-inner {
+    animation-duration: 40s, 6s, 8s;
+  }
+}
+
+/* Mobile slower motion */
+@media (max-width: 768px) {
+  .tape-inner {
+    animation-duration: 32s, 6s, 8s;
+  }
+}
+
+/* Motion */
 @keyframes scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
-@keyframes floatA {
-  50% { transform: translateY(8px); }
-}
-
-@keyframes floatB {
-  50% { transform: translateY(-10px); }
+@keyframes wobble {
+  0%,100% { transform: translateY(0) scaleX(1); }
+  50% { transform: translateY(-1px) scaleX(1.01); }
 }
 
 @keyframes glow {
-  50% { text-shadow: 0 0 8px var(--primary); }
+  50% { text-shadow: 0 0 10px var(--primary); }
+}
+
+@keyframes floatA {
+  0% { transform: translateY(0); }
+  40% { transform: translateY(6px); }
+  70% { transform: translateY(4px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes floatB {
+  0% { transform: translateY(0); }
+  35% { transform: translateY(-8px); }
+  65% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
 
 /* ===== MATRIX ===== */
