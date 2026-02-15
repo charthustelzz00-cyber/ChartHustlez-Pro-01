@@ -1,34 +1,39 @@
-/* ===== THEME SWITCHER ===== */
+/* =========================
+   SAFE CORE REFERENCES
+========================= */
 const root = document.documentElement;
-let currentColor = '#00ff66'; // default green
+const body = document.body;
+
+/* =========================
+   THEME SYSTEM (GUARANTEED)
+========================= */
+let currentColor = '#00ff66';
+
+function applyTheme(color) {
+  currentColor = color;
+  root.style.setProperty('--primary', currentColor);
+
+  const portal = document.getElementById('portal-overlay');
+  if (portal) {
+    portal.style.background =
+      `radial-gradient(circle at center, ${currentColor}, #020402 70%)`;
+  }
+}
 
 document.querySelectorAll('[data-theme]').forEach(btn => {
   btn.addEventListener('click', () => {
-    const theme = btn.dataset.theme;
-
-    if (theme === 'green') currentColor = '#00ff66';
-    if (theme === 'cyan') currentColor = '#00ffff';
-    if (theme === 'magenta') currentColor = '#ff00ff';
-
-    root.style.setProperty('--primary', currentColor);
-
-    // Update portal color live (if it exists)
-    const portal = document.getElementById('portal-overlay');
-    if (portal) {
-      portal.style.background =
-        `radial-gradient(circle at center, ${currentColor}, #020402 70%)`;
-    }
+    const t = btn.dataset.theme;
+    if (t === 'cyan') applyTheme('#00ffff');
+    else if (t === 'magenta') applyTheme('#ff00ff');
+    else applyTheme('#00ff66');
   });
 });
 
-/* ===== TOGGLES ===== */
-const reduceMotionToggle = document.getElementById('reduceMotion');
-const disableFXToggle = document.getElementById('disableFX');
-
-/* ===== PORTAL SYSTEM (HARDENED) ===== */
+/* =========================
+   PORTAL SYSTEM (HARD LOCK)
+========================= */
 const portal = document.getElementById('portal-overlay');
 const portalText = document.getElementById('portal-text');
-const body = document.body;
 
 body.classList.add('locked');
 
@@ -40,73 +45,40 @@ const portalMessages = [
 ];
 
 let portalIndex = 0;
-let portalInterval;
-
-/* Cycle text */
-function startPortalText() {
-  portalInterval = setInterval(() => {
-    portalIndex = (portalIndex + 1) % portalMessages.length;
+let portalInterval = setInterval(() => {
+  if (portalText) {
     portalText.textContent = portalMessages[portalIndex];
-  }, 700);
-}
-
-startPortalText();
-
-/* Exit portal on first interaction */
-function exitPortal() {
-  if (reduceMotionToggle.checked || disableFXToggle.checked) {
-    cleanupPortal();
-    return;
+    portalIndex = (portalIndex + 1) % portalMessages.length;
   }
+}, 700);
 
-  portal.classList.add('portal-exit');
-
-  setTimeout(cleanupPortal, 700);
-}
-
-function cleanupPortal() {
+function exitPortal() {
   clearInterval(portalInterval);
-  portal.remove();
-  body.classList.remove('locked');
-}
 
-document.addEventListener('pointerdown', exitPortal, { once: true });
-
-/* ===== PORTAL ===== */
-const portal = document.getElementById('portal-overlay');
-const body = document.body;
-
-const portalSeen = sessionStorage.getItem('portalSeen');
-
-function exitPortal() {
-  if (portalSeen || reduceMotionToggle.checked || disableFXToggle.checked) {
-    portal.remove();
-    body.classList.remove('locked');
-    return;
+  if (portal) {
+    portal.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
+    portal.style.transform = 'scale(6)';
+    portal.style.opacity = '0';
   }
-
-  sessionStorage.setItem('portalSeen', 'true');
-
-  portal.classList.add('portal-exit');
 
   setTimeout(() => {
-    portal.remove();
+    if (portal) portal.remove();
     body.classList.remove('locked');
   }, 700);
 }
 
-document.addEventListener('click', exitPortal, { once: true });
+document.addEventListener(
+  'pointerdown',
+  exitPortal,
+  { once: true }
+);
 
-/* ===== CAUTION TEXT SCROLL ===== */
-const tracks = document.querySelectorAll('.caution-track');
-let scrollX = 0;
-
-function scrollText() {
-  if (!reduceMotionToggle.checked && !disableFXToggle.checked) {
-    scrollX -= 0.35;
-    tracks.forEach(t => t.style.transform = `translate3d(${scrollX}px,0,0)`);
-    if (Math.abs(scrollX) > 400) scrollX = 0;
+/* =========================
+   FALLBACK SAFETY
+========================= */
+setTimeout(() => {
+  if (document.body.classList.contains('locked')) {
+    if (portal) portal.remove();
+    body.classList.remove('locked');
   }
-  requestAnimationFrame(scrollText);
-}
-scrollText();
+}, 6000);
