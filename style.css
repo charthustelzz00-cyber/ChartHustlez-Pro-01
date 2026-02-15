@@ -20,10 +20,10 @@ body.locked { overflow: hidden; }
 #portal-overlay {
   position: fixed;
   inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: radial-gradient(circle at center, var(--primary), #020402 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 9999;
 }
 
@@ -34,7 +34,6 @@ body.locked { overflow: hidden; }
 
 #portal-text {
   letter-spacing: 0.25em;
-  font-size: 1.1rem;
 }
 
 .portal-bar {
@@ -58,11 +57,11 @@ body.locked { overflow: hidden; }
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
-  z-index: 20;
+  z-index: 50;
 }
 
 button {
-  background: transparent;
+  background: #020402;
   border: 1px solid var(--primary);
   color: var(--primary);
   padding: 6px 10px;
@@ -83,14 +82,14 @@ button:hover {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
   isolation: isolate;
-  z-index: 10;
+  z-index: 40;
 }
 
-/* ===== CAUTION TAPE ===== */
+/* ===== CAUTION ===== */
 .tape {
   position: fixed;
   left: 0;
@@ -104,7 +103,7 @@ button:hover {
     #000 20px
   );
   overflow: hidden;
-  z-index: 15;
+  z-index: 30;
 }
 
 .top-tape { top: 120px; animation: float 6s ease-in-out infinite; }
@@ -112,8 +111,7 @@ button:hover {
 
 .tape-inner {
   white-space: nowrap;
-  font-size: 0.85rem;
-  animation: scroll 10s linear infinite, glow 2.8s ease-in-out infinite;
+  animation: scroll 10s linear infinite, glow 3s ease-in-out infinite;
 }
 
 @keyframes scroll {
@@ -138,5 +136,5 @@ button:hover {
   pointer-events: none;
 }
 
-#matrix { z-index: 1; opacity: 0.45; }
+#matrix { z-index: 1; }
 #snow { z-index: 2; }

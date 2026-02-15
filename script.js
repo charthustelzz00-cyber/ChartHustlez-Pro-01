@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = document.getElementById('reduceMotion');
   const disableFX = document.getElementById('disableFX');
 
+  let fxActive = false;
+
   /* ===== THEME ===== */
   function applyTheme(color) {
     root.style.setProperty('--primary', color);
@@ -34,16 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ===== PORTAL ===== */
   const messages = ['INITIALIZING','DECRYPTING','SYNCING','ENTERING'];
-  let i = 0;
+  let msgIndex = 0;
 
   const msgTimer = setInterval(() => {
-    if (portalText) portalText.textContent = messages[i++ % messages.length];
+    portalText.textContent = messages[msgIndex++ % messages.length];
   }, 700);
 
   let progress = 0;
   const barTimer = setInterval(() => {
     progress += 8;
-    if (portalBar) portalBar.style.width = progress + '%';
+    portalBar.style.width = progress + '%';
     if (progress >= 100) clearInterval(barTimer);
   }, 300);
 
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(barTimer);
     portal.remove();
     body.classList.remove('locked');
-    startFX();
+    fxActive = true;
   }
 
   document.addEventListener('pointerdown', () => {
@@ -70,29 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const mtx = matrix.getContext('2d');
   const chars = '01∆#@$%&*';
 
-  function resizeCanvas(c) {
-    c.width = innerWidth;
-    c.height = innerHeight;
-  }
-
   let drops = [];
 
-  function initMatrix() {
-    resizeCanvas(matrix);
+  function resizeMatrix() {
+    matrix.width = innerWidth;
+    matrix.height = innerHeight;
     drops = Array(Math.floor(matrix.width / 16)).fill(0);
-  }
-
-  function drawMatrix() {
-    mtx.fillStyle = 'rgba(0,0,0,0.08)';
-    mtx.fillRect(0,0,matrix.width,matrix.height);
-    mtx.fillStyle = getComputedStyle(root).getPropertyValue('--primary');
-    mtx.font = '14px monospace';
-
-    drops.forEach((y,i)=>{
-      const text = chars[Math.floor(Math.random()*chars.length)];
-      mtx.fillText(text, i*16, y*16);
-      drops[i] = y*16 > matrix.height && Math.random() > 0.975 ? 0 : y+1;
-    });
   }
 
   /* ===== SNOW ===== */
@@ -100,50 +85,66 @@ document.addEventListener('DOMContentLoaded', () => {
   const sctx = snow.getContext('2d');
   let flakes = [];
 
-  function initSnow() {
-    resizeCanvas(snow);
-    flakes = Array.from({length:80},()=>({
-      x:Math.random()*snow.width,
-      y:snow.height+Math.random()*snow.height,
-      r:Math.random()*1.5+0.5,
-      vx:(Math.random()-0.5)*0.3,
-      vy:-Math.random()*0.6-0.3
+  function resizeSnow() {
+    snow.width = innerWidth;
+    snow.height = innerHeight;
+    flakes = Array.from({length: 90}, () => ({
+      x: Math.random() * snow.width,
+      y: snow.height + Math.random() * snow.height,
+      r: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -Math.random() * 0.6 - 0.4
     }));
   }
 
-  function drawSnow() {
-    sctx.clearRect(0,0,snow.width,snow.height);
-    sctx.fillStyle = 'rgba(255,255,255,0.6)';
-    flakes.forEach(f=>{
-      f.x+=f.vx; f.y+=f.vy;
-      if(f.y<0){f.y=snow.height;f.x=Math.random()*snow.width;}
-      sctx.beginPath();
-      sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-      sctx.fill();
-    });
-  }
+  window.addEventListener('resize', () => {
+    resizeMatrix();
+    resizeSnow();
+  });
 
   /* ===== LOOP ===== */
   let last = 0;
-  function loop(t){
-    if(disableFX.checked || reduceMotion.checked) return;
-    if(t-last>50){
-      drawMatrix();
-      drawSnow();
-      last=t;
+  function loop(t) {
+    if (!fxActive || disableFX.checked) return;
+
+    const speed = reduceMotion.checked ? 90 : 45;
+    if (t - last > speed) {
+
+      // Matrix
+      mtx.fillStyle = 'rgba(0,0,0,0.08)';
+      mtx.fillRect(0,0,matrix.width,matrix.height);
+      mtx.fillStyle = getComputedStyle(root).getPropertyValue('--primary');
+      mtx.font = '14px monospace';
+
+      drops.forEach((y,i)=>{
+        const char = chars[Math.floor(Math.random()*chars.length)];
+        mtx.fillText(char, i*16, y*16);
+        drops[i] = y*16 > matrix.height && Math.random() > 0.975 ? 0 : y+1;
+      });
+
+      // Snow
+      sctx.clearRect(0,0,snow.width,snow.height);
+      sctx.fillStyle = 'rgba(255,255,255,0.7)';
+      flakes.forEach(f=>{
+        f.x += f.vx;
+        f.y += f.vy;
+        if (f.y < 0) {
+          f.y = snow.height;
+          f.x = Math.random() * snow.width;
+        }
+        sctx.beginPath();
+        sctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        sctx.fill();
+      });
+
+      last = t;
     }
+
     requestAnimationFrame(loop);
   }
 
-  function startFX(){
-    initMatrix();
-    initSnow();
-    requestAnimationFrame(loop);
-  }
-
-  window.addEventListener('resize', ()=>{
-    initMatrix();
-    initSnow();
-  });
+  resizeMatrix();
+  resizeSnow();
+  requestAnimationFrame(loop);
 
 });
