@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let progress = 0;
   const barLoop = setInterval(() => {
-    progress += 6;
+    progress += 5;
     bar.style.width = progress + '%';
     if (progress >= 100) clearInterval(barLoop);
-  }, 300);
+  }, 320);
 
   function exitPortal() {
     clearInterval(msgLoop);
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function resize() {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-    drops = Array(Math.floor(canvas.width / 22)).fill(0);
+    drops = Array(Math.floor(canvas.width / 26)).fill(0);
   }
   resize();
   window.addEventListener('resize', resize);
@@ -67,17 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function draw(t) {
     if (!fxEnabled || disableFX.checked) return requestAnimationFrame(draw);
 
-    const speed = reduceMotion.checked ? 130 : 70;
+    const speed = reduceMotion.checked ? 160 : 95;
     if (t - last > speed) {
-      ctx.fillStyle = 'rgba(0,0,0,0.12)';
+      ctx.fillStyle = 'rgba(0,0,0,0.14)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
 
       ctx.fillStyle = getComputedStyle(root).getPropertyValue('--primary');
-      ctx.font = '13px monospace';
+      ctx.font = '12px monospace';
 
       drops.forEach((y,i)=>{
-        ctx.fillText(chars[Math.random()*chars.length|0], i*22, y*22);
-        drops[i] = y*22 > canvas.height && Math.random() > 0.98 ? 0 : y+1;
+        ctx.fillText(chars[Math.random()*chars.length|0], i*26, y*26);
+        drops[i] = y*26 > canvas.height && Math.random() > 0.985 ? 0 : y+1;
       });
 
       last = t;

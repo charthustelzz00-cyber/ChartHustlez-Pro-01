@@ -20,7 +20,7 @@ body.locked { overflow: hidden; }
 #portal {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, var(--primary), #020402 70%);
+  background: radial-gradient(circle, var(--primary), #020402 70%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +90,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  opacity: .6;
+  opacity: .5;
 }
 
 .glitch::before {
@@ -121,43 +121,39 @@ button {
     );
 }
 
-/* Vinyl sheen */
+/* sheen */
 .tape::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,.25),
-    rgba(255,255,255,.05) 40%,
-    rgba(0,0,0,.15)
+    rgba(255,255,255,.3),
+    rgba(255,255,255,.05),
+    rgba(0,0,0,.2)
   );
-  pointer-events: none;
 }
 
-/* Noise */
+/* grain */
 .tape::after {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    repeating-radial-gradient(
-      circle,
-      rgba(0,0,0,.05) 0 1px,
-      transparent 1px 3px
-    );
+  background: repeating-radial-gradient(
+    circle,
+    rgba(0,0,0,.05) 0 1px,
+    transparent 1px 3px
+  );
   opacity: .15;
-  pointer-events: none;
 }
 
 .top-tape {
   top: 120px;
-  animation: floatA 13s ease-in-out infinite;
+  animation: floatA 14s ease-in-out infinite;
 }
 
 .bottom-tape {
   bottom: 120px;
-  animation: floatB 17s ease-in-out infinite;
+  animation: floatB 18s ease-in-out infinite;
 }
 
 /* ===== TAPE TEXT ===== */
@@ -165,43 +161,22 @@ button {
   display: flex;
   width: max-content;
   white-space: nowrap;
-  animation:
-    wobble 6s ease-in-out infinite,
-    glow 4s ease-in-out infinite,
-    glitch 9s steps(1,end) infinite;
 }
 
 .tape-track span {
   padding-right: 40px;
+  animation:
+    glow 4s ease-in-out infinite,
+    glitch 11s steps(1,end) infinite;
 }
 
-/* Direction */
+/* Scroll directions */
 .tape-track.left {
-  animation-name: wobble, glow, glitch, scrollLeft;
-  animation-duration: 6s,4s,9s,22s;
-  animation-timing-function: ease-in-out,ease-in-out,steps(1),linear;
-  animation-iteration-count: infinite;
+  animation: scrollLeft 26s linear infinite;
 }
 
 .tape-track.right {
-  animation-name: wobble, glow, glitch, scrollRight;
-  animation-duration: 6s,4s,11s,26s;
-  animation-timing-function: ease-in-out,ease-in-out,steps(1),linear;
-  animation-iteration-count: infinite;
-}
-
-/* Hover slow (desktop) */
-@media (hover:hover) {
-  .tape:hover .tape-track {
-    animation-duration: 8s,6s,12s,40s;
-  }
-}
-
-/* Mobile slower */
-@media (max-width:768px) {
-  .tape-track {
-    animation-duration: 8s,6s,12s,36s;
-  }
+  animation: scrollRight 32s linear infinite;
 }
 
 /* ===== KEYFRAMES ===== */
@@ -215,20 +190,14 @@ button {
   to { transform: translateX(0); }
 }
 
-@keyframes wobble {
-  0%,100% { transform: translateY(0) scaleX(1); }
-  50% { transform: translateY(-1px) scaleX(1.01); }
-}
-
 @keyframes glow {
   50% { text-shadow: 0 0 10px var(--primary); }
 }
 
-/* Tape glitch */
 @keyframes glitch {
   0%,90%,100% { clip-path: inset(0 0 0 0); }
-  92% { clip-path: inset(20% 0 60% 0); }
-  95% { clip-path: inset(60% 0 20% 0); }
+  93% { clip-path: inset(20% 0 60% 0); }
+  96% { clip-path: inset(60% 0 20% 0); }
 }
 
 @keyframes floatA {
