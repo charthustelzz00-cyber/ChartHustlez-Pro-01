@@ -17,7 +17,7 @@ body {
 body.locked { overflow: hidden; }
 
 /* ===== PORTAL ===== */
-#portal-overlay {
+#portal {
   position: fixed;
   inset: 0;
   background: radial-gradient(circle at center, var(--primary), #020402 70%);
@@ -25,18 +25,19 @@ body.locked { overflow: hidden; }
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  transition: transform 0.7s ease, opacity 0.7s ease;
 }
 
 .portal-core {
-  text-align: center;
   font-family: 'Share Tech Mono', monospace;
+  text-align: center;
 }
 
 .portal-bar {
-  width: 200px;
+  width: 220px;
   height: 6px;
   border: 1px solid var(--primary);
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .portal-bar-fill {
@@ -53,14 +54,15 @@ body.locked { overflow: hidden; }
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
-  z-index: 50;
+  z-index: 100;
 }
 
 button {
-  background: #020402;
+  background: transparent;
   border: 1px solid var(--primary);
   color: var(--primary);
   padding: 6px 10px;
+  cursor: pointer;
 }
 
 /* ===== HERO ===== */
@@ -68,13 +70,42 @@ button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  isolation: isolate;
-  z-index: 40;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 50;
 }
 
-/* ===== TAPE ===== */
+.cta {
+  margin-top: 16px;
+}
+
+/* ===== GLITCH TEXT ===== */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0.6;
+}
+
+.glitch::before {
+  transform: translate(2px, -2px);
+  color: var(--primary);
+}
+
+.glitch::after {
+  transform: translate(-2px, 2px);
+  color: #fff;
+}
+
+/* ===== TAPES ===== */
 .tape {
   position: fixed;
   left: 0;
@@ -88,22 +119,21 @@ button {
     #000 20px
   );
   overflow: hidden;
-  z-index: 30;
+  z-index: 40;
 }
 
 .top-tape {
   top: 120px;
-  animation: floatA 10s ease-in-out infinite;
+  animation: floatA 12s ease-in-out infinite;
 }
 
 .bottom-tape {
   bottom: 120px;
-  animation: floatB 14s ease-in-out infinite;
+  animation: floatB 16s ease-in-out infinite;
 }
 
 .tape-inner {
   white-space: nowrap;
-  font-size: 0.85rem;
   animation: scroll 18s linear infinite, glow 4s ease-in-out infinite;
 }
 
@@ -113,26 +143,21 @@ button {
 }
 
 @keyframes floatA {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
+  50% { transform: translateY(8px); }
 }
 
 @keyframes floatB {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes glow {
-  0%,100% { text-shadow: 0 0 4px #000; }
   50% { text-shadow: 0 0 8px var(--primary); }
 }
 
-/* ===== FX ===== */
-#matrix, #snow {
+/* ===== MATRIX ===== */
+#matrix {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
 }
-
-#matrix { z-index: 1; }
-#snow { z-index: 2; }
