@@ -1,3 +1,5 @@
+alert('script.js is loading');
+
 /* =========================
    SAFE CORE REFERENCES
 ========================= */
