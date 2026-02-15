@@ -25,7 +25,7 @@ body.locked { overflow: hidden; }
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  transition: transform 0.7s ease, opacity 0.7s ease;
+  transition: transform .7s ease, opacity .7s ease;
 }
 
 .portal-core {
@@ -90,20 +90,20 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  opacity: 0.6;
+  opacity: .6;
 }
 
 .glitch::before {
-  transform: translate(2px, -2px);
+  transform: translate(2px,-2px);
   color: var(--primary);
 }
 
 .glitch::after {
-  transform: translate(-2px, 2px);
+  transform: translate(-2px,2px);
   color: #fff;
 }
 
-/* ===== REALISTIC CAUTION TAPE ===== */
+/* ===== CAUTION TAPE ===== */
 .tape {
   position: fixed;
   left: 0;
@@ -111,8 +111,6 @@ button {
   height: 42px;
   overflow: hidden;
   z-index: 40;
-
-  /* Base tape */
   background:
     repeating-linear-gradient(
       45deg,
@@ -130,14 +128,14 @@ button {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255,255,255,0.25),
-    rgba(255,255,255,0.05) 40%,
-    rgba(0,0,0,0.15)
+    rgba(255,255,255,.25),
+    rgba(255,255,255,.05) 40%,
+    rgba(0,0,0,.15)
   );
   pointer-events: none;
 }
 
-/* Micro noise */
+/* Noise */
 .tape::after {
   content: '';
   position: absolute;
@@ -145,10 +143,10 @@ button {
   background:
     repeating-radial-gradient(
       circle,
-      rgba(0,0,0,0.05) 0 1px,
+      rgba(0,0,0,.05) 0 1px,
       transparent 1px 3px
     );
-  opacity: 0.15;
+  opacity: .15;
   pointer-events: none;
 }
 
@@ -162,35 +160,59 @@ button {
   animation: floatB 17s ease-in-out infinite;
 }
 
-/* Billboard text */
-.tape-inner {
-  display: inline-block;
-  padding-left: 100%;
+/* ===== TAPE TEXT ===== */
+.tape-track {
+  display: flex;
+  width: max-content;
   white-space: nowrap;
   animation:
-    scroll 22s linear infinite,
+    wobble 6s ease-in-out infinite,
     glow 4s ease-in-out infinite,
-    wobble 6s ease-in-out infinite;
+    glitch 9s steps(1,end) infinite;
 }
 
-/* Hover slow-down (desktop only) */
-@media (hover: hover) {
-  .tape:hover .tape-inner {
-    animation-duration: 40s, 6s, 8s;
+.tape-track span {
+  padding-right: 40px;
+}
+
+/* Direction */
+.tape-track.left {
+  animation-name: wobble, glow, glitch, scrollLeft;
+  animation-duration: 6s,4s,9s,22s;
+  animation-timing-function: ease-in-out,ease-in-out,steps(1),linear;
+  animation-iteration-count: infinite;
+}
+
+.tape-track.right {
+  animation-name: wobble, glow, glitch, scrollRight;
+  animation-duration: 6s,4s,11s,26s;
+  animation-timing-function: ease-in-out,ease-in-out,steps(1),linear;
+  animation-iteration-count: infinite;
+}
+
+/* Hover slow (desktop) */
+@media (hover:hover) {
+  .tape:hover .tape-track {
+    animation-duration: 8s,6s,12s,40s;
   }
 }
 
-/* Mobile slower motion */
-@media (max-width: 768px) {
-  .tape-inner {
-    animation-duration: 32s, 6s, 8s;
+/* Mobile slower */
+@media (max-width:768px) {
+  .tape-track {
+    animation-duration: 8s,6s,12s,36s;
   }
 }
 
-/* Motion */
-@keyframes scroll {
+/* ===== KEYFRAMES ===== */
+@keyframes scrollLeft {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 @keyframes wobble {
@@ -202,18 +224,21 @@ button {
   50% { text-shadow: 0 0 10px var(--primary); }
 }
 
+/* Tape glitch */
+@keyframes glitch {
+  0%,90%,100% { clip-path: inset(0 0 0 0); }
+  92% { clip-path: inset(20% 0 60% 0); }
+  95% { clip-path: inset(60% 0 20% 0); }
+}
+
 @keyframes floatA {
-  0% { transform: translateY(0); }
   40% { transform: translateY(6px); }
   70% { transform: translateY(4px); }
-  100% { transform: translateY(0); }
 }
 
 @keyframes floatB {
-  0% { transform: translateY(0); }
   35% { transform: translateY(-8px); }
   65% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
 }
 
 /* ===== MATRIX ===== */
