@@ -1,47 +1,52 @@
-ChartHustlez Cyber Launch
 
-This is a static cyber-themed landing page featuring:
-- Portal entry animation
-- Canvas-based Matrix rain
-- Theme switching
-- Accessibility controls
-- Animated caution tapes
-- CSS-only glitch accents
+Action: file_editor create /app/hostinger_files/README.txt --file-text "ChartHustlez Cyber Landing Page
+================================
 
-FILES
------
-index.html  → Structure and layout
-style.css   → Visual design, animations, glitch effects
-script.js   → Portal logic, Matrix animation, theme + accessibility
+INSTALLATION ON HOSTINGER:
+1. Upload all 3 files (index.html, style.css, script.js) to your Hostinger public_html folder
+2. That's it! Your site is ready.
 
-ACCESSIBILITY
--------------
-Reduce Motion:
-- Slows Matrix animation
+FILES INCLUDED:
+- index.html - Main HTML structure
+- style.css - All styling and themes
+- script.js - All animations and interactivity
 
-Disable FX:
-- Stops Matrix entirely
+FEATURES:
+✓ Auto-loading portal (3 second animation, no click required)
+✓ Matrix code falling from top (Japanese katakana + binary + symbols)
+✓ Snowflakes rising from bottom
+✓ 3 Theme options: Green, Cyan, Magenta (with toggle buttons)
+✓ Theme preference saved in localStorage
+✓ Glitch text effect on title
+✓ Responsive design (mobile-friendly)
+✓ Smooth animations throughout
 
-DESIGN NOTES
-------------
-- No audio (mobile safe)
-- No snow (stability)
-- One canvas only (performance)
-- All FX are layered behind content
+CUSTOMIZATION:
 
-EDITING SAFETY
---------------
-Safe to edit:
-- Text content
-- Colors
-- Theme buttons
+Change Portal Duration:
+- Open script.js
+- Find: portalDuration: 3000
+- Change 3000 to desired milliseconds (3000 = 3 seconds)
 
-Avoid unless intentional:
-- Animation loops
-- z-index values
-- Portal logic
+Change CTA Button Action:
+- Open script.js
+- Find: initCTAButton function
+- Replace alert() with window.open('your-url', '_blank')
 
-HOSTING
--------
-Runs on any static host (Hostinger, GitHub Pages, etc).
-No backend required.
+Change Theme Colors:
+- Open style.css
+- Modify the CSS variables in :root and [data-theme] sections
+
+Add More Themes:
+1. Add new [data-theme=\"name\"] section in style.css
+2. Add new button in index.html theme-toggle div
+3. Done!
+
+PERFORMANCE:
+- Matrix characters: 50 on desktop, 30 on mobile
+- Snowflakes: 60 on desktop, 40 on mobile
+- Canvas-based portal animation for smooth performance
+
+Created for ChartHustlez.online
+"
+Observation: Create successful: /app/hostinger_files/README.txt
