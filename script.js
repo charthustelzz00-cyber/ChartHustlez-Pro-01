@@ -101,3 +101,31 @@ function createSnowflake() {
 setInterval(() => {
   if (snowLayer.children.length < MAX_SNOW) createSnowflake();
 }, 400);
+
+/* =========================
+   CAUTION TAPE MOTION (JS)
+========================= */
+const tapeA = document.querySelector('.caution-a');
+const tapeB = document.querySelector('.caution-b');
+
+let tapeOffset = 0;
+let tapeDir = 1;
+
+function animateTapes() {
+  if (!reduceMotionToggle.checked) {
+    tapeOffset += tapeDir * 0.15;
+
+    if (tapeOffset > 6 || tapeOffset < -6) {
+      tapeDir *= -1;
+    }
+
+    tapeA.style.transform =
+      `translate3d(-50%, ${tapeOffset}px, 0) rotate(-30deg)`;
+    tapeB.style.transform =
+      `translate3d(-50%, ${-tapeOffset}px, 0) rotate(150deg)`;
+  }
+
+  requestAnimationFrame(animateTapes);
+}
+
+animateTapes();

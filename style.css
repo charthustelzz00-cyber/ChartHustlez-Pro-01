@@ -28,7 +28,7 @@ body {
   pointer-events: none;
 }
 
-/* CAUTION TAPES -- MOTION + GLOW (iOS SAFE) */
+/* CAUTION TAPES -- JS CONTROLLED (iOS SAFE) */
 .caution {
   position: fixed;
   left: 50%;
@@ -45,22 +45,18 @@ body {
   pointer-events: none;
 
   text-shadow:
-    0 0 4px rgba(0,0,0,0.6),
-    0 0 8px rgba(0,0,0,0.4);
-
-  animation: tapeDrift 6s ease-in-out infinite,
-             tapeGlow 3s ease-in-out infinite;
+    0 0 6px rgba(0,0,0,0.7),
+    0 0 14px rgba(0,0,0,0.5);
 }
 
 .caution-a {
   top: 22%;
-  transform: translateX(-50%) rotate(-30deg);
+  transform: translate3d(-50%, 0, 0) rotate(-30deg);
 }
 
 .caution-b {
   bottom: 22%;
-  transform: translateX(-50%) rotate(150deg);
-  animation-delay: -3s;
+  transform: translate3d(-50%, 0, 0) rotate(150deg);
 }
 
 /* Vertical drift (very subtle) */
