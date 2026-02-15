@@ -1,63 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChartHustlez Cyber Launch</title>
+  <meta charset="UTF-8" />
+  <title>ChartHustlez Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- Google Font (safe, tested) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="green">
+<body>
 
-  <!-- PRELOADER -->
-  <div id="preloader">
-    <div class="portal-text">ENTERING THE GRID</div>
-  </div>
-
-  <!-- MATRIX CANVAS -->
-  <canvas id="matrixCanvas"></canvas>
-
-  <!-- THEME SWITCHER + ACCESSIBILITY -->
-  <div class="theme-switcher">
-    <button onclick="setTheme('green')">Green</button>
-    <button onclick="setTheme('cyan')">Cyan</button>
-    <button onclick="setTheme('magenta')">Magenta</button>
-
-    <div class="accessibility-toggle">
-      <label>
-        <input type="checkbox" id="reduceMotionToggle">
-        Reduce Motion
-      </label>
-    </div>
-  </div>
-
-  <!-- CAUTION TAPE -->
-  <div class="caution left">
-    <div class="tape">CHART HUSTLEZ • LAUNCHING • CHART HUSTLEZ • LAUNCHING</div>
-  </div>
-
-  <div class="caution right">
-    <div class="tape">CHART HUSTLEZ • LAUNCHING • CHART HUSTLEZ • LAUNCHING</div>
-  </div>
-
-  <!-- HERO CONTENT -->
-  <div class="hero">
-    <h1 class="glitch">ChartHustlez Cyber Launch</h1>
-    <p class="tagline">From Beginner to Builder</p>
-
-    <form class="signup" onsubmit="handleSignup(event)">
-      <input type="email" placeholder="Enter your email" required>
-      <button type="submit" class="cta">Join the Launch</button>
-    </form>
-
-    <p class="success-msg" id="successMsg"></p>
-  </div>
-
-  <!-- GLITCH SOUND -->
-  <audio id="glitchSound" src="sounds/glitch.mp3" preload="auto"></audio>
+  <h1>🚀 ChartHustlez is LIVE</h1>
+  <p>If you can see this, your setup works.</p>
 
   <script src="script.js"></script>
 </body>
