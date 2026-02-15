@@ -108,3 +108,28 @@ function triggerGlitch() {
 }
 
 document.addEventListener('click', triggerGlitch, { once: true });
+
+/* =========================
+   CAUTION BILLBOARD SCROLL
+========================= */
+const tracks = document.querySelectorAll('.caution-track');
+
+let scrollX = 0;
+
+function scrollCautionText() {
+  if (!reduceMotionToggle.checked) {
+    scrollX -= 0.35;
+
+    tracks.forEach(track => {
+      track.style.transform = `translate3d(${scrollX}px, 0, 0)`;
+    });
+
+    if (Math.abs(scrollX) > 400) {
+      scrollX = 0;
+    }
+  }
+
+  requestAnimationFrame(scrollCautionText);
+}
+
+scrollCautionText();

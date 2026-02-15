@@ -78,6 +78,21 @@ body {
   transform: translateX(-50%) rotate(150deg);
 }
 
+/* ===== CAUTION BILLBOARD TEXT ===== */
+.caution {
+  overflow: hidden;
+}
+
+.caution-track {
+  display: flex;
+  width: max-content;
+}
+
+.caution-track span {
+  white-space: nowrap;
+  padding-right: 40px;
+}
+
 /* ===== TOP BAR ===== */
 .top-bar {
   position: fixed;
