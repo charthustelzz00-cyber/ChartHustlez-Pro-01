@@ -32,10 +32,6 @@ body.locked { overflow: hidden; }
   font-family: 'Share Tech Mono', monospace;
 }
 
-#portal-text {
-  letter-spacing: 0.25em;
-}
-
 .portal-bar {
   width: 200px;
   height: 6px;
@@ -67,16 +63,6 @@ button {
   padding: 6px 10px;
 }
 
-button:hover {
-  background: var(--primary);
-  color: #000;
-}
-
-.toggles label {
-  font-size: 0.7rem;
-  margin-left: 10px;
-}
-
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh;
@@ -84,12 +70,11 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   isolation: isolate;
   z-index: 40;
 }
 
-/* ===== CAUTION ===== */
+/* ===== TAPE ===== */
 .tape {
   position: fixed;
   left: 0;
@@ -106,12 +91,20 @@ button:hover {
   z-index: 30;
 }
 
-.top-tape { top: 120px; animation: float 6s ease-in-out infinite; }
-.bottom-tape { bottom: 120px; animation: float 7s ease-in-out infinite reverse; }
+.top-tape {
+  top: 120px;
+  animation: floatA 10s ease-in-out infinite;
+}
+
+.bottom-tape {
+  bottom: 120px;
+  animation: floatB 14s ease-in-out infinite;
+}
 
 .tape-inner {
   white-space: nowrap;
-  animation: scroll 10s linear infinite, glow 3s ease-in-out infinite;
+  font-size: 0.85rem;
+  animation: scroll 18s linear infinite, glow 4s ease-in-out infinite;
 }
 
 @keyframes scroll {
@@ -119,14 +112,19 @@ button:hover {
   to { transform: translateX(-50%); }
 }
 
-@keyframes float {
+@keyframes floatA {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
+  50% { transform: translateY(10px); }
+}
+
+@keyframes floatB {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
 }
 
 @keyframes glow {
   0%,100% { text-shadow: 0 0 4px #000; }
-  50% { text-shadow: 0 0 10px var(--primary); }
+  50% { text-shadow: 0 0 8px var(--primary); }
 }
 
 /* ===== FX ===== */

@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ===== PORTAL ===== */
   const messages = ['INITIALIZING','DECRYPTING','SYNCING','ENTERING'];
-  let msgIndex = 0;
+  let i = 0;
 
   const msgTimer = setInterval(() => {
-    portalText.textContent = messages[msgIndex++ % messages.length];
+    portalText.textContent = messages[i++ % messages.length];
   }, 700);
 
   let progress = 0;
@@ -70,30 +70,31 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ===== MATRIX ===== */
   const matrix = document.getElementById('matrix');
   const mtx = matrix.getContext('2d');
-  const chars = '01∆#@$%&*';
+  const chars = '01∆#@$%';
 
   let drops = [];
 
   function resizeMatrix() {
     matrix.width = innerWidth;
     matrix.height = innerHeight;
-    drops = Array(Math.floor(matrix.width / 16)).fill(0);
+    drops = Array(Math.floor(matrix.width / 22)).fill(0);
   }
 
   /* ===== SNOW ===== */
   const snow = document.getElementById('snow');
   const sctx = snow.getContext('2d');
   let flakes = [];
+  let gust = 0;
 
   function resizeSnow() {
     snow.width = innerWidth;
     snow.height = innerHeight;
-    flakes = Array.from({length: 90}, () => ({
+    flakes = Array.from({length: 50}, () => ({
       x: Math.random() * snow.width,
-      y: snow.height + Math.random() * snow.height,
-      r: Math.random() * 1.5 + 0.5,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -Math.random() * 0.6 - 0.4
+      y: Math.random() * snow.height,
+      r: Math.random() * 1.2 + 0.4,
+      vx: Math.random() * 0.6 + 0.2,
+      vy: Math.random() * 0.15 + 0.05
     }));
   }
 
@@ -107,39 +108,40 @@ document.addEventListener('DOMContentLoaded', () => {
   function loop(t) {
     if (!fxActive || disableFX.checked) return;
 
-    const speed = reduceMotion.checked ? 90 : 45;
+    const speed = reduceMotion.checked ? 120 : 70;
     if (t - last > speed) {
 
-      // Matrix
-      mtx.fillStyle = 'rgba(0,0,0,0.08)';
+      // Matrix (slower + softer)
+      mtx.fillStyle = 'rgba(0,0,0,0.12)';
       mtx.fillRect(0,0,matrix.width,matrix.height);
       mtx.fillStyle = getComputedStyle(root).getPropertyValue('--primary');
-      mtx.font = '14px monospace';
+      mtx.font = '13px monospace';
 
       drops.forEach((y,i)=>{
         const char = chars[Math.floor(Math.random()*chars.length)];
-        mtx.fillText(char, i*16, y*16);
-        drops[i] = y*16 > matrix.height && Math.random() > 0.975 ? 0 : y+1;
+        mtx.fillText(char, i*22, y*22);
+        drops[i] = y*22 > matrix.height && Math.random() > 0.98 ? 0 : y+1;
       });
 
-      // Snow
+      // Snow (sideways + gusts)
+      gust += Math.random() * 0.02;
       sctx.clearRect(0,0,snow.width,snow.height);
       sctx.fillStyle = 'rgba(255,255,255,0.7)';
+
       flakes.forEach(f=>{
-        f.x += f.vx;
+        f.x += f.vx + Math.sin(gust) * 0.4;
         f.y += f.vy;
-        if (f.y < 0) {
-          f.y = snow.height;
-          f.x = Math.random() * snow.width;
+        if (f.x > snow.width || f.y > snow.height) {
+          f.x = -10;
+          f.y = Math.random() * snow.height;
         }
         sctx.beginPath();
-        sctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        sctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
         sctx.fill();
       });
 
       last = t;
     }
-
     requestAnimationFrame(loop);
   }
 
