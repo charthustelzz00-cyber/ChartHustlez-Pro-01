@@ -84,6 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('locked');
   }
 
+  const portalBar = document.querySelector('.portal-bar-fill');
+  let progress = 0;
+
+  const progressTimer = setInterval(() => {
+  progress += 8;
+  if (portalBar) portalBar.style.width = progress + '%';
+  if (progress >= 100) clearInterval(progressTimer);
+}, 300);
   // Listen AFTER paint
   setTimeout(() => {
     document.addEventListener('pointerdown', exitPortal, { once: true });

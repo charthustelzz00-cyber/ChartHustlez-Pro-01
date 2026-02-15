@@ -31,6 +31,23 @@ body.locked > *:not(#portal-overlay) {
   opacity: 1;
 }
 
+/* PORTAL PROGRESS BAR */
+.portal-bar {
+  width: 160px;
+  height: 6px;
+  background: rgba(0,0,0,0.25);
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.portal-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #000;
+  transition: width 0.3s linear;
+}
+
 .portal-core {
   background: var(--primary);
   color: #000;
