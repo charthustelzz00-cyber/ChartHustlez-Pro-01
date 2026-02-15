@@ -1,155 +1,70 @@
-/* THEME SWITCH */
-function setTheme(theme) {
-  document.body.setAttribute("data-theme", theme);
+console.log("Phase 2: Matrix initialized");
 
-  const fx = FX_BY_THEME[theme];
-  matrixCanvas.style.display = fx.matrix ? "block" : "none";
+/* =========================
+   THEME HANDLING
+========================= */
+const root = document.documentElement;
+let currentColor = '#00ff66';
 
-  snowflakes.forEach(f =>
-    f.el.style.display = fx.snow ? "block" : "none"
-  );
-}
+document.querySelectorAll('[data-theme]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.dataset.theme;
 
-/* EMAIL SIGNUP */
-function handleSignup(e) {
-  e.preventDefault();
-  document.getElementById("successMsg").textContent =
-    "You're on the list. Launch incoming.";
-}
+    if (theme === 'green') currentColor = '#00ff66';
+    if (theme === 'cyan') currentColor = '#00ffff';
+    if (theme === 'magenta') currentColor = '#ff00ff';
 
-/* ACCESSIBILITY */
-let reduceMotion = false;
-const reduceToggle = document.getElementById("reduceMotionToggle");
-
-if (reduceToggle) {
-  reduceToggle.addEventListener("change", e => {
-    reduceMotion = e.target.checked;
+    root.style.setProperty('--primary', currentColor);
   });
+});
+
+/* =========================
+   MATRIX CANVAS
+========================= */
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+let width, height, columns, drops;
+const fontSize = 16;
+const chars = '0123456789#$%&@ΞΩλΔ';
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(0);
 }
+resize();
+window.addEventListener('resize', resize);
 
-/* FX PER THEME */
-const FX_BY_THEME = {
-  green: { matrix: true, snow: true },
-  cyan: { matrix: true, snow: false },
-  magenta: { matrix: false, snow: true }
-};
+/* Pulse control */
+let visible = true;
+setInterval(() => visible = !visible, 3500);
 
-/* SNOW + WIND */
-const isMobile = window.innerWidth < 768;
-const SNOW_COUNT = isMobile ? 20 : 50;
-const snowflakes = [];
-
-let wind = 0;
-let windTarget = 0;
-
-setInterval(() => {
-  windTarget = Math.random() * 1.5 - 0.75;
-}, 4000);
-
-for (let i = 0; i < SNOW_COUNT; i++) {
-  const snow = document.createElement("div");
-  snow.className = "snowflake";
-  snow.textContent = "❄";
-  snow.style.left = Math.random() * window.innerWidth + "px";
-  snow.style.bottom = Math.random() * window.innerHeight + "px";
-  document.body.appendChild(snow);
-
-  snowflakes.push({
-    el: snow,
-    speed: Math.random() * 0.6 + 0.3
-  });
-}
-
-function animateSnow() {
-  if (!reduceMotion) {
-    wind += (windTarget - wind) * 0.02;
-
-    snowflakes.forEach(f => {
-      let bottom = parseFloat(f.el.style.bottom);
-      bottom += f.speed;
-
-      f.el.style.left =
-        parseFloat(f.el.style.left) + wind * 0.3 + "px";
-
-      if (bottom > window.innerHeight + 20) bottom = -10;
-      f.el.style.bottom = bottom + "px";
-    });
-  }
-  requestAnimationFrame(animateSnow);
-}
-animateSnow();
-
-/* CANVAS MATRIX */
-const matrixCanvas = document.getElementById("matrixCanvas");
-const ctx = matrixCanvas.getContext("2d");
-
-function resizeCanvas() {
-  matrixCanvas.width = window.innerWidth;
-  matrixCanvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-const fontSize = isMobile ? 14 : 16;
-const columns = Math.floor(matrixCanvas.width / fontSize);
-const drops = Array(columns).fill(0);
-const matrixChars = "01$#@%&*+=<>?/";
+/* Reduce motion */
+const reduceMotionToggle = document.getElementById('reduceMotion');
 
 function drawMatrix() {
-  if (reduceMotion) return;
+  if (reduceMotionToggle.checked) return;
 
-  ctx.fillStyle = "rgba(0,0,0,0.08)";
-  ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+  ctx.fillRect(0, 0, width, height);
 
-  const primary =
-    getComputedStyle(document.body)
-      .getPropertyValue("--primary")
-      .trim() || "#00ff00";
+  if (!visible) return;
 
-  ctx.fillStyle = primary;
-  ctx.font = fontSize + "px monospace";
+  ctx.fillStyle = currentColor;
+  ctx.font = `${fontSize}px 'Share Tech Mono'`;
 
   drops.forEach((y, i) => {
-    const char =
-      matrixChars[Math.floor(Math.random() * matrixChars.length)];
-    ctx.fillText(char, i * fontSize, y * fontSize);
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    const x = i * fontSize;
+    ctx.fillText(text, x, y * fontSize);
 
-    if (y * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+    if (y * fontSize > height && Math.random() > 0.975) {
       drops[i] = 0;
     }
     drops[i]++;
   });
 }
 
-setInterval(drawMatrix, isMobile ? 70 : 40);
-
-/* PORTAL GLITCH + SOUND */
-const glitchSound = document.getElementById("glitchSound");
-let portalTriggered = false;
-
-document.addEventListener("click", () => {
-  if (portalTriggered || reduceMotion) return;
-  portalTriggered = true;
-
-  document.body.classList.add("portal-glitch");
-
-  if (glitchSound) {
-    glitchSound.currentTime = 0;
-    glitchSound.play().catch(() => {});
-  }
-
-  setTimeout(() => {
-    document.body.classList.remove("portal-glitch");
-  }, 600);
-});
-
-/* PRELOADER EXIT */
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const preloader = document.getElementById("preloader");
-    if (!preloader) return;
-    preloader.style.opacity = "0";
-    preloader.style.transition = "opacity 0.8s";
-    setTimeout(() => preloader.remove(), 800);
-  }, 1200);
-});
+setInterval(drawMatrix, 50);
