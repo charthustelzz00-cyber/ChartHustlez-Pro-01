@@ -18,14 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentColor = '#00ff66';
 
   function applyTheme(color) {
-    currentColor = color;
-    root.style.setProperty('--primary', currentColor);
+  currentColor = color;
+  root.style.setProperty('--primary', currentColor);
+  localStorage.setItem('themeColor', currentColor); // ✅ MISSING
 
-    if (portal) {
-      portal.style.background =
-        `radial-gradient(circle at center, ${currentColor}, #020402 70%)`;
-    }
+  if (portal) {
+    portal.style.background =
+      `radial-gradient(circle at center, ${currentColor}, #020402 70%)`;
   }
+}
   const savedTheme = localStorage.getItem('themeColor');
     if (savedTheme) applyTheme(savedTheme);
   document.querySelectorAll('[data-theme]').forEach(btn => {
@@ -64,19 +65,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 700);
 
   function exitPortal() {
-    const glitchSound = document.getElementById('glitchSound');
-if (glitchSound) {
-  glitchSound.volume = 0.4;
-  glitchSound.currentTime = 0;
-  glitchSound.play().catch(() => {});
-}
+  const glitchSound = document.getElementById('glitchSound');
+  if (glitchSound) {
+    glitchSound.volume = 0.4;
+    glitchSound.currentTime = 0;
+    glitchSound.play().catch(() => {});
+  }
 
-      (reduceMotionToggle && reduceMotionToggle.checked) ||
-      (disableFXToggle && disableFXToggle.checked)
-    ) {
-      cleanupPortal();
-      return;
-    }
+  if (
+    (reduceMotionToggle && reduceMotionToggle.checked) ||
+    (disableFXToggle && disableFXToggle.checked)
+  ) {
+    cleanupPortal();
+    return;
+  }
+
+  portal.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
+  portal.style.transform = 'scale(6)';
+  portal.style.opacity = '0';
+
+  setTimeout(cleanupPortal, 700);
+}
 
     portal.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
     portal.style.transform = 'scale(6)';
@@ -93,13 +102,20 @@ if (glitchSound) {
   }
 
   const portalBar = document.querySelector('.portal-bar-fill');
-  let progress = 0;
+let progress = 0;
 
-  const progressTimer = setInterval(() => {
+const progressTimer = setInterval(() => {
   progress += 8;
   if (portalBar) portalBar.style.width = progress + '%';
   if (progress >= 100) clearInterval(progressTimer);
 }, 300);
+
+function cleanupPortal() {
+  clearInterval(portalInterval);
+  clearInterval(progressTimer);
+  portal.remove();
+  body.classList.remove('locked');
+}
   // Listen AFTER paint
   setTimeout(() => {
     document.addEventListener('pointerdown', exitPortal, { once: true });
