@@ -41,7 +41,7 @@ body {
   background: #fffb00;
   color: #000;
   z-index: 3;
-  pointer-events: none; /* VERY IMPORTANT */
+  pointer-events: none;
   animation: tapeFloat 6s ease-in-out infinite;
 }
 
@@ -57,9 +57,37 @@ body {
 }
 
 @keyframes tapeFloat {
-  0% { transform: translateY(0) rotate(var(--angle, 0deg)); }
-  50% { transform: translateY(8px) rotate(var(--angle, 0deg)); }
-  100% { transform: translateY(0) rotate(var(--angle, 0deg)); }
+  0% {
+    transform: translateY(0) rotate(-35deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(-35deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-35deg);
+  }
+}
+
+/* Second tape needs its own animation */
+.caution-b {
+  animation-name: tapeFloatReverse;
+}
+
+@keyframes tapeFloatReverse {
+  0% {
+    transform: translateY(0) rotate(145deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(145deg);
+  }
+  100% {
+    transform: translateY(0) rotate(145deg);
+  }
+}
+
+/* Reduce motion support */
+body.reduce-motion .caution {
+  animation: none;
 }
 
 /* Reduce motion support */
