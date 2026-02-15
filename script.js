@@ -129,3 +129,36 @@ function animateTapes() {
 }
 
 animateTapes();
+
+/* =========================
+   GLITCH PORTAL ENTRY
+========================= */
+const glitchOverlay = document.getElementById('glitch-overlay');
+const glitchSound = document.getElementById('glitchSound');
+
+let glitchPlayed = sessionStorage.getItem('glitchPlayed');
+
+function playGlitch() {
+  if (glitchPlayed || reduceMotionToggle.checked) return;
+
+  glitchPlayed = true;
+  sessionStorage.setItem('glitchPlayed', 'true');
+
+  glitchOverlay.style.opacity = '1';
+
+  glitchOverlay.animate(
+    [
+      { transform: 'translate3d(0,0,0)', opacity: 0.9 },
+      { transform: 'translate3d(-10px,5px,0)', opacity: 0.6 },
+      { transform: 'translate3d(10px,-5px,0)', opacity: 0.8 },
+      { transform: 'translate3d(0,0,0)', opacity: 0 }
+    ],
+    { duration: 600, easing: 'steps(2,end)' }
+  );
+
+  glitchSound.currentTime = 0;
+  glitchSound.play().catch(() => {});
+}
+
+/* Trigger on first interaction */
+window.addEventListener('pointerdown', playGlitch, { once: true });
