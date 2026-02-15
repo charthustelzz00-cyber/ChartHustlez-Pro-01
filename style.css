@@ -1,184 +1,128 @@
-:root {
-  --primary: #00ff66;
-  --bg: #020402;
-  --text: #eafff1;
+/* ===== THEMES ===== */
+body[data-theme="green"] {
+  --primary: #00ff00;
+  --accent: #0ff;
+  --bg1: #0f0f0f;
+  --bg2: #001100;
 }
 
-* {
-  box-sizing: border-box;
+body[data-theme="cyan"] {
+  --primary: #00ffff;
+  --accent: #00ffcc;
+  --bg1: #001111;
+  --bg2: #000000;
 }
 
+body[data-theme="magenta"] {
+  --primary: #ff00ff;
+  --accent: #ff66ff;
+  --bg1: #110011;
+  --bg2: #000000;
+}
+
+/* BASE */
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Orbitron', sans-serif;
-  overflow-x: hidden;
-}
-
-/* ================= PORTAL ================= */
-#portal {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, var(--primary), #020402 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity .6s ease, transform .6s ease;
-}
-
-.portal-core {
-  text-align: center;
-  font-family: 'Share Tech Mono', monospace;
-  color: var(--text);
-}
-
-.portal-text {
-  font-size: 16px;
-  letter-spacing: 2px;
-  margin-bottom: 14px;
-}
-
-.portal-bar {
-  width: 220px;
-  height: 6px;
-  border: 1px solid var(--primary);
-  margin: 0 auto 12px;
-}
-
-.portal-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: var(--primary);
-  transition: width .3s linear;
-}
-
-.portal-hint {
-  font-size: 11px;
-  opacity: 0.7;
-}
-
-body.locked {
+  height: 100vh;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color: var(--primary);
+  font-family: 'Courier New', monospace;
   overflow: hidden;
-}
-
-/* ================= HERO ================= */
-.hero {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  z-index: 10;
-  position: relative;
+}
+
+/* HERO */
+.hero { text-align: center; z-index: 10; }
+
+.glitch {
+  font-size: 3em;
+  animation: flicker 1s infinite;
+}
+
+.tagline { color: var(--accent); }
+
+/* SIGNUP */
+.signup input {
+  padding: 10px;
+  background: black;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  margin-right: 10px;
 }
 
 .cta {
-  margin-top: 16px;
   padding: 10px 20px;
+  background: black;
   border: 2px solid var(--primary);
-  background: transparent;
   color: var(--primary);
   cursor: pointer;
 }
 
-/* ================= CAUTION TAPE ================= */
-.tape {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 42px;
-  overflow: hidden;
-  background: repeating-linear-gradient(
-    45deg,
-    #ffd400,
-    #ffd400 10px,
-    #000 10px,
-    #000 20px
-  );
-  z-index: 5;
+.cta:hover {
+  background: var(--primary);
+  color: black;
 }
 
-/* Tape sheen */
-.tape::before {
-  content: "";
+.success-msg {
+  margin-top: 15px;
+  color: var(--accent);
+}
+
+/* THEME SWITCHER */
+.theme-switcher {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    rgba(255,255,255,0.3),
-    rgba(255,255,255,0.05),
-    rgba(0,0,0,0.2)
-  );
+  top: 10px;
+  right: 10px;
 }
 
-/* Position */
-.top-tape {
-  top: 100px;
-  animation: floatUp 12s ease-in-out infinite;
-}
-
-.bottom-tape {
-  bottom: 100px;
-  animation: floatDown 16s ease-in-out infinite;
-}
-
-/* ================= MARQUEE FIX ================= */
-.tape-window {
-  width: 100%;
-  height: 100%;
+/* CAUTION */
+.caution {
+  position: absolute;
+  width: 200%;
+  height: 60px;
+  background: yellow;
+  display: flex;
+  align-items: center;
   overflow: hidden;
 }
 
-.tape-track {
-  display: flex;
-  width: 200%;
-  height: 100%;
-  align-items: center;
+.caution.left {
+  top: 50px;
+  left: -50%;
+  transform: rotate(-45deg);
 }
 
-.tape-track span {
-  width: 50%;
+.caution.right {
+  bottom: 50px;
+  right: -50%;
+  transform: rotate(45deg);
+}
+
+.tape {
   white-space: nowrap;
-  padding-left: 40px;
-  font-family: 'Share Tech Mono', monospace;
-  color: #000;
-  font-size: 14px;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+  animation: scrollTape 6s linear infinite;
 }
 
-/* Scroll directions */
-.left {
-  animation: scrollLeft 24s linear infinite;
-}
-
-.right {
-  animation: scrollRight 28s linear infinite;
-}
-
-/* ================= ANIMATIONS ================= */
-@keyframes scrollLeft {
+@keyframes scrollTape {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
-@keyframes scrollRight {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
+@keyframes flicker {
+  0%,19%,21%,23%,25%,54%,56%,100% { opacity:1; }
+  20%,22%,24%,55% { opacity:0.4; }
 }
 
-@keyframes floatUp {
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes floatDown {
-  50% { transform: translateY(6px); }
-}
-
-/* ================= MATRIX ================= */
-#matrix {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+/* SNOW / PARTICLES */
+.snowflake {
+  position: absolute;
+  top: -10px;
+  color: white;
+  font-size: 1em;
   pointer-events: none;
 }
