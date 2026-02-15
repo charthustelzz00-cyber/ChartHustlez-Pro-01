@@ -15,6 +15,53 @@ body {
   overflow: hidden;
 }
 
+/* ===== PORTAL OVERLAY ===== */
+#portal-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #0aff6a, #020402 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  font-family: 'Share Tech Mono', monospace;
+  color: #000;
+}
+
+.portal-core {
+  padding: 30px 50px;
+  background: #0aff6a;
+  border-radius: 50%;
+  box-shadow:
+    0 0 40px #0aff6a,
+    0 0 80px rgba(10,255,106,0.6);
+  animation: portalPulse 1.5s infinite ease-in-out;
+}
+
+.portal-core span {
+  font-size: 14px;
+  letter-spacing: 3px;
+}
+
+/* Pulse while waiting */
+@keyframes portalPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Portal exit animation */
+.portal-exit {
+  animation: portalExit 700ms ease forwards;
+}
+
+@keyframes portalExit {
+  to {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
 /* FX DISABLED OVERLAY */
 #fx-disabled-overlay {
   position: fixed;

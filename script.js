@@ -34,6 +34,39 @@ disableFXToggle.addEventListener('change', () => {
   }
 });
 
+/* ===== PORTAL GATE ===== */
+const portal = document.getElementById('portal-overlay');
+
+const portalSeen = sessionStorage.getItem('portalSeen');
+
+function enterPortal() {
+  if (
+    portalSeen ||
+    reduceMotionToggle.checked ||
+    (typeof FX_DISABLED !== 'undefined' && FX_DISABLED)
+  ) {
+    portal.remove();
+    return;
+  }
+
+  sessionStorage.setItem('portalSeen', 'true');
+
+  portal.classList.add('portal-exit');
+
+  // Optional: play glitch / portal sound
+  if (glitchSound) {
+    glitchSound.currentTime = 0;
+    glitchSound.play().catch(() => {});
+  }
+
+  setTimeout(() => {
+    portal.remove();
+  }, 700);
+}
+
+/* Wait for first interaction */
+document.addEventListener('click', enterPortal, { once: true });
+
 /* ===== MATRIX (DIMMED, SAFE) ===== */
 const canvas = document.getElementById('matrix');
 const ctx = canvas.getContext('2d');
