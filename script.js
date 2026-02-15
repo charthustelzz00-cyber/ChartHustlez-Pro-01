@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         `radial-gradient(circle at center, ${currentColor}, #020402 70%)`;
     }
   }
-
+  const savedTheme = localStorage.getItem('themeColor');
+    if (savedTheme) applyTheme(savedTheme);
   document.querySelectorAll('[data-theme]').forEach(btn => {
     btn.addEventListener('click', () => {
       const t = btn.dataset.theme;
@@ -63,7 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 700);
 
   function exitPortal() {
-    if (
+    const glitchSound = document.getElementById('glitchSound');
+if (glitchSound) {
+  glitchSound.volume = 0.4;
+  glitchSound.currentTime = 0;
+  glitchSound.play().catch(() => {});
+}
+
       (reduceMotionToggle && reduceMotionToggle.checked) ||
       (disableFXToggle && disableFXToggle.checked)
     ) {
@@ -80,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function cleanupPortal() {
     clearInterval(portalInterval);
+    clearInterval(progressTimer);
     portal.remove();
     body.classList.remove('locked');
   }

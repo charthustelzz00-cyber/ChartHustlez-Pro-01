@@ -137,6 +137,7 @@ body.locked > *:not(#portal-overlay) {
   transform: translate(-50%, -50%);
   z-index: 20;
   text-align: center;
+  isolation: isolate; /* ADD THIS */
 }
 
 .hero h1 {
