@@ -1,61 +1,97 @@
-ChartHustlez Cyber Launch Template
-=================================
+# ChartHustlez Cyber Launch 🚀
 
-Cyberpunk-style launch page built with HTML, CSS, and JavaScript.
-Includes animated visuals, sound effects, accessibility controls,
-and mobile performance optimizations.
+An interactive, cyber-themed landing page featuring a cinematic portal entry,
+theme-aware visuals, animated FX, and accessibility controls -- built to run
+smoothly on desktop and mobile (including iOS Safari).
 
---------------------------------------------------
-FEATURES
---------------------------------------------------
+---
 
-• Theme switching (Green, Cyan, Magenta)
-• Canvas-based Matrix code rainfall
-• Rising snow with wind bursts
-• Portal-style preloader entry
-• Glitch visual + sound on first interaction
-• Accessibility "Reduce Motion" toggle
-• FX toggles per theme
-• Mobile throttling for performance
-• Hostinger / shared hosting compatible
+## ✨ Features
 
---------------------------------------------------
-FILES
---------------------------------------------------
+### 🌀 Portal Entry Experience
+- Full-screen portal overlay on page load
+- Cycling system messages (INITIALIZING, DECRYPTING, etc.)
+- Animated progress bar
+- Portal zoom-out + glitch sound on first interaction
+- Safety timeout auto-exits portal if no interaction
 
-index.html
-style.css
-script.js
-README.txt
-sounds/glitch.mp3
+### 🎨 Theme System
+- Theme buttons (Green, Cyan, Magenta)
+- Theme color affects:
+  - UI accents
+  - Portal glow
+  - Matrix rain
+- Theme is saved in `localStorage` and persists on reload
 
---------------------------------------------------
-INSTALLATION
---------------------------------------------------
+### 🧊 Visual FX
+- **Matrix Canvas**
+  - Numbers + cryptic symbols
+  - Theme-colored
+  - Optimized draw loop
+- **Snow Particles**
+  - Small flakes
+  - Rise upward from bottom
+  - Subtle sideways wind drift
+- **Caution Tape**
+  - Floating motion
+  - Scrolling "billboard" text
+  - Pulsing glow synced to theme
 
-1. Upload all files to your host.
-2. Create a folder named "sounds".
-3. Place a short glitch sound named "glitch.mp3" inside it.
-4. Open index.html in a browser.
+### ♿ Accessibility & Performance
+- **Reduce Motion toggle**
+  - Disables animations and motion
+- **Disable FX toggle**
+  - Turns off Matrix + Snow
+- FX automatically pause during portal
+- Throttled animation loop for mobile safety
 
---------------------------------------------------
-NOTES
---------------------------------------------------
+---
 
-• Audio plays only after user interaction (browser policy)
-• Reduce Motion disables all animations and sound
-• Canvas Matrix is significantly faster than DOM-based effects
+## 📁 File Structure
+##
+File Structure
+- index.html style.css
+- script.js
+# Page structure & Ul
+# Styling, layout, animations
+# Logic, portal, FX, themes
+• sounds/
+- glitch.mp3 # Portal glitch sound
+- README.md
 
---------------------------------------------------
-CUSTOMIZATION
---------------------------------------------------
+---
 
-• Edit text in index.html
-• Edit themes in style.css
-• Edit FX behavior in script.js
+## ⚙️ How It Works (High Level)
 
---------------------------------------------------
-LICENSE
---------------------------------------------------
+### Portal Flow
+1. Page loads → `body.locked`
+2. Portal overlay appears
+3. Text cycles + progress bar fills
+4. First user interaction:
+   - Glitch sound plays
+   - Portal scales out
+   - Site unlocks
+5. FX start after portal exit
 
-Free to use and modify.
+### FX Rendering
+- Matrix & snow are rendered on `<canvas>`
+- Shared animation loop
+- Frame throttling (~20 FPS) for performance
+- Respects accessibility toggles
+
+---
+
+## 📱 Mobile & Hosting Notes
+
+- Designed to work on **iOS Safari**
+- No external JS libraries
+- Runs on shared hosting (e.g. Hostinger)
+- Canvas size auto-resizes on orientation change
+
+---
+
+## 🛠 Customization Tips
+
+- Change default theme color in `script.js`:
+  ```js
+  applyTheme('#00ff66');

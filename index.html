@@ -2,77 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ChartHustlez Cyber Launch</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChartHustlez Cyber Launch</title>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet"
+  />
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body class="locked">
 
-  <!-- PORTAL OVERLAY -->
-<div id="portal-overlay">
-  <div class="portal-core">
-    <span id="portal-text">INITIALIZING</span>
-  <div class="portal-bar">
-      <div class="portal-bar-fill"></div>
-    </div>
-  <!-- GLITCH OVERLAY -->
-  <div id="glitch-overlay"></div>
-
-  <!-- BACKGROUND FX -->
-  <canvas id="matrix"></canvas>
-  <div id="snow-layer"></div>
-
-  <!-- CAUTION TAPES -->
-  <div class="caution caution-a">
-    <div class="caution-track">
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
+  <!-- PORTAL -->
+  <div id="portal-overlay">
+    <div class="portal-core">
+      <span id="portal-text">INITIALIZING</span>
+      <div class="portal-bar">
+        <div class="portal-bar-fill"></div>
+      </div>
     </div>
   </div>
 
-  <div class="caution caution-b">
-    <div class="caution-track">
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
-      <span>CHART HUSTLEZ • LAUNCHING • </span>
-    </div>
-  </div>
+  <!-- AUDIO -->
+  <audio id="glitchSound" src="sounds/glitch.mp3" preload="auto"></audio>
 
   <!-- UI -->
-  <div class="top-bar">
-    <button data-theme="green">Green</button>
-    <button data-theme="cyan">Cyan</button>
-    <button data-theme="magenta">Magenta</button>
+  <header class="top-ui">
+    <div class="themes">
+      <button data-theme="green">Green</button>
+      <button data-theme="cyan">Cyan</button>
+      <button data-theme="magenta">Magenta</button>
+    </div>
+    <div class="toggles">
+      <label><input type="checkbox" id="reduceMotion"> Reduce Motion</label>
+      <label><input type="checkbox" id="disableFX"> Disable FX</label>
+    </div>
+  </header>
 
-    <label>
-      <input type="checkbox" id="reduceMotion"> Reduce Motion
-    </label>
-
-    <label>
-      <input type="checkbox" id="disableFX"> Disable FX
-    </label>
+  <!-- CAUTION -->
+  <div class="tape top-tape">
+    <div class="tape-inner">⚠ CAUTION ⚠ CAUTION ⚠ CAUTION ⚠</div>
   </div>
 
   <!-- HERO -->
   <main class="hero">
-    <h1>ChartHustlez<br>Cyber Launch</h1>
-    <p class="tagline">From Beginner to Builder</p>
-
-    <div class="cta">
-      <input type="email" placeholder="Enter your email">
-      <button>Join the Launch</button>
-    </div>
+    <h1>ChartHustlez Cyber Launch</h1>
+    <p>From Beginner to Builder</p>
+    <button class="cta">Enter</button>
   </main>
 
-  <!-- AUDIO -->
-  <audio id="glitchSound" src="sounds/glitch.mp3" preload="auto"></audio>
+  <div class="tape bottom-tape">
+    <div class="tape-inner">⚠ CAUTION ⚠ CAUTION ⚠ CAUTION ⚠</div>
+  </div>
+
+  <!-- FX -->
+  <canvas id="matrix"></canvas>
+  <canvas id="snow"></canvas>
 
   <script src="script.js"></script>
 </body>
