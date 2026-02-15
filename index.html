@@ -12,25 +12,21 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
- <!-- PORTAL LOADING OVERLAY -->
-<div id="portal-overlay">
-  <div class="portal-core">
-    <span>ENTERING SYSTEM</span>
+<body class="locked">
+
+  <!-- PORTAL OVERLAY -->
+  <div id="portal-overlay">
+    <div class="portal-core">ENTERING SYSTEM</div>
   </div>
-</div>
 
- <!-- FX DISABLE OVERLAY (ACCESSIBILITY) -->
-  <div id="fx-disabled-overlay">Effects Disabled</div>
-
-  <!-- Glitch overlay -->
+  <!-- GLITCH OVERLAY -->
   <div id="glitch-overlay"></div>
 
-  <!-- Background layers -->
+  <!-- BACKGROUND FX -->
   <canvas id="matrix"></canvas>
   <div id="snow-layer"></div>
 
-  <!-- Caution tapes -->
+  <!-- CAUTION TAPES -->
   <div class="caution caution-a">
     <div class="caution-track">
       <span>CHART HUSTLEZ • LAUNCHING • </span>
@@ -47,24 +43,22 @@
     </div>
   </div>
 
-  <!-- Controls -->
+  <!-- UI -->
   <div class="top-bar">
     <button data-theme="green">Green</button>
     <button data-theme="cyan">Cyan</button>
     <button data-theme="magenta">Magenta</button>
 
-    <label class="reduce-motion">
-      <input type="checkbox" id="reduceMotion">
-      Reduce Motion
+    <label>
+      <input type="checkbox" id="reduceMotion"> Reduce Motion
     </label>
 
-    <label class="reduce-motion">
-      <input type="checkbox" id="disableFX">
-      Disable FX
+    <label>
+      <input type="checkbox" id="disableFX"> Disable FX
     </label>
   </div>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <main class="hero">
     <h1>ChartHustlez<br>Cyber Launch</h1>
     <p class="tagline">From Beginner to Builder</p>
@@ -75,7 +69,7 @@
     </div>
   </main>
 
-  <!-- Audio -->
+  <!-- AUDIO -->
   <audio id="glitchSound" src="sounds/glitch.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
