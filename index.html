@@ -9,7 +9,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<body class="locked">
+
+  <!-- PORTAL -->
+  <div id="portal">
+    <div class="portal-core">
+      <div class="portal-text" id="portalText">INITIALIZING</div>
+      <div class="portal-bar">
+        <div class="portal-bar-fill" id="portalBar"></div>
+      </div>
+      <div class="portal-hint">Tap or click to enter</div>
+    </div>
+  </div>
 
   <!-- TOP CAUTION TAPE -->
   <div class="tape top-tape">
@@ -38,7 +49,7 @@
     </div>
   </div>
 
-  <!-- MATRIX CANVAS -->
+  <!-- MATRIX -->
   <canvas id="matrix"></canvas>
 
   <script src="script.js"></script>

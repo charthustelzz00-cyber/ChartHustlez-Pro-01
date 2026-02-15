@@ -16,6 +16,53 @@ body {
   overflow-x: hidden;
 }
 
+/* ================= PORTAL ================= */
+#portal {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, var(--primary), #020402 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.portal-core {
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text);
+}
+
+.portal-text {
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.portal-bar {
+  width: 220px;
+  height: 6px;
+  border: 1px solid var(--primary);
+  margin: 0 auto 12px;
+}
+
+.portal-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width .3s linear;
+}
+
+.portal-hint {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+body.locked {
+  overflow: hidden;
+}
+
 /* ================= HERO ================= */
 .hero {
   min-height: 100vh;
