@@ -396,43 +396,193 @@ body {
   flex-shrink: 0;
 }
 
-/* ========== MARQUEE ========== */
-.marquee-container {
+/* ========== CAUTION TAPE ========== */
+.caution-tape-wrapper {
   position: absolute;
-  top: 80px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  z-index: 5;
+  left: -5%;
+  width: 110%;
+  z-index: 15;
+  overflow: visible;
+  pointer-events: none;
 }
 
-.marquee-container.bottom {
+.caution-tape-wrapper.caution-top {
+  top: 60px;
+  transform: rotate(-2.5deg);
+}
+
+.caution-tape-wrapper.caution-bottom {
+  bottom: 40px;
   top: auto;
-  bottom: 30px;
+  transform: rotate(2.5deg);
 }
 
-.marquee {
+.caution-tape {
+  position: relative;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(0, 0, 0, 0.5) 8px,
+    rgba(0, 0, 0, 0.5) 16px
+  );
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  box-shadow:
+    var(--glow),
+    inset 0 0 20px rgba(var(--primary-rgb), 0.15);
+  overflow: hidden;
+  padding: 0;
+  animation: tapeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes tapeGlow {
+  0% {
+    box-shadow:
+      0 0 8px rgba(var(--primary-rgb), 0.6),
+      0 0 20px rgba(var(--primary-rgb), 0.3),
+      inset 0 0 15px rgba(var(--primary-rgb), 0.1);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(var(--primary-rgb), 0.9),
+      0 0 40px rgba(var(--primary-rgb), 0.5),
+      0 0 60px rgba(var(--primary-rgb), 0.2),
+      inset 0 0 25px rgba(var(--primary-rgb), 0.2);
+    filter: brightness(1.15);
+  }
+  100% {
+    box-shadow:
+      0 0 10px rgba(var(--primary-rgb), 0.7),
+      0 0 25px rgba(var(--primary-rgb), 0.4),
+      inset 0 0 20px rgba(var(--primary-rgb), 0.15);
+    filter: brightness(1.05);
+  }
+}
+
+.caution-tape-inner {
   display: flex;
   white-space: nowrap;
-  animation: marquee 25s linear infinite;
+  overflow: hidden;
+  position: relative;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Glitch effect for tape */
+.glitch-tape {
+  animation: tapeGlitch 6s infinite;
+  position: relative;
+}
+
+.glitch-tape::before,
+.glitch-tape::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   font-family: 'Orbitron', sans-serif;
   font-size: 0.85rem;
-  letter-spacing: 3px;
-  opacity: 0.5;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glitch-tape::before {
+  color: #ff0040;
+  animation: tapeGlitchBefore 4s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  z-index: 2;
+}
+
+.glitch-tape::after {
+  color: #00ffff;
+  animation: tapeGlitchAfter 4s infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  z-index: 2;
+}
+
+@keyframes tapeGlitch {
+  0%, 88%, 100% { transform: translate(0); }
+  89% { transform: translate(-2px, 1px); }
+  91% { transform: translate(2px, -1px); }
+  93% { transform: translate(-1px, 0); filter: brightness(2) saturate(1.5); }
+  95% { transform: translate(1px, 1px); }
+  97% { transform: translate(0); filter: brightness(1); }
+}
+
+@keyframes tapeGlitchBefore {
+  0%, 85%, 100% { transform: translate(0); opacity: 0; }
+  86% { transform: translate(-4px, -1px); opacity: 0.7; }
+  88% { transform: translate(4px, 1px); opacity: 0.5; }
+  90% { transform: translate(-2px, 0); opacity: 0.8; }
+  92% { transform: translate(0); opacity: 0; }
+}
+
+@keyframes tapeGlitchAfter {
+  0%, 87%, 100% { transform: translate(0); opacity: 0; }
+  88% { transform: translate(3px, 1px); opacity: 0.6; }
+  90% { transform: translate(-3px, -1px); opacity: 0.7; }
+  92% { transform: translate(2px, 0); opacity: 0.5; }
+  94% { transform: translate(0); opacity: 0; }
+}
+
+.caution-scroll {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
   color: var(--primary);
+  text-shadow: var(--text-shadow);
+  padding: 10px 0;
+  animation: cautionScroll 20s linear infinite;
+  will-change: transform;
 }
 
-.marquee span {
-  padding-right: 50px;
+.caution-scroll-reverse {
+  animation: cautionScrollReverse 20s linear infinite;
 }
 
-.marquee.reverse {
-  animation-direction: reverse;
-}
-
-@keyframes marquee {
+@keyframes cautionScroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@keyframes cautionScrollReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Caution tape corner hazard stripes (decorative edges) */
+.caution-tape::before,
+.caution-tape::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.caution-tape::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+
+.caution-tape::after {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(0,0,0,0.9) 0%, transparent 100%);
 }
 
 /* ========== HERO SECTION ========== */
@@ -596,12 +746,18 @@ body {
     font-size: 0.7rem;
   }
 
-  .marquee-container {
-    top: 60px;
+  .caution-tape-wrapper.caution-top {
+    top: 45px;
   }
 
-  .marquee-container.bottom {
-    bottom: 20px;
+  .caution-tape-wrapper.caution-bottom {
+    bottom: 25px;
+  }
+
+  .caution-scroll {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    padding: 8px 0;
   }
 
   .portal-ring {
