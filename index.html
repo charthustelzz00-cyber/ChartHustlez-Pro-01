@@ -1,62 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChartHustlez Cyber Launch</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ChartHustlez - From Beginner to Builder">
+  <title>ChartHustlez | Cyber Launch</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body data-theme="green">
+  <!-- Loading Portal -->
+  <div id="loading-portal" class="loading-portal">
+    <canvas id="portal-canvas" class="portal-matrix-canvas"></canvas>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="boot-text">
-    INITIALIZING SYSTEM...<br>
-    LOADING CHART HUSTLEZ CORE
+    <div class="portal-content" id="portal-content">
+      <div class="portal-ring" id="portal-ring">
+        <div class="portal-inner">
+          <h1 class="portal-title">CHART HUSTLEZ</h1>
+          <p class="portal-subtitle" id="loading-text">Loading... 0%</p>
+          <div class="loading-bar-container">
+            <div class="loading-bar" id="loading-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- MATRIX -->
-<canvas id="matrix"></canvas>
+  <!-- Landing Page -->
+  <div id="landing-page" class="landing-page hidden">
+    <div id="matrix-rain" class="matrix-rain"></div>
+    <div id="snowflakes-container" class="snowflakes-container"></div>
 
-<!-- GLOW PARTICLES -->
-<canvas id="glowParticles"></canvas>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button class="theme-btn active" data-theme="green">Green</button>
+      <button class="theme-btn" data-theme="cyan">Cyan</button>
+      <button class="theme-btn" data-theme="magenta">Magenta</button>
+    </div>
 
-<!-- SCANLINE -->
-<div class="scanline"></div>
+    <!-- Top Tape -->
+    <div class="marquee-container tape">
+      <div class="marquee">
+        <span>CHART HUSTLEZ • LAUNCHING •</span>
+        <span>CHART HUSTLEZ • LAUNCHING •</span>
+      </div>
+    </div>
 
-<!-- THEME SWITCHER -->
-<div class="theme-switcher">
-  <button onclick="setTheme('green')">Green</button>
-  <button onclick="setTheme('cyan')">Cyan</button>
-  <button onclick="setTheme('magenta')">Magenta</button>
-</div>
+    <!-- Hero -->
+    <div class="hero-section portal-travel">
+      <h1 class="hero-title glitch" id="hero-title"></h1>
+      <p class="hero-tagline" id="hero-tagline"></p>
+      <button class="cta-button" id="cta-btn"></button>
+    </div>
 
-<!-- CAUTION TAPES -->
-<div class="caution left">
-  <div class="tape">CHART HUSTLEZ • LAUNCHING • CHART HUSTLEZ • LAUNCHING</div>
-</div>
+    <!-- Bottom Tape -->
+    <div class="marquee-container bottom tape">
+      <div class="marquee reverse">
+        <span>CHART HUSTLEZ • LAUNCHING •</span>
+        <span>CHART HUSTLEZ • LAUNCHING •</span>
+      </div>
+    </div>
+  </div>
 
-<div class="caution right">
-  <div class="tape">CHART HUSTLEZ • LAUNCHING • CHART HUSTLEZ • LAUNCHING</div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <h1 class="glitch">ChartHustlez Cyber Launch</h1>
-  <p class="tagline">From Beginner to Builder</p>
-
-  <form class="signup" onsubmit="handleSignup(event)">
-    <input type="email" placeholder="Enter your email" required>
-    <button type="submit" class="cta">Join the Launch</button>
-  </form>
-
-  <p id="successMsg" class="success-msg"></p>
-</div>
-
-<script src="script.js"></script>
+  <script src="site.config.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
