@@ -1,33 +1,34 @@
-const MATRIX_CHARS = "01アイウエオカキクケコサシスセソタチツテト";
+const cfg = window.SITE_CONFIG;
 
-const CONFIG = {
-  matrixCount: window.innerWidth < 768 ? 30 : 50,
-  snowCount: window.innerWidth < 768 ? 40 : 60
-};
-
+/* ===============================
+   APPLY TEMPLATE CONTENT
+================================ */
 function applyTemplateContent() {
-  const cfg = window.SITE_CONFIG;
-  if (!cfg) return;
+  document.getElementById("hero-title").textContent = cfg.brand.name;
+  document.getElementById("hero-tagline").textContent = cfg.brand.tagline;
 
-  document.getElementById('hero-title').textContent = cfg.brand.name;
-  document.getElementById('hero-tagline').textContent = cfg.brand.tagline;
-
-  const cta = document.getElementById('cta-btn');
+  const cta = document.getElementById("cta-btn");
   cta.textContent = cfg.hero.ctaText;
   cta.onclick = () => window.location.href = cfg.hero.ctaLink;
 
-  document.querySelectorAll('.marquee').forEach(m => {
-    m.style.animationDuration = `${cfg.marquee.speed}s`;
+  // Apply marquee speed
+  document.querySelectorAll(".marquee").forEach(m => {
+    const duration = cfg.speed.marqueeSeconds * cfg.speed.globalMultiplier;
+    m.style.animationDuration = `${duration}s`;
   });
 }
 
+/* ===============================
+   PORTAL LOADING + TRAVEL
+================================ */
 function initPortal() {
-  const landing = document.getElementById('landing-page');
-  const portal = document.getElementById('loading-portal');
+  const portal = document.getElementById("loading-portal");
+  const landing = document.getElementById("landing-page");
+  const bar = document.getElementById("loading-bar");
+  const text = document.getElementById("loading-text");
 
   let progress = 0;
-  const bar = document.getElementById('loading-bar');
-  const text = document.getElementById('loading-text');
+  const intervalTime = cfg.speed.portalLoadInterval * cfg.speed.globalMultiplier;
 
   const interval = setInterval(() => {
     progress += 2;
@@ -37,18 +38,28 @@ function initPortal() {
     if (progress >= 100) {
       clearInterval(interval);
 
-      portal.classList.add('fade-out');
+      portal.classList.add("fade-out");
 
       setTimeout(() => {
         portal.remove();
-        landing.classList.remove('hidden');
-        landing.classList.add('travel-in');
+        landing.classList.remove("hidden");
+
+        // Apply travel strength dynamically
+        landing.style.setProperty(
+          "--travel-scale",
+          cfg.speed.portalTravelStrength
+        );
+
+        landing.classList.add("travel-in");
       }, 900);
     }
-  }, 50);
+  }, intervalTime);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+/* ===============================
+   INIT
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
   applyTemplateContent();
   initPortal();
 });

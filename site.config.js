@@ -9,16 +9,16 @@ window.SITE_CONFIG = {
     ctaLink: "signup.html"
   },
 
-  portal: {
-    enabled: true,
-    duration: 3000,
-    travelEffect: true
-  },
+  /* ===============================
+     SPEED CONTROLS
+  ================================ */
 
-  marquee: {
-    speed: 28,        // lower = faster
-    drift: 6          // vertical movement range (px)
-  },
+  speed: {
+  marqueeSeconds: 40,        // slower tape
+  portalLoadInterval: 30,    // faster loading
+  portalTravelStrength: 1.9, // stronger pull
+  globalMultiplier: 0.9
+}
 
   themes: ["green", "cyan", "magenta"]
 };

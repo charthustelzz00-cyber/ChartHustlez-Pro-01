@@ -1,29 +1,11 @@
-/* ===============================
-   GLOBAL VARIABLES / THEMES
-================================ */
 :root {
   --primary: #00ff00;
-  --primary-dim: rgba(0,255,0,0.5);
   --secondary: #003300;
-  --bg-dark: #000000;
-  --glow: 0 0 10px var(--primary), 0 0 25px var(--primary);
+  --bg: #000;
+  --glow: 0 0 12px var(--primary), 0 0 30px var(--primary);
+  --travel-scale: 1.6;
 }
 
-[data-theme="cyan"] {
-  --primary: #00ffff;
-  --primary-dim: rgba(0,255,255,0.5);
-  --secondary: #003333;
-}
-
-[data-theme="magenta"] {
-  --primary: #ff00ff;
-  --primary-dim: rgba(255,0,255,0.5);
-  --secondary: #330033;
-}
-
-/* ===============================
-   RESET / BASE
-================================ */
 * {
   margin: 0;
   padding: 0;
@@ -32,193 +14,78 @@
 
 body {
   font-family: 'Share Tech Mono', monospace;
-  background: radial-gradient(circle at center, #001100, #000);
+  background: radial-gradient(circle, #001100, #000);
   color: var(--primary);
   overflow-x: hidden;
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 /* ===============================
-   LOADING PORTAL
+   PORTAL
 ================================ */
 .loading-portal {
   position: fixed;
   inset: 0;
   background: #000;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 9999;
 }
 
 .loading-portal.fade-out {
-  animation: portalFadeOut 1s ease forwards;
+  animation: portalFade 1s ease forwards;
 }
 
-@keyframes portalFadeOut {
+@keyframes portalFade {
   to {
     opacity: 0;
     transform: scale(1.2);
   }
 }
 
-.portal-matrix-canvas {
-  position: absolute;
-  inset: 0;
-  opacity: 0.25;
-}
-
-.portal-content {
-  z-index: 2;
-  opacity: 0;
-  transform: scale(0.7);
-  transition: all 1s ease;
-}
-
-.portal-content.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.portal-ring {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  border: 3px solid var(--primary);
-  box-shadow: var(--glow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 2s infinite ease-in-out;
-}
-
-.portal-ring.expanded {
-  width: 420px;
-  height: 420px;
-  border-radius: 20px;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
-.portal-inner {
-  width: 90%;
-  height: 90%;
-  background: radial-gradient(circle, #001a00, #000);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.portal-title {
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 4px;
-  font-size: 2rem;
-  text-shadow: var(--glow);
-}
-
-.portal-subtitle {
-  margin-top: 12px;
-  opacity: 0.8;
-}
-
 /* ===============================
-   LANDING PAGE + TRAVEL EFFECT
+   TRAVEL EFFECT
 ================================ */
-.landing-page {
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  transform-origin: center;
-}
-
 .landing-page.travel-in {
   animation: travelIn 1.1s cubic-bezier(.2,.7,.2,1);
 }
 
 @keyframes travelIn {
-  from {
-    transform: scale(1.25) translateZ(0);
-    filter: blur(6px);
+  0% {
+    transform: scale(var(--travel-scale));
+    filter: blur(12px);
     opacity: 0;
   }
-  to {
+  70% {
+    transform: scale(0.98);
+    filter: blur(1px);
+    opacity: 1;
+  }
+  100% {
     transform: scale(1);
     filter: blur(0);
-    opacity: 1;
   }
 }
 
 /* ===============================
-   MATRIX + SNOW
-================================ */
-.matrix-rain,
-.snowflakes-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.matrix-char {
-  position: absolute;
-  color: var(--primary);
-  text-shadow: 0 0 6px var(--primary);
-}
-
-.snowflake {
-  position: absolute;
-  color: #fff;
-  opacity: 0.8;
-}
-
-/* ===============================
-   THEME TOGGLE
-================================ */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 50;
-}
-
-.theme-btn {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  padding: 8px 14px;
-  cursor: pointer;
-}
-
-.theme-btn.active {
-  background: var(--secondary);
-  box-shadow: var(--glow);
-}
-
-/* ===============================
-   MARQUEE / CAUTION TAPE
+   MARQUEE / TAPE
 ================================ */
 .marquee-container {
   position: absolute;
   width: 100%;
   overflow: hidden;
-  z-index: 5;
+}
+
+.marquee-container.tape {
+  top: 120px;
 }
 
 .marquee-container.bottom {
   bottom: 40px;
-}
-
-.marquee-container.tape {
-  top: 80px;
 }
 
 .marquee {
@@ -228,26 +95,20 @@ body {
 }
 
 .marquee span {
-  padding-right: 60px;
-  letter-spacing: 3px;
-  opacity: 0.65;
+  padding-right: 80px;
+  letter-spacing: 2px;
+  opacity: 0.55;
+  text-shadow: 0 0 4px var(--primary);
 }
 
 .marquee.reverse {
   animation-direction: reverse;
 }
 
-/* medium motion + subtle vertical drift */
 @keyframes marqueeMove {
-  from {
-    transform: translateX(0) translateY(-3px);
-  }
-  50% {
-    transform: translateX(-25%) translateY(3px);
-  }
-  to {
-    transform: translateX(-50%) translateY(-3px);
-  }
+  from { transform: translateX(0) translateY(-3px); }
+  50% { transform: translateX(-25%) translateY(3px); }
+  to { transform: translateX(-50%) translateY(-3px); }
 }
 
 /* ===============================
@@ -255,8 +116,6 @@ body {
 ================================ */
 .hero-section {
   min-height: 100vh;
-  z-index: 10;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,69 +126,21 @@ body {
 .hero-title {
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(2.5rem, 8vw, 6rem);
-  letter-spacing: 6px;
   text-shadow: var(--glow);
 }
 
 .hero-tagline {
-  margin-top: 15px;
+  margin-top: 10px;
   opacity: 0.8;
 }
 
 .cta-button {
   margin-top: 40px;
-  padding: 16px 46px;
+  padding: 16px 48px;
   border: 3px solid var(--primary);
   background: transparent;
   color: var(--primary);
   font-family: 'Orbitron', sans-serif;
-  letter-spacing: 3px;
   cursor: pointer;
   box-shadow: var(--glow);
-  transition: transform .3s ease;
-}
-
-.cta-button:hover {
-  transform: scale(1.08);
-}
-
-/* ===============================
-   SIGNUP PAGE
-================================ */
-.signup-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.signup-box {
-  border: 2px solid var(--primary);
-  padding: 40px;
-  background: rgba(0,0,0,0.85);
-  box-shadow: var(--glow);
-  text-align: center;
-}
-
-.signup-box input {
-  width: 100%;
-  margin: 10px 0;
-  padding: 12px;
-  background: #000;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-@media (max-width: 768px) {
-  .portal-ring {
-    width: 240px;
-    height: 240px;
-  }
-  .portal-ring.expanded {
-    width: 320px;
-    height: 320px;
-  }
 }

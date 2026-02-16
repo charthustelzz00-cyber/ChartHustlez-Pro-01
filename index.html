@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ChartHustlez - From Beginner to Builder">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChartHustlez | Cyber Launch</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +13,10 @@
 </head>
 <body>
 
-  <!-- Loading Portal -->
+  <!-- LOADING PORTAL -->
   <div id="loading-portal" class="loading-portal">
-    <canvas id="portal-canvas" class="portal-matrix-canvas"></canvas>
-
-    <div class="portal-content" id="portal-content">
-      <div class="portal-ring" id="portal-ring">
+    <div class="portal-content visible">
+      <div class="portal-ring">
         <div class="portal-inner">
           <h1 class="portal-title">CHART HUSTLEZ</h1>
           <p class="portal-subtitle" id="loading-text">Loading... 0%</p>
@@ -31,19 +28,16 @@
     </div>
   </div>
 
-  <!-- Landing Page -->
+  <!-- LANDING PAGE -->
   <div id="landing-page" class="landing-page hidden">
-    <div id="matrix-rain" class="matrix-rain"></div>
-    <div id="snowflakes-container" class="snowflakes-container"></div>
 
-    <!-- Theme Toggle -->
     <div class="theme-toggle">
       <button class="theme-btn active" data-theme="green">Green</button>
       <button class="theme-btn" data-theme="cyan">Cyan</button>
       <button class="theme-btn" data-theme="magenta">Magenta</button>
     </div>
 
-    <!-- Top Tape -->
+    <!-- TOP TAPE -->
     <div class="marquee-container tape">
       <div class="marquee">
         <span>CHART HUSTLEZ • LAUNCHING •</span>
@@ -51,20 +45,21 @@
       </div>
     </div>
 
-    <!-- Hero -->
-    <div class="hero-section portal-travel">
-      <h1 class="hero-title glitch" id="hero-title"></h1>
+    <!-- HERO -->
+    <div class="hero-section">
+      <h1 class="hero-title" id="hero-title"></h1>
       <p class="hero-tagline" id="hero-tagline"></p>
       <button class="cta-button" id="cta-btn"></button>
     </div>
 
-    <!-- Bottom Tape -->
+    <!-- BOTTOM TAPE -->
     <div class="marquee-container bottom tape">
       <div class="marquee reverse">
         <span>CHART HUSTLEZ • LAUNCHING •</span>
         <span>CHART HUSTLEZ • LAUNCHING •</span>
       </div>
     </div>
+
   </div>
 
   <script src="site.config.js"></script>
