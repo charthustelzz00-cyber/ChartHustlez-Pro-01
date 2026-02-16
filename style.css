@@ -404,90 +404,134 @@ body {
   flex-shrink: 0;
 }
 
-/* ========== CAUTION TAPE ========== */
-.caution-tape-wrapper {
+/* ========== DIAGONAL CAUTION TAPES (V-shape) ========== */
+.caution-tapes {
   position: fixed;
-  left: -5%;
-  width: 110%;
-  z-index: 50;
-  overflow: visible;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-}
-
-.caution-tape-wrapper.caution-top {
-  top: 55px;
-  transform: rotate(-2.5deg);
-}
-
-.caution-tape-wrapper.caution-bottom {
-  bottom: 35px;
-  top: auto;
-  transform: rotate(2.5deg);
+  z-index: 15;
+  overflow: hidden;
 }
 
 .caution-tape {
-  position: relative;
-  width: 100%;
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(var(--primary-rgb), 0.08),
-    rgba(var(--primary-rgb), 0.08) 10px,
-    rgba(0, 0, 0, 0.6) 10px,
-    rgba(0, 0, 0, 0.6) 20px
-  );
-  border-top: 3px solid var(--primary);
-  border-bottom: 3px solid var(--primary);
+  position: absolute;
+  width: 200%;
+  height: 52px;
+  background: #FFD000;
+  top: 50%;
+  left: -50%;
+  transform-origin: center center;
   overflow: hidden;
-  padding: 0;
-  animation: tapeGlow 2s ease-in-out infinite alternate;
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+  animation: tapeGlitch 6s infinite, tapeGlow 2s ease-in-out infinite alternate;
 }
 
+.caution-tape.tape-left {
+  transform: translateY(-50%) rotate(-35deg);
+}
+
+.caution-tape.tape-right {
+  transform: translateY(-50%) rotate(35deg);
+}
+
+/* Tape glow pulse */
 @keyframes tapeGlow {
   0% {
     box-shadow:
-      0 0 8px rgba(var(--primary-rgb), 0.6),
-      0 0 20px rgba(var(--primary-rgb), 0.3),
-      inset 0 0 15px rgba(var(--primary-rgb), 0.1);
+      0 0 10px rgba(255, 208, 0, 0.5),
+      0 0 25px rgba(255, 208, 0, 0.2);
     filter: brightness(1);
   }
   50% {
     box-shadow:
-      0 0 18px rgba(var(--primary-rgb), 1),
-      0 0 45px rgba(var(--primary-rgb), 0.6),
-      0 0 80px rgba(var(--primary-rgb), 0.25),
-      inset 0 0 30px rgba(var(--primary-rgb), 0.2);
-    filter: brightness(1.2);
+      0 0 20px rgba(255, 208, 0, 0.8),
+      0 0 50px rgba(255, 208, 0, 0.4),
+      0 0 80px rgba(255, 208, 0, 0.15);
+    filter: brightness(1.15);
   }
   100% {
     box-shadow:
-      0 0 12px rgba(var(--primary-rgb), 0.8),
-      0 0 30px rgba(var(--primary-rgb), 0.45),
-      inset 0 0 20px rgba(var(--primary-rgb), 0.15);
-    filter: brightness(1.08);
+      0 0 15px rgba(255, 208, 0, 0.6),
+      0 0 35px rgba(255, 208, 0, 0.3);
+    filter: brightness(1.05);
   }
 }
 
-.caution-tape-inner {
+/* Glitch flicker effect */
+@keyframes tapeGlitch {
+  0%, 86%, 100% { opacity: 1; filter: brightness(1); }
+  87% { opacity: 0.85; filter: brightness(1.8) saturate(1.5); transform: translateY(-50%) rotate(-35deg) translate(-3px, 2px); }
+  88% { opacity: 1; filter: brightness(0.7); transform: translateY(-50%) rotate(-35deg) translate(4px, -1px); }
+  89% { opacity: 0.9; filter: brightness(2); transform: translateY(-50%) rotate(-35deg) translate(-2px, 0); }
+  90% { opacity: 1; filter: brightness(1); }
+  93% { opacity: 1; filter: brightness(1); }
+  94% { opacity: 0.8; filter: brightness(1.6) hue-rotate(10deg); transform: translateY(-50%) rotate(-35deg) translate(2px, 1px); }
+  95% { opacity: 1; filter: brightness(1); }
+}
+
+.caution-tape.tape-right {
+  animation-name: tapeGlitchRight, tapeGlow;
+  animation-duration: 6s, 2s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+  animation-delay: 0.3s, 0s;
+}
+
+@keyframes tapeGlitchRight {
+  0%, 88%, 100% { opacity: 1; filter: brightness(1); }
+  89% { opacity: 0.85; filter: brightness(1.7); transform: translateY(-50%) rotate(35deg) translate(3px, -2px); }
+  90% { opacity: 1; filter: brightness(0.8); transform: translateY(-50%) rotate(35deg) translate(-4px, 1px); }
+  91% { opacity: 0.9; filter: brightness(2); transform: translateY(-50%) rotate(35deg) translate(2px, 0); }
+  92% { opacity: 1; filter: brightness(1); }
+  95% { opacity: 1; filter: brightness(1); }
+  96% { opacity: 0.8; filter: brightness(1.5) hue-rotate(-10deg); transform: translateY(-50%) rotate(35deg) translate(-2px, -1px); }
+  97% { opacity: 1; filter: brightness(1); }
+}
+
+/* Scrolling text inside the tape */
+.tape-text-track {
   display: flex;
   white-space: nowrap;
-  overflow: hidden;
-  position: relative;
-  background: rgba(0, 0, 0, 0.7);
-  animation: tapeGlitch 5s infinite;
+  animation: tapeScroll 12s linear infinite;
+  will-change: transform;
+  height: 100%;
+  align-items: center;
 }
 
-@keyframes tapeGlitch {
-  0%, 87%, 100% { transform: translate(0); filter: brightness(1); }
-  88% { transform: translate(-3px, 1px) skewX(-0.5deg); filter: brightness(1.8) saturate(1.5); }
-  89% { transform: translate(3px, -1px) skewX(0.5deg); filter: brightness(0.8); }
-  90% { transform: translate(-1px, 0); filter: brightness(2) saturate(2); }
-  91% { transform: translate(2px, 1px) skewX(-0.3deg); filter: brightness(1); }
-  92% { transform: translate(0); filter: brightness(1); }
+.tape-text-track-reverse {
+  animation-name: tapeScrollReverse;
 }
 
-/* Glitch color overlay layers on tape inner */
-.glitch-tape::before,
-.glitch-tape::after {
+@keyframes tapeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes tapeScrollReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.tape-text {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #000;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+/* Glitch color overlays on tapes */
+.caution-tape::before,
+.caution-tape::after {
   content: '';
   position: absolute;
   top: 0;
@@ -495,62 +539,33 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
   opacity: 0;
+  z-index: 2;
 }
 
-.glitch-tape::before {
-  background: rgba(255, 0, 64, 0.3);
-  animation: glitchOverlayRed 5s infinite;
+.caution-tape::before {
+  background: rgba(255, 0, 64, 0.4);
+  animation: tapeOverlayRed 6s infinite;
 }
 
-.glitch-tape::after {
+.caution-tape::after {
   background: rgba(0, 255, 255, 0.3);
-  animation: glitchOverlayCyan 5s infinite;
+  animation: tapeOverlayCyan 6s infinite 0.15s;
 }
 
-@keyframes glitchOverlayRed {
-  0%, 87%, 92%, 100% { opacity: 0; transform: translate(0); }
-  88% { opacity: 0.8; transform: translate(-4px, -1px); }
-  89% { opacity: 0.5; transform: translate(3px, 1px); }
-  90% { opacity: 0.9; transform: translate(-2px, 0); }
-  91% { opacity: 0; }
+@keyframes tapeOverlayRed {
+  0%, 86%, 90%, 100% { opacity: 0; }
+  87% { opacity: 0.7; transform: translate(-3px, 0); }
+  88% { opacity: 0.5; transform: translate(3px, 0); }
+  89% { opacity: 0.8; transform: translate(-1px, 0); }
 }
 
-@keyframes glitchOverlayCyan {
-  0%, 88%, 93%, 100% { opacity: 0; transform: translate(0); }
-  89% { opacity: 0.6; transform: translate(4px, 1px); }
-  90% { opacity: 0.7; transform: translate(-3px, -1px); }
-  91% { opacity: 0.8; transform: translate(2px, 0); }
-  92% { opacity: 0; }
-}
-
-.caution-scroll {
-  display: inline-block;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--primary);
-  text-shadow: var(--text-shadow);
-  padding: 10px 20px;
-  animation: cautionScroll 18s linear infinite;
-  will-change: transform;
-}
-
-.caution-scroll-reverse {
-  animation: cautionScrollReverse 18s linear infinite;
-}
-
-@keyframes cautionScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes cautionScrollReverse {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+@keyframes tapeOverlayCyan {
+  0%, 88%, 92%, 100% { opacity: 0; }
+  89% { opacity: 0.6; transform: translate(4px, 0); }
+  90% { opacity: 0.4; transform: translate(-3px, 0); }
+  91% { opacity: 0.7; transform: translate(1px, 0); }
 }
 
 /* ========== HERO SECTION ========== */
@@ -642,14 +657,42 @@ body {
   }
 }
 
-.hero-domain {
+.hero-subtitle {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1rem, 3vw, 1.8rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 5vw, 3.5rem);
+  font-weight: 800;
   letter-spacing: 6px;
   color: var(--primary);
-  opacity: 0.6;
+  text-shadow: var(--text-shadow);
   margin-bottom: 20px;
+  animation: glitchText 4s infinite;
+  position: relative;
+}
+
+.glitch-sub::before,
+.glitch-sub::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.glitch-sub::before {
+  color: #ff0040;
+  animation: glitchBefore 4s infinite 0.1s;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+}
+
+.glitch-sub::after {
+  color: #00ffff;
+  animation: glitchAfter 4s infinite 0.2s;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
 }
 
 .hero-tagline {
@@ -714,22 +757,14 @@ body {
     font-size: 0.7rem;
   }
 
-  .caution-tape-wrapper.caution-top {
-    top: 40px;
-  }
-
-  .caution-tape-wrapper.caution-bottom {
-    bottom: 20px;
-  }
-
-  .caution-scroll {
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    padding: 8px 10px;
-  }
-
   .caution-tape {
+    height: 40px;
     border-width: 2px;
+  }
+
+  .tape-text {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
   }
 
   .portal-ring {

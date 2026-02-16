@@ -112,10 +112,8 @@ function initPortal() {
       landingPage.classList.remove('hidden');
 
       // Show caution tapes
-      const tapeTop = document.getElementById('caution-tape-top');
-      const tapeBottom = document.getElementById('caution-tape-bottom');
-      if (tapeTop) tapeTop.style.display = '';
-      if (tapeBottom) tapeBottom.style.display = '';
+      const cautionTapes = document.getElementById('caution-tapes');
+      if (cautionTapes) cautionTapes.style.display = '';
 
       initLandingPage();
     }, 1200);
