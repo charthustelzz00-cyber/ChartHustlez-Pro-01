@@ -1,6 +1,7 @@
 window.SITE_CONFIG = {
   brand: {
     name: "ChartHustlez",
+    domain: "ChartHustlez.online",
     tagline: "From Beginner to Builder"
   },
 
@@ -10,7 +11,7 @@ window.SITE_CONFIG = {
   },
 
   speed: {
-    marqueeSeconds: 34,
+    marqueeSeconds: 30,
     portalLoadInterval: 35,
     portalTravelStrength: 1.55,
     pulseSeconds: 3,
