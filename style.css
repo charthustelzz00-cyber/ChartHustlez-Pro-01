@@ -404,7 +404,7 @@ body {
   flex-shrink: 0;
 }
 
-/* ========== DIAGONAL CAUTION TAPES (V-shape) ========== */
+/* ========== CAUTION TAPES (Top & Bottom) ========== */
 .caution-tapes {
   position: fixed;
   top: 0;
@@ -413,91 +413,133 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 15;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .caution-tape {
   position: absolute;
-  width: 200%;
-  height: 52px;
+  left: -5%;
+  width: 110%;
+  height: 48px;
   background: #FFD000;
-  top: 50%;
-  left: -50%;
-  transform-origin: center center;
   overflow: hidden;
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
-  animation: tapeGlitch 6s infinite, tapeGlow 2s ease-in-out infinite alternate;
+  border-top: 3px solid #111;
+  border-bottom: 3px solid #111;
+  animation: tapeGlitchTop 6s infinite, tapeGlow 2.5s ease-in-out infinite alternate;
 }
 
-.caution-tape.tape-left {
-  transform: translateY(-50%) rotate(-35deg);
+.caution-tape.tape-top {
+  top: 60px;
+  transform: rotate(-2deg);
 }
 
-.caution-tape.tape-right {
-  transform: translateY(-50%) rotate(35deg);
+.caution-tape.tape-bottom {
+  bottom: 50px;
+  top: auto;
+  transform: rotate(2deg);
 }
 
-/* Tape glow pulse */
+/* Glow pulse */
 @keyframes tapeGlow {
   0% {
     box-shadow:
-      0 0 10px rgba(255, 208, 0, 0.5),
-      0 0 25px rgba(255, 208, 0, 0.2);
-    filter: brightness(1);
+      0 0 8px rgba(255, 208, 0, 0.5),
+      0 0 20px rgba(255, 208, 0, 0.25);
   }
   50% {
     box-shadow:
-      0 0 20px rgba(255, 208, 0, 0.8),
-      0 0 50px rgba(255, 208, 0, 0.4),
+      0 0 20px rgba(255, 208, 0, 0.9),
+      0 0 50px rgba(255, 208, 0, 0.45),
       0 0 80px rgba(255, 208, 0, 0.15);
-    filter: brightness(1.15);
   }
   100% {
     box-shadow:
-      0 0 15px rgba(255, 208, 0, 0.6),
-      0 0 35px rgba(255, 208, 0, 0.3);
-    filter: brightness(1.05);
+      0 0 12px rgba(255, 208, 0, 0.65),
+      0 0 30px rgba(255, 208, 0, 0.3);
   }
 }
 
-/* Glitch flicker effect */
-@keyframes tapeGlitch {
-  0%, 86%, 100% { opacity: 1; filter: brightness(1); }
-  87% { opacity: 0.85; filter: brightness(1.8) saturate(1.5); transform: translateY(-50%) rotate(-35deg) translate(-3px, 2px); }
-  88% { opacity: 1; filter: brightness(0.7); transform: translateY(-50%) rotate(-35deg) translate(4px, -1px); }
-  89% { opacity: 0.9; filter: brightness(2); transform: translateY(-50%) rotate(-35deg) translate(-2px, 0); }
-  90% { opacity: 1; filter: brightness(1); }
-  93% { opacity: 1; filter: brightness(1); }
-  94% { opacity: 0.8; filter: brightness(1.6) hue-rotate(10deg); transform: translateY(-50%) rotate(-35deg) translate(2px, 1px); }
-  95% { opacity: 1; filter: brightness(1); }
+/* Glitch for top tape */
+@keyframes tapeGlitchTop {
+  0%, 86%, 91%, 100% {
+    filter: brightness(1);
+    transform: rotate(-2deg) translate(0, 0);
+  }
+  87% {
+    filter: brightness(1.9) saturate(1.4);
+    transform: rotate(-2deg) translate(-4px, 2px);
+  }
+  88% {
+    filter: brightness(0.6);
+    transform: rotate(-2deg) translate(5px, -1px);
+  }
+  89% {
+    filter: brightness(2.2) hue-rotate(15deg);
+    transform: rotate(-2deg) translate(-2px, 0);
+  }
+  90% {
+    filter: brightness(1);
+    transform: rotate(-2deg) translate(0, 0);
+  }
+  94% {
+    filter: brightness(1);
+    transform: rotate(-2deg) translate(0, 0);
+  }
+  95% {
+    filter: brightness(1.7) hue-rotate(-10deg);
+    transform: rotate(-2deg) translate(3px, 1px);
+  }
+  96% {
+    filter: brightness(1);
+    transform: rotate(-2deg) translate(0, 0);
+  }
 }
 
-.caution-tape.tape-right {
-  animation-name: tapeGlitchRight, tapeGlow;
-  animation-duration: 6s, 2s;
-  animation-timing-function: linear, ease-in-out;
-  animation-iteration-count: infinite, infinite;
-  animation-direction: normal, alternate;
-  animation-delay: 0.3s, 0s;
+/* Glitch for bottom tape (slightly offset timing) */
+.caution-tape.tape-bottom {
+  animation: tapeGlitchBottom 6s 0.3s infinite, tapeGlow 2.5s ease-in-out infinite alternate;
 }
 
-@keyframes tapeGlitchRight {
-  0%, 88%, 100% { opacity: 1; filter: brightness(1); }
-  89% { opacity: 0.85; filter: brightness(1.7); transform: translateY(-50%) rotate(35deg) translate(3px, -2px); }
-  90% { opacity: 1; filter: brightness(0.8); transform: translateY(-50%) rotate(35deg) translate(-4px, 1px); }
-  91% { opacity: 0.9; filter: brightness(2); transform: translateY(-50%) rotate(35deg) translate(2px, 0); }
-  92% { opacity: 1; filter: brightness(1); }
-  95% { opacity: 1; filter: brightness(1); }
-  96% { opacity: 0.8; filter: brightness(1.5) hue-rotate(-10deg); transform: translateY(-50%) rotate(35deg) translate(-2px, -1px); }
-  97% { opacity: 1; filter: brightness(1); }
+@keyframes tapeGlitchBottom {
+  0%, 88%, 93%, 100% {
+    filter: brightness(1);
+    transform: rotate(2deg) translate(0, 0);
+  }
+  89% {
+    filter: brightness(1.8) saturate(1.5);
+    transform: rotate(2deg) translate(4px, -2px);
+  }
+  90% {
+    filter: brightness(0.5);
+    transform: rotate(2deg) translate(-5px, 1px);
+  }
+  91% {
+    filter: brightness(2) hue-rotate(12deg);
+    transform: rotate(2deg) translate(2px, 0);
+  }
+  92% {
+    filter: brightness(1);
+    transform: rotate(2deg) translate(0, 0);
+  }
+  96% {
+    filter: brightness(1);
+    transform: rotate(2deg) translate(0, 0);
+  }
+  97% {
+    filter: brightness(1.6) hue-rotate(-8deg);
+    transform: rotate(2deg) translate(-3px, -1px);
+  }
+  98% {
+    filter: brightness(1);
+    transform: rotate(2deg) translate(0, 0);
+  }
 }
 
-/* Scrolling text inside the tape */
+/* Scrolling text inside tapes */
 .tape-text-track {
   display: flex;
   white-space: nowrap;
-  animation: tapeScroll 12s linear infinite;
+  animation: tapeScroll 14s linear infinite;
   will-change: transform;
   height: 100%;
   align-items: center;
@@ -520,16 +562,16 @@ body {
 .tape-text {
   display: inline-block;
   font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: #000;
-  padding: 0 20px;
+  padding: 0 24px;
   white-space: nowrap;
 }
 
-/* Glitch color overlays on tapes */
+/* Glitch color overlays */
 .caution-tape::before,
 .caution-tape::after {
   content: '';
@@ -545,27 +587,29 @@ body {
 }
 
 .caution-tape::before {
-  background: rgba(255, 0, 64, 0.4);
+  background: rgba(255, 0, 60, 0.5);
   animation: tapeOverlayRed 6s infinite;
 }
 
 .caution-tape::after {
-  background: rgba(0, 255, 255, 0.3);
-  animation: tapeOverlayCyan 6s infinite 0.15s;
+  background: rgba(0, 255, 200, 0.4);
+  animation: tapeOverlayCyan 6s 0.2s infinite;
 }
 
 @keyframes tapeOverlayRed {
-  0%, 86%, 90%, 100% { opacity: 0; }
-  87% { opacity: 0.7; transform: translate(-3px, 0); }
-  88% { opacity: 0.5; transform: translate(3px, 0); }
-  89% { opacity: 0.8; transform: translate(-1px, 0); }
+  0%, 86%, 91%, 100% { opacity: 0; transform: translate(0); }
+  87% { opacity: 0.8; transform: translate(-4px, 0); }
+  88% { opacity: 0.4; transform: translate(4px, 0); }
+  89% { opacity: 0.9; transform: translate(-1px, 0); }
+  90% { opacity: 0; transform: translate(0); }
 }
 
 @keyframes tapeOverlayCyan {
-  0%, 88%, 92%, 100% { opacity: 0; }
-  89% { opacity: 0.6; transform: translate(4px, 0); }
-  90% { opacity: 0.4; transform: translate(-3px, 0); }
-  91% { opacity: 0.7; transform: translate(1px, 0); }
+  0%, 89%, 94%, 100% { opacity: 0; transform: translate(0); }
+  90% { opacity: 0.7; transform: translate(5px, 0); }
+  91% { opacity: 0.3; transform: translate(-4px, 0); }
+  92% { opacity: 0.8; transform: translate(1px, 0); }
+  93% { opacity: 0; transform: translate(0); }
 }
 
 /* ========== HERO SECTION ========== */
@@ -758,13 +802,22 @@ body {
   }
 
   .caution-tape {
-    height: 40px;
+    height: 38px;
     border-width: 2px;
   }
 
+  .caution-tape.tape-top {
+    top: 45px;
+  }
+
+  .caution-tape.tape-bottom {
+    bottom: 35px;
+  }
+
   .tape-text {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     letter-spacing: 2px;
+    padding: 0 16px;
   }
 
   .portal-ring {

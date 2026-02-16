@@ -200,35 +200,41 @@ function initMatrixCanvas() {
   }
 
   function draw() {
-    // Fade effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    // Faster fade = shorter trails, less dense overall
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const color = getThemeColor();
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
+      // Only draw ~60% of columns each frame for less density
+      if (Math.random() > 0.6) {
+        drops[i] += 0.3 + Math.random() * 0.25;
+        continue;
+      }
+
       const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Bright white head
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      // Bright head character (slightly less bright)
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
       ctx.fillText(char, x, y);
 
-      // Colored trail
+      // Colored trail (reduced opacity)
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.35;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       ctx.fillText(trailChar, x, y - fontSize);
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = 0.15;
       ctx.fillText(trailChar, x, y - fontSize * 2);
       ctx.globalAlpha = 1;
 
-      if (y > canvas.height && Math.random() > 0.98) {
-        drops[i] = Math.random() * -10;
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[i] = Math.random() * -15;
       }
-      drops[i] += 0.4 + Math.random() * 0.3;
+      drops[i] += 0.3 + Math.random() * 0.25;
     }
 
     requestAnimationFrame(draw);
