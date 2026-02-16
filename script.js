@@ -1,63 +1,151 @@
-const cfg = window.SITE_CONFIG;
+/* ======================================================
+   GLOBAL CONFIG
+====================================================== */
+const cfg = window.SITE_CONFIG || {};
 
-/* CONTENT */
-function applyContent() {
-  document.getElementById("hero-title").textContent = cfg.brand.name;
-  document.getElementById("hero-tagline").textContent = cfg.brand.tagline;
+/* ======================================================
+   THEME SYSTEM (AUTOMATION)
+====================================================== */
+function setTheme(theme) {
+  if (!cfg.themes || !cfg.themes[theme]) return;
 
-  const cta = document.getElementById("cta-btn");
-  cta.textContent = cfg.hero.ctaText;
-  cta.onclick = () => location.href = cfg.hero.ctaLink;
+  // Set theme attribute
+  document.documentElement.setAttribute("data-theme", theme);
 
-  document.querySelectorAll(".marquee").forEach(m => {
-    m.style.animationDuration =
-      (cfg.speed.marqueeSeconds * cfg.speed.globalMultiplier) + "s";
+  // Update primary color variable dynamically
+  document.documentElement.style.setProperty(
+    "--primary",
+    cfg.themes[theme]
+  );
+
+  // Update active button state
+  document.querySelectorAll(".theme-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.theme === theme);
   });
 }
 
-/* THEME */
-document.querySelectorAll(".theme-btn").forEach(btn => {
-  btn.onclick = () => {
-    document.documentElement.setAttribute("data-theme", btn.dataset.theme);
-    document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-  };
-});
+/* ======================================================
+   CONTENT + SPEED AUTOMATION
+====================================================== */
+function applyAutomation() {
+  // Hero content
+  const heroTitle = document.getElementById("hero-title");
+  const heroTagline = document.getElementById("hero-tagline");
+  const ctaBtn = document.getElementById("cta-btn");
 
-/* PORTAL */
+  if (heroTitle && cfg.brand?.name) {
+    heroTitle.textContent = cfg.brand.name;
+  }
+
+  if (heroTagline && cfg.brand?.tagline) {
+    heroTagline.textContent = cfg.brand.tagline;
+  }
+
+  if (ctaBtn && cfg.hero) {
+    ctaBtn.textContent = cfg.hero.ctaText || "Join";
+    ctaBtn.onclick = () => {
+      if (cfg.hero.ctaLink) {
+        window.location.href = cfg.hero.ctaLink;
+      }
+    };
+  }
+
+  // Marquee speed automation
+  document.querySelectorAll(".marquee-track").forEach(track => {
+    const speed =
+      (cfg.speed?.marqueeSeconds || 30) *
+      (cfg.speed?.globalMultiplier || 1);
+
+    track.style.animationDuration = `${speed}s`;
+  });
+
+  // Pulse animation speed
+  if (cfg.speed?.pulseSeconds) {
+    document.documentElement.style.setProperty(
+      "--pulse-speed",
+      `${cfg.speed.pulseSeconds}s`
+    );
+  }
+}
+
+/* ======================================================
+   PORTAL LOADER (FAILSAFE + TRAVEL EFFECT)
+====================================================== */
 function initPortal() {
   const portal = document.getElementById("loading-portal");
   const landing = document.getElementById("landing-page");
-  const text = document.getElementById("loading-text");
+  const loadingText = document.getElementById("loading-text");
+
+  if (!portal || !landing) return;
 
   let progress = 0;
-  let done = false;
+  let exited = false;
 
-  function exit() {
-    if (done) return;
-    done = true;
+  function exitPortal() {
+    if (exited) return;
+    exited = true;
+
     portal.classList.add("fade-out");
+
     setTimeout(() => {
       portal.remove();
+
       landing.classList.remove("hidden");
-      landing.style.setProperty("--travel-scale", cfg.speed.portalTravelStrength);
+
+      // Apply travel strength from config
+      landing.style.setProperty(
+        "--travel-scale",
+        cfg.speed?.portalTravelStrength || 1.5
+      );
+
       landing.classList.add("travel-in");
     }, 600);
   }
 
+  // Simulated loading progression
+  const intervalTime =
+    (cfg.speed?.portalLoadInterval || 40) *
+    (cfg.speed?.globalMultiplier || 1);
+
   const interval = setInterval(() => {
     progress += 4;
-    text.textContent = `Loading… ${progress}%`;
+
+    if (loadingText) {
+      loadingText.textContent = `Loading… ${progress}%`;
+    }
+
     if (progress >= 100) {
       clearInterval(interval);
-      exit();
+      exitPortal();
     }
-  }, cfg.speed.portalLoadInterval);
+  }, intervalTime);
 
-  setTimeout(exit, 2500);
+  // 🔒 HARD FAILSAFE -- never hang
+  setTimeout(() => {
+    clearInterval(interval);
+    exitPortal();
+  }, 2500);
 }
 
+/* ======================================================
+   INIT (DOM READY)
+====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-  applyContent();
+  // Set default theme
+  if (cfg.defaultTheme) {
+    setTheme(cfg.defaultTheme);
+  }
+
+  // Apply all automation
+  applyAutomation();
+
+  // Start portal loader
   initPortal();
+
+  // Theme button listeners
+  document.querySelectorAll(".theme-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      setTheme(btn.dataset.theme);
+    });
+  });
 });

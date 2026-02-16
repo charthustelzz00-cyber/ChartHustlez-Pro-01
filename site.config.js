@@ -10,11 +10,18 @@ window.SITE_CONFIG = {
   },
 
   speed: {
-    marqueeSeconds: 32,
-    portalLoadInterval: 40,
-    portalTravelStrength: 1.6,
+    marqueeSeconds: 34,
+    portalLoadInterval: 35,
+    portalTravelStrength: 1.55,
+    pulseSeconds: 3,
     globalMultiplier: 1
   },
 
-  themes: ["green", "cyan", "magenta"]
+  themes: {
+    green: "#00ff00",
+    cyan: "#00ffff",
+    magenta: "#ff00ff"
+  },
+
+  defaultTheme: "green"
 };
