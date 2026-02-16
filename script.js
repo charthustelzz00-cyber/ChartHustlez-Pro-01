@@ -1,85 +1,63 @@
-const cfg = window.SITE_CONFIG || {};
+const cfg = window.SITE_CONFIG;
 
-/* ===============================
-   APPLY TEMPLATE CONTENT
-================================ */
-function applyTemplateContent() {
-  if (!cfg.brand) return;
-
+/* CONTENT */
+function applyContent() {
   document.getElementById("hero-title").textContent = cfg.brand.name;
   document.getElementById("hero-tagline").textContent = cfg.brand.tagline;
 
   const cta = document.getElementById("cta-btn");
   cta.textContent = cfg.hero.ctaText;
-  cta.onclick = () => window.location.href = cfg.hero.ctaLink;
+  cta.onclick = () => location.href = cfg.hero.ctaLink;
 
-  // Apply marquee speed safely
   document.querySelectorAll(".marquee").forEach(m => {
-    const duration = (cfg.speed?.marqueeSeconds || 30) *
-                     (cfg.speed?.globalMultiplier || 1);
-    m.style.animationDuration = `${duration}s`;
+    m.style.animationDuration =
+      (cfg.speed.marqueeSeconds * cfg.speed.globalMultiplier) + "s";
   });
 }
 
-/* ===============================
-   SAFE PORTAL EXIT (FIXED)
-================================ */
+/* THEME */
+document.querySelectorAll(".theme-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.documentElement.setAttribute("data-theme", btn.dataset.theme);
+    document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  };
+});
+
+/* PORTAL */
 function initPortal() {
   const portal = document.getElementById("loading-portal");
   const landing = document.getElementById("landing-page");
-  const bar = document.getElementById("loading-bar");
   const text = document.getElementById("loading-text");
 
   let progress = 0;
-  let exited = false;
+  let done = false;
 
-  const intervalTime =
-    (cfg.speed?.portalLoadInterval || 40) *
-    (cfg.speed?.globalMultiplier || 1);
-
-  function exitPortal() {
-    if (exited) return;
-    exited = true;
-
+  function exit() {
+    if (done) return;
+    done = true;
     portal.classList.add("fade-out");
-
     setTimeout(() => {
       portal.remove();
       landing.classList.remove("hidden");
-
-      landing.style.setProperty(
-        "--travel-scale",
-        cfg.speed?.portalTravelStrength || 1.6
-      );
-
+      landing.style.setProperty("--travel-scale", cfg.speed.portalTravelStrength);
       landing.classList.add("travel-in");
     }, 600);
   }
 
-  /* NORMAL LOADING */
   const interval = setInterval(() => {
-    progress += 2;
-
-    if (bar) bar.style.width = progress + "%";
-    if (text) text.textContent = `Loading... ${progress}%`;
-
+    progress += 4;
+    text.textContent = `Loading… ${progress}%`;
     if (progress >= 100) {
       clearInterval(interval);
-      exitPortal();
+      exit();
     }
-  }, intervalTime);
+  }, cfg.speed.portalLoadInterval);
 
-  /* 🔥 FAILSAFE (CRITICAL FIX) */
-  setTimeout(() => {
-    clearInterval(interval);
-    exitPortal();
-  }, 3000); // NEVER wait more than 3s
+  setTimeout(exit, 2500);
 }
 
-/* ===============================
-   INIT
-================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  applyTemplateContent();
+  applyContent();
   initPortal();
 });

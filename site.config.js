@@ -9,16 +9,12 @@ window.SITE_CONFIG = {
     ctaLink: "signup.html"
   },
 
-  /* ===============================
-     SPEED CONTROLS
-  ================================ */
-
   speed: {
-  marqueeSeconds: 40,        // slower tape
-  portalLoadInterval: 30,    // faster loading
-  portalTravelStrength: 1.9, // stronger pull
-  globalMultiplier: 0.9
-}
+    marqueeSeconds: 32,
+    portalLoadInterval: 40,
+    portalTravelStrength: 1.6,
+    globalMultiplier: 1
+  },
 
   themes: ["green", "cyan", "magenta"]
 };

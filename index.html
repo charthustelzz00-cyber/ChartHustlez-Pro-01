@@ -1,68 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="green">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChartHustlez | Cyber Launch</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- LOADING PORTAL -->
-  <div id="loading-portal" class="loading-portal">
-    <div class="portal-content visible">
-      <div class="portal-ring">
-        <div class="portal-inner">
-          <h1 class="portal-title">CHART HUSTLEZ</h1>
-          <p class="portal-subtitle" id="loading-text">Loading... 0%</p>
-          <div class="loading-bar-container">
-            <div class="loading-bar" id="loading-bar"></div>
-          </div>
-        </div>
-      </div>
+<!-- PORTAL -->
+<div id="loading-portal" class="loading-portal">
+  <div class="portal-core">
+    <h1>CHART HUSTLEZ</h1>
+    <p id="loading-text">Loading… 0%</p>
+  </div>
+</div>
+
+<!-- SITE -->
+<div id="landing-page" class="landing-page hidden">
+
+  <!-- THEME -->
+  <div class="theme-toggle">
+    <button class="theme-btn active" data-theme="green">Green</button>
+    <button class="theme-btn" data-theme="cyan">Cyan</button>
+    <button class="theme-btn" data-theme="magenta">Magenta</button>
+  </div>
+
+  <!-- TOP TAPE -->
+  <div class="marquee-container tape">
+    <div class="marquee">
+      <span>CHART HUSTLEZ • LAUNCHING •</span>
+      <span>CHART HUSTLEZ • LAUNCHING •</span>
     </div>
   </div>
 
-  <!-- LANDING PAGE -->
-  <div id="landing-page" class="landing-page hidden">
+  <!-- HERO -->
+  <main class="hero-section">
+    <h1 id="hero-title">ChartHustlez</h1>
+    <p id="hero-tagline">From Beginner to Builder</p>
+    <button id="cta-btn">Join the Launch</button>
+  </main>
 
-    <div class="theme-toggle">
-      <button class="theme-btn active" data-theme="green">Green</button>
-      <button class="theme-btn" data-theme="cyan">Cyan</button>
-      <button class="theme-btn" data-theme="magenta">Magenta</button>
+  <!-- BOTTOM TAPE -->
+  <div class="marquee-container bottom tape">
+    <div class="marquee reverse">
+      <span>CHART HUSTLEZ • LAUNCHING •</span>
+      <span>CHART HUSTLEZ • LAUNCHING •</span>
     </div>
-
-    <!-- TOP TAPE -->
-    <div class="marquee-container tape">
-      <div class="marquee">
-        <span>CHART HUSTLEZ • LAUNCHING •</span>
-        <span>CHART HUSTLEZ • LAUNCHING •</span>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <div class="hero-section">
-      <h1 class="hero-title" id="hero-title"></h1>
-      <p class="hero-tagline" id="hero-tagline"></p>
-      <button class="cta-button" id="cta-btn"></button>
-    </div>
-
-    <!-- BOTTOM TAPE -->
-    <div class="marquee-container bottom tape">
-      <div class="marquee reverse">
-        <span>CHART HUSTLEZ • LAUNCHING •</span>
-        <span>CHART HUSTLEZ • LAUNCHING •</span>
-      </div>
-    </div>
-
   </div>
 
-  <script src="site.config.js"></script>
-  <script src="script.js"></script>
+</div>
+
+<script src="site.config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
