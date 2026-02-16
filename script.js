@@ -1,9 +1,11 @@
-const cfg = window.SITE_CONFIG;
+const cfg = window.SITE_CONFIG || {};
 
 /* ===============================
    APPLY TEMPLATE CONTENT
 ================================ */
 function applyTemplateContent() {
+  if (!cfg.brand) return;
+
   document.getElementById("hero-title").textContent = cfg.brand.name;
   document.getElementById("hero-tagline").textContent = cfg.brand.tagline;
 
@@ -11,15 +13,16 @@ function applyTemplateContent() {
   cta.textContent = cfg.hero.ctaText;
   cta.onclick = () => window.location.href = cfg.hero.ctaLink;
 
-  // Apply marquee speed
+  // Apply marquee speed safely
   document.querySelectorAll(".marquee").forEach(m => {
-    const duration = cfg.speed.marqueeSeconds * cfg.speed.globalMultiplier;
+    const duration = (cfg.speed?.marqueeSeconds || 30) *
+                     (cfg.speed?.globalMultiplier || 1);
     m.style.animationDuration = `${duration}s`;
   });
 }
 
 /* ===============================
-   PORTAL LOADING + TRAVEL
+   SAFE PORTAL EXIT (FIXED)
 ================================ */
 function initPortal() {
   const portal = document.getElementById("loading-portal");
@@ -28,32 +31,49 @@ function initPortal() {
   const text = document.getElementById("loading-text");
 
   let progress = 0;
-  const intervalTime = cfg.speed.portalLoadInterval * cfg.speed.globalMultiplier;
+  let exited = false;
 
+  const intervalTime =
+    (cfg.speed?.portalLoadInterval || 40) *
+    (cfg.speed?.globalMultiplier || 1);
+
+  function exitPortal() {
+    if (exited) return;
+    exited = true;
+
+    portal.classList.add("fade-out");
+
+    setTimeout(() => {
+      portal.remove();
+      landing.classList.remove("hidden");
+
+      landing.style.setProperty(
+        "--travel-scale",
+        cfg.speed?.portalTravelStrength || 1.6
+      );
+
+      landing.classList.add("travel-in");
+    }, 600);
+  }
+
+  /* NORMAL LOADING */
   const interval = setInterval(() => {
     progress += 2;
-    bar.style.width = progress + "%";
-    text.textContent = `Loading... ${progress}%`;
+
+    if (bar) bar.style.width = progress + "%";
+    if (text) text.textContent = `Loading... ${progress}%`;
 
     if (progress >= 100) {
       clearInterval(interval);
-
-      portal.classList.add("fade-out");
-
-      setTimeout(() => {
-        portal.remove();
-        landing.classList.remove("hidden");
-
-        // Apply travel strength dynamically
-        landing.style.setProperty(
-          "--travel-scale",
-          cfg.speed.portalTravelStrength
-        );
-
-        landing.classList.add("travel-in");
-      }, 900);
+      exitPortal();
     }
   }, intervalTime);
+
+  /* 🔥 FAILSAFE (CRITICAL FIX) */
+  setTimeout(() => {
+    clearInterval(interval);
+    exitPortal();
+  }, 3000); // NEVER wait more than 3s
 }
 
 /* ===============================
