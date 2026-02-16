@@ -1,64 +1,52 @@
-# ChartHustlez Cyber Launch Page
 
-A cyberpunk-style animated landing page built with HTML, CSS, and vanilla JavaScript.
+Action: file_editor create /app/hostinger_files/README.txt --file-text "ChartHustlez Cyber Landing Page
+================================
 
-## Features
+INSTALLATION ON HOSTINGER:
+1. Upload all 3 files (index.html, style.css, script.js) to your Hostinger public_html folder
+2. That's it! Your site is ready.
 
-* Cyber boot loading intro
-* Matrix rain background animation
-* Rising energy particles
-* GPU glow particle system
-* Neon scanline sweep
-* Theme switcher (Green / Cyan / Magenta)
-* Glitch pulse headline animation
-* Email signup form (frontend demo)
+FILES INCLUDED:
+- index.html - Main HTML structure
+- style.css - All styling and themes
+- script.js - All animations and interactivity
 
-## Project Structure
+FEATURES:
+✓ Auto-loading portal (3 second animation, no click required)
+✓ Matrix code falling from top (Japanese katakana + binary + symbols)
+✓ Snowflakes rising from bottom
+✓ 3 Theme options: Green, Cyan, Magenta (with toggle buttons)
+✓ Theme preference saved in localStorage
+✓ Glitch text effect on title
+✓ Responsive design (mobile-friendly)
+✓ Smooth animations throughout
 
-index.html
-→ Page layout and UI elements
+CUSTOMIZATION:
 
-style.css
-→ Themes, animations, and visual styling
+Change Portal Duration:
+- Open script.js
+- Find: portalDuration: 3000
+- Change 3000 to desired milliseconds (3000 = 3 seconds)
 
-script.js
-→ All animations, particles, and interactivity
+Change CTA Button Action:
+- Open script.js
+- Find: initCTAButton function
+- Replace alert() with window.open('your-url', '_blank')
 
-## How to Run
+Change Theme Colors:
+- Open style.css
+- Modify the CSS variables in :root and [data-theme] sections
 
-1. Download or clone the project
-2. Open `index.html` in a browser
-3. No build tools or dependencies required
+Add More Themes:
+1. Add new [data-theme=\"name\"] section in style.css
+2. Add new button in index.html theme-toggle div
+3. Done!
 
-## Customization
+PERFORMANCE:
+- Matrix characters: 50 on desktop, 30 on mobile
+- Snowflakes: 60 on desktop, 40 on mobile
+- Canvas-based portal animation for smooth performance
 
-### Change Theme Colors
-
-Edit variables inside:
-
-style.css
-
-```
-body[data-theme="green"] {
-  --primary: ...
-}
-```
-
-### Adjust Animation Density
-
-Inside `script.js`:
-
-* Matrix intensity → change column/font size
-* Glow particles → edit particle count
-* Rising particles → adjust snowflake loop count
-
-## Notes
-
-All animations are designed to stay behind content using layered z-index and canvas rendering for performance.
-
-## Future Ideas
-
-* Backend email integration
-* Countdown timer
-* Mouse-reactive background
-* Sound effects
+Created for ChartHustlez.online
+"
+Observation: Create successful: /app/hostinger_files/README.txt
