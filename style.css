@@ -259,6 +259,14 @@ body {
   animation: pageEnter 1.2s ease-out;
 }
 
+.landing-page.hidden {
+  display: none !important;
+}
+
+.landing-page:not(.hidden) {
+  display: block;
+}
+
 @keyframes pageEnter {
   from { opacity: 0; filter: blur(5px); }
   to { opacity: 1; filter: blur(0); }
@@ -398,21 +406,21 @@ body {
 
 /* ========== CAUTION TAPE ========== */
 .caution-tape-wrapper {
-  position: absolute;
+  position: fixed;
   left: -5%;
   width: 110%;
-  z-index: 15;
+  z-index: 50;
   overflow: visible;
   pointer-events: none;
 }
 
 .caution-tape-wrapper.caution-top {
-  top: 60px;
+  top: 55px;
   transform: rotate(-2.5deg);
 }
 
 .caution-tape-wrapper.caution-bottom {
-  bottom: 40px;
+  bottom: 35px;
   top: auto;
   transform: rotate(2.5deg);
 }
@@ -422,16 +430,13 @@ body {
   width: 100%;
   background: repeating-linear-gradient(
     -45deg,
-    transparent,
-    transparent 8px,
-    rgba(0, 0, 0, 0.5) 8px,
-    rgba(0, 0, 0, 0.5) 16px
+    rgba(var(--primary-rgb), 0.08),
+    rgba(var(--primary-rgb), 0.08) 10px,
+    rgba(0, 0, 0, 0.6) 10px,
+    rgba(0, 0, 0, 0.6) 20px
   );
   border-top: 3px solid var(--primary);
   border-bottom: 3px solid var(--primary);
-  box-shadow:
-    var(--glow),
-    inset 0 0 20px rgba(var(--primary-rgb), 0.15);
   overflow: hidden;
   padding: 0;
   animation: tapeGlow 2s ease-in-out infinite alternate;
@@ -447,18 +452,18 @@ body {
   }
   50% {
     box-shadow:
-      0 0 15px rgba(var(--primary-rgb), 0.9),
-      0 0 40px rgba(var(--primary-rgb), 0.5),
-      0 0 60px rgba(var(--primary-rgb), 0.2),
-      inset 0 0 25px rgba(var(--primary-rgb), 0.2);
-    filter: brightness(1.15);
+      0 0 18px rgba(var(--primary-rgb), 1),
+      0 0 45px rgba(var(--primary-rgb), 0.6),
+      0 0 80px rgba(var(--primary-rgb), 0.25),
+      inset 0 0 30px rgba(var(--primary-rgb), 0.2);
+    filter: brightness(1.2);
   }
   100% {
     box-shadow:
-      0 0 10px rgba(var(--primary-rgb), 0.7),
-      0 0 25px rgba(var(--primary-rgb), 0.4),
+      0 0 12px rgba(var(--primary-rgb), 0.8),
+      0 0 30px rgba(var(--primary-rgb), 0.45),
       inset 0 0 20px rgba(var(--primary-rgb), 0.15);
-    filter: brightness(1.05);
+    filter: brightness(1.08);
   }
 }
 
@@ -467,72 +472,57 @@ body {
   white-space: nowrap;
   overflow: hidden;
   position: relative;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.7);
+  animation: tapeGlitch 5s infinite;
 }
 
-/* Glitch effect for tape */
-.glitch-tape {
-  animation: tapeGlitch 6s infinite;
-  position: relative;
+@keyframes tapeGlitch {
+  0%, 87%, 100% { transform: translate(0); filter: brightness(1); }
+  88% { transform: translate(-3px, 1px) skewX(-0.5deg); filter: brightness(1.8) saturate(1.5); }
+  89% { transform: translate(3px, -1px) skewX(0.5deg); filter: brightness(0.8); }
+  90% { transform: translate(-1px, 0); filter: brightness(2) saturate(2); }
+  91% { transform: translate(2px, 1px) skewX(-0.3deg); filter: brightness(1); }
+  92% { transform: translate(0); filter: brightness(1); }
 }
 
+/* Glitch color overlay layers on tape inner */
 .glitch-tape::before,
 .glitch-tape::after {
-  content: attr(data-text);
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
   pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
 }
 
 .glitch-tape::before {
-  color: #ff0040;
-  animation: tapeGlitchBefore 4s infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
-  z-index: 2;
+  background: rgba(255, 0, 64, 0.3);
+  animation: glitchOverlayRed 5s infinite;
 }
 
 .glitch-tape::after {
-  color: #00ffff;
-  animation: tapeGlitchAfter 4s infinite;
-  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-  z-index: 2;
+  background: rgba(0, 255, 255, 0.3);
+  animation: glitchOverlayCyan 5s infinite;
 }
 
-@keyframes tapeGlitch {
-  0%, 88%, 100% { transform: translate(0); }
-  89% { transform: translate(-2px, 1px); }
-  91% { transform: translate(2px, -1px); }
-  93% { transform: translate(-1px, 0); filter: brightness(2) saturate(1.5); }
-  95% { transform: translate(1px, 1px); }
-  97% { transform: translate(0); filter: brightness(1); }
+@keyframes glitchOverlayRed {
+  0%, 87%, 92%, 100% { opacity: 0; transform: translate(0); }
+  88% { opacity: 0.8; transform: translate(-4px, -1px); }
+  89% { opacity: 0.5; transform: translate(3px, 1px); }
+  90% { opacity: 0.9; transform: translate(-2px, 0); }
+  91% { opacity: 0; }
 }
 
-@keyframes tapeGlitchBefore {
-  0%, 85%, 100% { transform: translate(0); opacity: 0; }
-  86% { transform: translate(-4px, -1px); opacity: 0.7; }
-  88% { transform: translate(4px, 1px); opacity: 0.5; }
-  90% { transform: translate(-2px, 0); opacity: 0.8; }
-  92% { transform: translate(0); opacity: 0; }
-}
-
-@keyframes tapeGlitchAfter {
-  0%, 87%, 100% { transform: translate(0); opacity: 0; }
-  88% { transform: translate(3px, 1px); opacity: 0.6; }
-  90% { transform: translate(-3px, -1px); opacity: 0.7; }
-  92% { transform: translate(2px, 0); opacity: 0.5; }
-  94% { transform: translate(0); opacity: 0; }
+@keyframes glitchOverlayCyan {
+  0%, 88%, 93%, 100% { opacity: 0; transform: translate(0); }
+  89% { opacity: 0.6; transform: translate(4px, 1px); }
+  90% { opacity: 0.7; transform: translate(-3px, -1px); }
+  91% { opacity: 0.8; transform: translate(2px, 0); }
+  92% { opacity: 0; }
 }
 
 .caution-scroll {
@@ -544,13 +534,13 @@ body {
   text-transform: uppercase;
   color: var(--primary);
   text-shadow: var(--text-shadow);
-  padding: 10px 0;
-  animation: cautionScroll 20s linear infinite;
+  padding: 10px 20px;
+  animation: cautionScroll 18s linear infinite;
   will-change: transform;
 }
 
 .caution-scroll-reverse {
-  animation: cautionScrollReverse 20s linear infinite;
+  animation: cautionScrollReverse 18s linear infinite;
 }
 
 @keyframes cautionScroll {
@@ -561,28 +551,6 @@ body {
 @keyframes cautionScrollReverse {
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
-}
-
-/* Caution tape corner hazard stripes (decorative edges) */
-.caution-tape::before,
-.caution-tape::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 40px;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.caution-tape::before {
-  left: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-}
-
-.caution-tape::after {
-  right: 0;
-  background: linear-gradient(-90deg, rgba(0,0,0,0.9) 0%, transparent 100%);
 }
 
 /* ========== HERO SECTION ========== */
@@ -747,17 +715,21 @@ body {
   }
 
   .caution-tape-wrapper.caution-top {
-    top: 45px;
+    top: 40px;
   }
 
   .caution-tape-wrapper.caution-bottom {
-    bottom: 25px;
+    bottom: 20px;
   }
 
   .caution-scroll {
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    padding: 8px 0;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    padding: 8px 10px;
+  }
+
+  .caution-tape {
+    border-width: 2px;
   }
 
   .portal-ring {

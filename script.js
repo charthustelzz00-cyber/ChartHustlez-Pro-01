@@ -110,6 +110,13 @@ function initPortal() {
     setTimeout(() => {
       loadingPortal.classList.add('hidden');
       landingPage.classList.remove('hidden');
+
+      // Show caution tapes
+      const tapeTop = document.getElementById('caution-tape-top');
+      const tapeBottom = document.getElementById('caution-tape-bottom');
+      if (tapeTop) tapeTop.style.display = '';
+      if (tapeBottom) tapeBottom.style.display = '';
+
       initLandingPage();
     }, 1200);
   }, CONFIG.portalDuration);
