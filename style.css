@@ -1,11 +1,11 @@
 /* ========== CSS VARIABLES / THEMES ========== */
 :root {
-  --primary: #39e75f;
-  --primary-rgb: 57, 231, 95;
+  --primary: #1db954;
+  --primary-rgb: 29, 185, 84;
   --secondary: #0a2e14;
   --background: radial-gradient(ellipse at center, #020d04 0%, #000000 100%);
-  --glow: 0 0 15px rgba(57, 231, 95, 0.6), 0 0 35px rgba(57, 231, 95, 0.3);
-  --text-shadow: 0 0 8px rgba(57, 231, 95, 0.7), 0 0 18px rgba(57, 231, 95, 0.4), 0 0 28px rgba(57, 231, 95, 0.2);
+  --glow: 0 0 14px rgba(29, 185, 84, 0.55), 0 0 32px rgba(29, 185, 84, 0.25);
+  --text-shadow: 0 0 7px rgba(29, 185, 84, 0.65), 0 0 16px rgba(29, 185, 84, 0.35), 0 0 26px rgba(29, 185, 84, 0.15);
 }
 
 [data-theme="cyan"] {
