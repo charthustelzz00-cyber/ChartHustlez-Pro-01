@@ -1,12 +1,12 @@
 /* ========== CSS VARIABLES / THEMES ========== */
 :root {
-  --primary: #3ddc84;
-  --primary-rgb: 61, 220, 132;
-  --secondary: #0a2e1a;
-  --background: radial-gradient(ellipse at center, #060f0a 0%, #000000 100%);
-  --glow: 0 0 20px rgba(61, 220, 132, 0.5), 0 0 40px rgba(61, 220, 132, 0.25);
-  --glow-strong: 0 0 30px rgba(61, 220, 132, 0.7), 0 0 60px rgba(61, 220, 132, 0.35), 0 0 100px rgba(61, 220, 132, 0.15);
-  --text-shadow: 0 0 10px rgba(61, 220, 132, 0.7), 0 0 20px rgba(61, 220, 132, 0.4), 0 0 40px rgba(61, 220, 132, 0.2);
+  --primary: #39ff14;
+  --primary-rgb: 57, 255, 20;
+  --secondary: #0a2e0a;
+  --background: radial-gradient(ellipse at center, #050f04 0%, #000000 100%);
+  --glow: 0 0 20px rgba(57, 255, 20, 0.5), 0 0 40px rgba(57, 255, 20, 0.25);
+  --glow-strong: 0 0 30px rgba(57, 255, 20, 0.7), 0 0 60px rgba(57, 255, 20, 0.35), 0 0 100px rgba(57, 255, 20, 0.15);
+  --text-shadow: 0 0 10px rgba(57, 255, 20, 0.7), 0 0 20px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.2);
 }
 
 [data-theme="cyan"] {
@@ -374,7 +374,7 @@ body {
 }
 
 /* Theme button specific dot colors */
-.theme-btn[data-theme="green"] .theme-btn-dot { background: #3ddc84; }
+.theme-btn[data-theme="green"] .theme-btn-dot { background: #39ff14; }
 .theme-btn[data-theme="cyan"] .theme-btn-dot { background: #00ffff; }
 .theme-btn[data-theme="magenta"] .theme-btn-dot { background: #ff00ff; }
 
