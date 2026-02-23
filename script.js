@@ -238,8 +238,8 @@ function initMatrixCanvas() {
   resetDrops();
 
   function drawMatrix() {
-    // Semi-transparent black to create trail fade
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    // Semi-transparent black to create trail fade (lower = longer trails, lighter overall)
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const rgb = getThemeRGB();
@@ -250,15 +250,27 @@ function initMatrixCanvas() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Bright head
-      ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.95)';
+      // Bright white-tinted head character
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
       ctx.fillText(char, x, y);
 
-      // Slightly dimmer secondary
+      // Strong colored character just behind the head
+      const char1b = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+      ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.85)';
+      ctx.fillText(char1b, x, y - fontSize);
+
+      // Mid-trail characters
       if (drops[i] > 2) {
         const char2 = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-        ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.4)';
-        ctx.fillText(char2, x, y - fontSize * 2);
+        ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.55)';
+        ctx.fillText(char2, x, y - fontSize * 3);
+      }
+
+      // Faint far-trail characters
+      if (drops[i] > 5) {
+        const char3 = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+        ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.3)';
+        ctx.fillText(char3, x, y - fontSize * 6);
       }
 
       // Reset when past bottom
