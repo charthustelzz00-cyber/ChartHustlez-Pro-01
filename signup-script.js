@@ -66,9 +66,10 @@ form.addEventListener('submit', async function (e) {
 
   try {
     const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+    const name = nameInput.value.trim();
     const body = isLoginMode
       ? { email, password }
-      : { name: nameInput.value.trim(), email, password };
+      : { name, email, password };
 
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -81,6 +82,15 @@ form.addEventListener('submit', async function (e) {
     if (!res.ok) {
       showMessage(data.error || 'Something went wrong.', true);
       return;
+    }
+
+    // On successful registration, also send to Formspree for email notifications
+    if (!isLoginMode) {
+      fetch('https://formspree.io/f/xqedgepp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, _subject: 'New ChartHustlez.online Signup' }),
+      }).catch(function () { /* silent fail, DB is the source of truth */ });
     }
 
     showMessage(data.message, false);
