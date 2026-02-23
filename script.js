@@ -9,11 +9,11 @@ const SNOW_CHARS = ["\u2744", "\u2746", "\u2745", "\u00B7", "\u2022", "*"];
 // Theme configuration
 const THEMES = ['green', 'cyan', 'magenta', 'amber', 'red'];
 const THEME_COLORS = {
-  green:   { primary: '#00ff00', rgb: [0, 255, 0] },
-  cyan:    { primary: '#00ffff', rgb: [0, 255, 255] },
-  magenta: { primary: '#ff00ff', rgb: [255, 0, 255] },
-  amber:   { primary: '#ffbf00', rgb: [255, 191, 0] },
-  red:     { primary: '#ff0040', rgb: [255, 0, 64] },
+  green:   { primary: '#6bff2a', rgb: [107, 255, 42] },
+  cyan:    { primary: '#17c5d0', rgb: [23, 197, 208] },
+  magenta: { primary: '#d42abf', rgb: [212, 42, 191] },
+  amber:   { primary: '#d4a017', rgb: [212, 160, 23] },
+  red:     { primary: '#d42a3f', rgb: [212, 42, 63] },
 };
 
 // Configuration
