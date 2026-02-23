@@ -19,7 +19,7 @@ window.SITE_CONFIG = {
   },
 
   themes: {
-    green: "#00ff00",
+    green: "#3ddc84",
     cyan: "#00ffff",
     magenta: "#ff00ff"
   },

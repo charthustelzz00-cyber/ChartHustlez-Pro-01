@@ -34,7 +34,7 @@ function getThemeRGB() {
   switch (theme) {
     case 'cyan': return { r: 0, g: 255, b: 255 };
     case 'magenta': return { r: 255, g: 0, b: 255 };
-    default: return { r: 0, g: 255, b: 0 };
+    default: return { r: 61, g: 220, b: 132 };
   }
 }
 
