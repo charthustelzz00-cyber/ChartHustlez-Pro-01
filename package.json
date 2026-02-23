@@ -1,0 +1,12 @@
+{
+  "name": "charthustlez-online",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.13.1",
+    "@aws-sdk/rds-signer": "^3.723.0",
+    "@aws-sdk/client-rds": "^3.723.0",
+    "@vercel/functions": "^2.0.0",
+    "bcryptjs": "^2.4.3"
+  }
+}
