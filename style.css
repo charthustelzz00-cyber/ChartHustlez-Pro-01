@@ -9,39 +9,39 @@
 }
 
 [data-theme="cyan"] {
-  --primary: #2af5ff;
-  --primary-rgb: 42, 245, 255;
+  --primary: #17c5d0;
+  --primary-rgb: 23, 197, 208;
   --secondary: #062e2e;
   --background: radial-gradient(ellipse at center, #020d0d 0%, #000000 100%);
-  --glow: 0 0 14px rgba(42, 245, 255, 0.55), 0 0 32px rgba(42, 245, 255, 0.25);
-  --text-shadow: 0 0 7px rgba(42, 245, 255, 0.65), 0 0 16px rgba(42, 245, 255, 0.35), 0 0 26px rgba(42, 245, 255, 0.15);
+  --glow: 0 0 14px rgba(23, 197, 208, 0.55), 0 0 32px rgba(23, 197, 208, 0.25);
+  --text-shadow: 0 0 7px rgba(23, 197, 208, 0.65), 0 0 16px rgba(23, 197, 208, 0.35), 0 0 26px rgba(23, 197, 208, 0.15);
 }
 
 [data-theme="magenta"] {
-  --primary: #ff2aef;
-  --primary-rgb: 255, 42, 239;
+  --primary: #d42abf;
+  --primary-rgb: 212, 42, 191;
   --secondary: #2e062a;
   --background: radial-gradient(ellipse at center, #0d020c 0%, #000000 100%);
-  --glow: 0 0 14px rgba(255, 42, 239, 0.55), 0 0 32px rgba(255, 42, 239, 0.25);
-  --text-shadow: 0 0 7px rgba(255, 42, 239, 0.65), 0 0 16px rgba(255, 42, 239, 0.35), 0 0 26px rgba(255, 42, 239, 0.15);
+  --glow: 0 0 14px rgba(212, 42, 191, 0.55), 0 0 32px rgba(212, 42, 191, 0.25);
+  --text-shadow: 0 0 7px rgba(212, 42, 191, 0.65), 0 0 16px rgba(212, 42, 191, 0.35), 0 0 26px rgba(212, 42, 191, 0.15);
 }
 
 [data-theme="amber"] {
-  --primary: #ffc42a;
-  --primary-rgb: 255, 196, 42;
+  --primary: #d4a017;
+  --primary-rgb: 212, 160, 23;
   --secondary: #2e2006;
   --background: radial-gradient(ellipse at center, #0d0a02 0%, #000000 100%);
-  --glow: 0 0 14px rgba(255, 196, 42, 0.55), 0 0 32px rgba(255, 196, 42, 0.25);
-  --text-shadow: 0 0 7px rgba(255, 196, 42, 0.65), 0 0 16px rgba(255, 196, 42, 0.35), 0 0 26px rgba(255, 196, 42, 0.15);
+  --glow: 0 0 14px rgba(212, 160, 23, 0.55), 0 0 32px rgba(212, 160, 23, 0.25);
+  --text-shadow: 0 0 7px rgba(212, 160, 23, 0.65), 0 0 16px rgba(212, 160, 23, 0.35), 0 0 26px rgba(212, 160, 23, 0.15);
 }
 
 [data-theme="red"] {
-  --primary: #ff2a4a;
-  --primary-rgb: 255, 42, 74;
+  --primary: #d42a3f;
+  --primary-rgb: 212, 42, 63;
   --secondary: #2e060e;
   --background: radial-gradient(ellipse at center, #0d0204 0%, #000000 100%);
-  --glow: 0 0 14px rgba(255, 42, 74, 0.55), 0 0 32px rgba(255, 42, 74, 0.25);
-  --text-shadow: 0 0 7px rgba(255, 42, 74, 0.65), 0 0 16px rgba(255, 42, 74, 0.35), 0 0 26px rgba(255, 42, 74, 0.15);
+  --glow: 0 0 14px rgba(212, 42, 63, 0.55), 0 0 32px rgba(212, 42, 63, 0.25);
+  --text-shadow: 0 0 7px rgba(212, 42, 63, 0.65), 0 0 16px rgba(212, 42, 63, 0.35), 0 0 26px rgba(212, 42, 63, 0.15);
 }
 
 /* ========== BASE STYLES ========== */
