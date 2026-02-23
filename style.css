@@ -695,3 +695,112 @@ body {
     letter-spacing: 2px;
   }
 }
+
+/* ===== Signup Page ===== */
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #000;
+}
+
+.signup-box {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 40px 32px;
+  background: rgba(0, 0, 0, 0.85);
+  box-shadow: var(--glow);
+}
+
+.signup-box h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 28px;
+  text-shadow: var(--text-shadow);
+  letter-spacing: 3px;
+}
+
+.signup-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signup-box input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.signup-box input::placeholder {
+  color: rgba(var(--primary-rgb), 0.4);
+}
+
+.signup-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.signup-box button {
+  padding: 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  background: var(--primary);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: opacity 0.3s, box-shadow 0.3s;
+  min-height: 48px;
+}
+
+.signup-box button:hover {
+  box-shadow: var(--glow-strong);
+  opacity: 0.9;
+}
+
+.signup-box button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-message {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.signup-login-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(var(--primary-rgb), 0.5);
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signup-login-link a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.signup-login-link a:hover {
+  text-decoration: underline;
+}

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ChartHustlez | Signup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChartHustlez.online | Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -14,10 +14,13 @@
       <h1>JOIN THE MATRIX</h1>
 
       <form id="signup-form">
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="email" id="email" placeholder="Email Address" required>
-        <button type="submit">ENTER</button>
+        <input type="text" id="name" placeholder="Full Name" required autocomplete="name">
+        <input type="email" id="email" placeholder="Email Address" required autocomplete="email">
+        <input type="password" id="password" placeholder="Password (min 8 chars)" required minlength="8" autocomplete="new-password">
+        <button type="submit" id="submit-btn">ENTER</button>
+        <p id="form-message" class="form-message" style="display:none;"></p>
       </form>
+      <p class="signup-login-link">Already have an account? <a href="#" id="toggle-mode">Log in</a></p>
     </div>
   </div>
 

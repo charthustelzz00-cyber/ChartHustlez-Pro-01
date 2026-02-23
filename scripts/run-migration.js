@@ -1,8 +1,6 @@
-import pg from 'pg';
-import { Signer } from '@aws-sdk/rds-signer';
-import { awsCredentialsProvider } from '@vercel/functions/oidc';
-
-const { Pool } = pg;
+const { Pool } = require('pg');
+const { Signer } = require('@aws-sdk/rds-signer');
+const { awsCredentialsProvider } = require('@vercel/functions/oidc');
 
 const signer = new Signer({
   credentials: awsCredentialsProvider({
