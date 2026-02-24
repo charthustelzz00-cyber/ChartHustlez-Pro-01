@@ -396,43 +396,273 @@ body {
   flex-shrink: 0;
 }
 
-/* ========== MARQUEE ========== */
-.marquee-container {
+/* ========== CAUTION TAPE ========== */
+.caution-tape {
   position: absolute;
-  top: 80px;
   left: 0;
   width: 100%;
+  height: 44px;
+  z-index: 50;
   overflow: hidden;
-  z-index: 5;
+  background: repeating-linear-gradient(
+    -45deg,
+    #000000,
+    #000000 18px,
+    #ffbf00 18px,
+    #ffbf00 36px
+  );
+  box-shadow: 0 0 15px rgba(255, 191, 0, 0.4), 0 0 30px rgba(255, 191, 0, 0.15);
+  border-top: 2px solid rgba(255, 191, 0, 0.6);
+  border-bottom: 2px solid rgba(255, 191, 0, 0.6);
 }
 
-.marquee-container.bottom {
+.caution-tape.top {
+  top: 0;
+}
+
+.caution-tape.bottom {
   top: auto;
-  bottom: 30px;
+  bottom: 0;
 }
 
-.marquee {
+.caution-tape-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.caution-tape-text .tape-scroll {
   display: flex;
   white-space: nowrap;
-  animation: marquee 25s linear infinite;
+  animation: tapeScroll 20s linear infinite;
+}
+
+.caution-tape-text .tape-scroll span {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  opacity: 0.5;
-  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #000;
+  text-transform: uppercase;
+  padding: 0 40px;
+  text-shadow: 1px 1px 0 rgba(255, 191, 0, 0.5);
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.8);
 }
 
-.marquee span {
-  padding-right: 50px;
-}
-
-.marquee.reverse {
+.caution-tape.bottom .tape-scroll {
   animation-direction: reverse;
 }
 
-@keyframes marquee {
+@keyframes tapeScroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+/* Caution tape corner accents */
+.caution-corner {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.caution-corner::before {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 6px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #000,
+    #000 4px,
+    #ffbf00 4px,
+    #ffbf00 8px
+  );
+  box-shadow: 0 0 8px rgba(255, 191, 0, 0.3);
+}
+
+.caution-corner::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 120px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #000,
+    #000 4px,
+    #ffbf00 4px,
+    #ffbf00 8px
+  );
+  box-shadow: 0 0 8px rgba(255, 191, 0, 0.3);
+}
+
+.caution-corner.top-left {
+  top: 44px;
+  left: 0;
+}
+.caution-corner.top-left::before { top: 0; left: 0; }
+.caution-corner.top-left::after { top: 0; left: 0; }
+
+.caution-corner.top-right {
+  top: 44px;
+  right: 0;
+}
+.caution-corner.top-right::before { top: 0; right: 0; left: auto; }
+.caution-corner.top-right::after { top: 0; right: 0; left: auto; }
+
+.caution-corner.bottom-left {
+  bottom: 44px;
+  left: 0;
+}
+.caution-corner.bottom-left::before { bottom: 0; left: 0; top: auto; }
+.caution-corner.bottom-left::after { bottom: 0; left: 0; top: auto; }
+
+.caution-corner.bottom-right {
+  bottom: 44px;
+  right: 0;
+}
+.caution-corner.bottom-right::before { bottom: 0; right: 0; left: auto; top: auto; }
+.caution-corner.bottom-right::after { bottom: 0; right: 0; left: auto; top: auto; }
+
+/* Caution tape glow pulse */
+@keyframes cautionPulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.caution-tape {
+  animation: cautionPulse 2.5s ease-in-out infinite;
+}
+
+/* Hero caution frame */
+.hero-caution-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 700px);
+  height: min(70vh, 500px);
+  pointer-events: none;
+  z-index: 8;
+}
+
+.hero-caution-frame .frame-side {
+  position: absolute;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(255, 191, 0, 0.12) 6px,
+    rgba(255, 191, 0, 0.12) 12px
+  );
+}
+
+.hero-caution-frame .frame-top {
+  top: 0; left: 0; right: 0; height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 191, 0, 0.5),
+    rgba(255, 191, 0, 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
+}
+
+.hero-caution-frame .frame-bottom {
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 191, 0, 0.5),
+    rgba(255, 191, 0, 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
+}
+
+.hero-caution-frame .frame-left {
+  top: 0; left: 0; bottom: 0; width: 3px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 191, 0, 0.5),
+    rgba(255, 191, 0, 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
+}
+
+.hero-caution-frame .frame-right {
+  top: 0; right: 0; bottom: 0; width: 3px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 191, 0, 0.5),
+    rgba(255, 191, 0, 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
+}
+
+/* Caution badge */
+.caution-badge {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #ffbf00;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ffbf00;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(255, 191, 0, 0.3);
+  animation: badgeBlink 2s ease-in-out infinite;
+}
+
+.caution-badge .warning-icon {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid #ffbf00;
+  position: relative;
+}
+
+.caution-badge .warning-icon::after {
+  content: '!';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  font-weight: 900;
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+}
+
+@keyframes badgeBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ========== MARQUEE (legacy class support) ========== */
+.marquee-container {
+  display: none;
 }
 
 /* ========== HERO SECTION ========== */
@@ -579,10 +809,110 @@ body {
   background: rgba(var(--primary-rgb), 0.1);
 }
 
+/* ========== SIGNUP PAGE ========== */
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  padding: 20px;
+  position: relative;
+}
+
+.signup-box {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--primary);
+  box-shadow: var(--glow), inset 0 0 30px rgba(var(--primary-rgb), 0.05);
+  padding: 50px 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.signup-box::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(255, 191, 0, 0.06) 8px,
+    rgba(255, 191, 0, 0.06) 16px
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.signup-box h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--primary);
+  text-shadow: var(--text-shadow);
+  margin-bottom: 30px;
+}
+
+.signup-box input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  color: var(--primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.signup-box input::placeholder {
+  color: rgba(var(--primary-rgb), 0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.signup-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+}
+
+.signup-box button {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 2px solid #ffbf00;
+  color: #ffbf00;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  margin-top: 8px;
+  box-shadow: 0 0 12px rgba(255, 191, 0, 0.2);
+}
+
+.signup-box button:hover {
+  background: rgba(255, 191, 0, 0.1);
+  box-shadow: 0 0 20px rgba(255, 191, 0, 0.4);
+  transform: scale(1.02);
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 10px;
+    top: 54px;
     right: 10px;
   }
 
@@ -596,12 +926,44 @@ body {
     font-size: 0.7rem;
   }
 
-  .marquee-container {
-    top: 60px;
+  .caution-tape {
+    height: 36px;
   }
 
-  .marquee-container.bottom {
-    bottom: 20px;
+  .caution-tape-text .tape-scroll span {
+    font-size: 0.65rem;
+    padding: 0 25px;
+    letter-spacing: 2px;
+  }
+
+  .caution-badge {
+    top: 48px;
+    left: 10px;
+    font-size: 0.55rem;
+    padding: 5px 10px;
+  }
+
+  .caution-corner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .caution-corner::before { width: 70px; height: 4px; }
+  .caution-corner::after { width: 4px; height: 70px; }
+
+  .caution-corner.top-left,
+  .caution-corner.top-right {
+    top: 36px;
+  }
+
+  .caution-corner.bottom-left,
+  .caution-corner.bottom-right {
+    bottom: 36px;
+  }
+
+  .hero-caution-frame {
+    width: min(95vw, 700px);
+    height: min(65vh, 500px);
   }
 
   .portal-ring {
@@ -632,7 +994,7 @@ body {
 @media (max-width: 480px) {
   .theme-toggle {
     top: auto;
-    bottom: 70px;
+    bottom: 56px;
     right: 50%;
     transform: translateX(50%);
     align-items: center;
@@ -642,6 +1004,42 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .caution-tape {
+    height: 30px;
+  }
+
+  .caution-tape-text .tape-scroll span {
+    font-size: 0.55rem;
+    padding: 0 18px;
+    letter-spacing: 1.5px;
+  }
+
+  .caution-badge {
+    top: 40px;
+    left: 8px;
+    font-size: 0.5rem;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+  }
+
+  .caution-corner {
+    width: 35px;
+    height: 35px;
+  }
+
+  .caution-corner::before { width: 50px; height: 3px; }
+  .caution-corner::after { width: 3px; height: 50px; }
+
+  .caution-corner.top-left,
+  .caution-corner.top-right {
+    top: 30px;
+  }
+
+  .caution-corner.bottom-left,
+  .caution-corner.bottom-right {
+    bottom: 30px;
   }
 
   .hero-title {
