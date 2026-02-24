@@ -21,12 +21,13 @@ export async function POST(request: Request) {
     )
 
     return Response.json(result.rows[0], { status: 201 })
-  } catch (error: unknown) {
-    // Handle duplicate email
+  } catch (error) {
+    // Handle duplicate email (PostgreSQL unique violation)
     if (
-      error instanceof Error &&
+      error &&
+      typeof error === "object" &&
       "code" in error &&
-      (error as { code: string }).code === "23505"
+      (error as Record<string, unknown>).code === "23505"
     ) {
       return Response.json(
         { error: "This email is already registered" },
@@ -48,8 +49,8 @@ export async function GET() {
       "SELECT id, name, email, created_at FROM signups ORDER BY created_at DESC"
     )
     return Response.json({ signups: result.rows, count: result.rowCount })
-  } catch (error) {
-    console.error("Error fetching signups:", error)
+  } catch (err) {
+    console.error("Error fetching signups:", err)
     return Response.json(
       { error: "Failed to fetch signups" },
       { status: 500 }
