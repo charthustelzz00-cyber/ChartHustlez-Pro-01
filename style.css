@@ -1,47 +1,47 @@
 /* ========== CSS VARIABLES / THEMES ========== */
 :root {
-  --primary: #00ff00;
-  --primary-rgb: 0, 255, 0;
-  --secondary: #003300;
-  --background: radial-gradient(ellipse at center, #001100 0%, #000000 100%);
-  --glow: 0 0 20px #00ff00, 0 0 40px #00ff00;
-  --text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+  --primary: #00cc44;
+  --primary-rgb: 0, 204, 68;
+  --secondary: #002a10;
+  --background: radial-gradient(ellipse at center, #000d04 0%, #000000 100%);
+  --glow: 0 0 12px rgba(0, 204, 68, 0.5), 0 0 25px rgba(0, 204, 68, 0.2);
+  --text-shadow: 0 0 8px rgba(0, 204, 68, 0.7), 0 0 16px rgba(0, 204, 68, 0.3);
 }
 
 [data-theme="cyan"] {
-  --primary: #00ffff;
-  --primary-rgb: 0, 255, 255;
-  --secondary: #003333;
-  --background: radial-gradient(ellipse at center, #001111 0%, #000000 100%);
-  --glow: 0 0 20px #00ffff, 0 0 40px #00ffff;
-  --text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+  --primary: #00d4e6;
+  --primary-rgb: 0, 212, 230;
+  --secondary: #002a2e;
+  --background: radial-gradient(ellipse at center, #000d0e 0%, #000000 100%);
+  --glow: 0 0 12px rgba(0, 212, 230, 0.5), 0 0 25px rgba(0, 212, 230, 0.2);
+  --text-shadow: 0 0 8px rgba(0, 212, 230, 0.7), 0 0 16px rgba(0, 212, 230, 0.3);
 }
 
 [data-theme="magenta"] {
-  --primary: #ff00ff;
-  --primary-rgb: 255, 0, 255;
-  --secondary: #330033;
-  --background: radial-gradient(ellipse at center, #110011 0%, #000000 100%);
-  --glow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
-  --text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+  --primary: #e040e0;
+  --primary-rgb: 224, 64, 224;
+  --secondary: #2a0a2a;
+  --background: radial-gradient(ellipse at center, #0e0008 0%, #000000 100%);
+  --glow: 0 0 12px rgba(224, 64, 224, 0.5), 0 0 25px rgba(224, 64, 224, 0.2);
+  --text-shadow: 0 0 8px rgba(224, 64, 224, 0.7), 0 0 16px rgba(224, 64, 224, 0.3);
 }
 
 [data-theme="amber"] {
-  --primary: #ffbf00;
-  --primary-rgb: 255, 191, 0;
-  --secondary: #332600;
-  --background: radial-gradient(ellipse at center, #110d00 0%, #000000 100%);
-  --glow: 0 0 20px #ffbf00, 0 0 40px #ffbf00;
-  --text-shadow: 0 0 10px #ffbf00, 0 0 20px #ffbf00, 0 0 30px #ffbf00;
+  --primary: #e6a800;
+  --primary-rgb: 230, 168, 0;
+  --secondary: #2a1e00;
+  --background: radial-gradient(ellipse at center, #0e0a00 0%, #000000 100%);
+  --glow: 0 0 12px rgba(230, 168, 0, 0.5), 0 0 25px rgba(230, 168, 0, 0.2);
+  --text-shadow: 0 0 8px rgba(230, 168, 0, 0.7), 0 0 16px rgba(230, 168, 0, 0.3);
 }
 
 [data-theme="red"] {
-  --primary: #ff0040;
-  --primary-rgb: 255, 0, 64;
-  --secondary: #330010;
-  --background: radial-gradient(ellipse at center, #110005 0%, #000000 100%);
-  --glow: 0 0 20px #ff0040, 0 0 40px #ff0040;
-  --text-shadow: 0 0 10px #ff0040, 0 0 20px #ff0040, 0 0 30px #ff0040;
+  --primary: #e63050;
+  --primary-rgb: 230, 48, 80;
+  --secondary: #2a0010;
+  --background: radial-gradient(ellipse at center, #0e0003 0%, #000000 100%);
+  --glow: 0 0 12px rgba(230, 48, 80, 0.5), 0 0 25px rgba(230, 48, 80, 0.2);
+  --text-shadow: 0 0 8px rgba(230, 48, 80, 0.7), 0 0 16px rgba(230, 48, 80, 0.3);
 }
 
 /* ========== BASE STYLES ========== */
@@ -643,77 +643,6 @@ body {
   animation: tapeGlitchBottom 5s ease-in-out infinite, tapeDriftBottom 7s ease-in-out infinite;
 }
 
-/* Hero caution frame */
-.hero-caution-frame {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90vw, 700px);
-  height: min(70vh, 500px);
-  pointer-events: none;
-  z-index: 8;
-}
-
-.hero-caution-frame .frame-side {
-  position: absolute;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 6px,
-    rgba(255, 191, 0, 0.12) 6px,
-    rgba(255, 191, 0, 0.12) 12px
-  );
-}
-
-.hero-caution-frame .frame-top {
-  top: 0; left: 0; right: 0; height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 191, 0, 0.5),
-    rgba(255, 191, 0, 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
-}
-
-.hero-caution-frame .frame-bottom {
-  bottom: 0; left: 0; right: 0; height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 191, 0, 0.5),
-    rgba(255, 191, 0, 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
-}
-
-.hero-caution-frame .frame-left {
-  top: 0; left: 0; bottom: 0; width: 3px;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 191, 0, 0.5),
-    rgba(255, 191, 0, 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
-}
-
-.hero-caution-frame .frame-right {
-  top: 0; right: 0; bottom: 0; width: 3px;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 191, 0, 0.5),
-    rgba(255, 191, 0, 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
-}
-
 /* Caution badge */
 .caution-badge {
   position: absolute;
@@ -1062,11 +991,6 @@ body {
   .caution-corner.bottom-left,
   .caution-corner.bottom-right {
     bottom: 36px;
-  }
-
-  .hero-caution-frame {
-    width: min(95vw, 700px);
-    height: min(65vh, 500px);
   }
 
   .portal-ring {

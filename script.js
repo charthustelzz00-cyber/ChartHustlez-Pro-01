@@ -9,11 +9,11 @@ const SNOW_CHARS = ["\u2744", "\u2746", "\u2745", "\u00B7", "\u2022", "*"];
 // Theme configuration
 const THEMES = ['green', 'cyan', 'magenta', 'amber', 'red'];
 const THEME_COLORS = {
-  green:   { primary: '#00ff00', rgb: [0, 255, 0] },
-  cyan:    { primary: '#00ffff', rgb: [0, 255, 255] },
-  magenta: { primary: '#ff00ff', rgb: [255, 0, 255] },
-  amber:   { primary: '#ffbf00', rgb: [255, 191, 0] },
-  red:     { primary: '#ff0040', rgb: [255, 0, 64] },
+  green:   { primary: '#00cc44', rgb: [0, 204, 68] },
+  cyan:    { primary: '#00d4e6', rgb: [0, 212, 230] },
+  magenta: { primary: '#e040e0', rgb: [224, 64, 224] },
+  amber:   { primary: '#e6a800', rgb: [230, 168, 0] },
+  red:     { primary: '#e63050', rgb: [230, 48, 80] },
 };
 
 // Configuration
@@ -44,22 +44,22 @@ function initPortal() {
   const drops = Array(columns).fill(0).map(() => Math.random() * -50);
 
   function drawMatrixRain() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00ff00';
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00cc44';
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
       const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
 
-      // Bright head character
-      ctx.fillStyle = '#fff';
+      // Dimmer head character
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
       ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
-      // Trailing characters in theme color
+      // Lighter trailing characters in theme color
       ctx.fillStyle = primaryColor;
-      ctx.globalAlpha = 0.7;
+      ctx.globalAlpha = 0.25;
       ctx.fillText(char, i * fontSize, (drops[i] - 1) * fontSize);
       ctx.globalAlpha = 1;
 
@@ -195,8 +195,8 @@ function initMatrixCanvas() {
   }
 
   function draw() {
-    // Fade effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    // Faster fade = shorter trails, lighter rain
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const color = getThemeColor();
@@ -207,16 +207,16 @@ function initMatrixCanvas() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Bright white head
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      // Dimmer white head
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
       ctx.fillText(char, x, y);
 
-      // Colored trail
+      // Lighter colored trail
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.2;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       ctx.fillText(trailChar, x, y - fontSize);
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = 0.08;
       ctx.fillText(trailChar, x, y - fontSize * 2);
       ctx.globalAlpha = 1;
 
