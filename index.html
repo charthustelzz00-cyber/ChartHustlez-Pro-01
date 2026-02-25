@@ -42,7 +42,10 @@
     <div id="snowflakes" class="snowflakes-container"></div>
 
     <!-- Theme Toggle -->
-    <div class="theme-toggle" role="group" aria-label="Theme selector">
+    <div class="theme-toggle trapezoid-box" id="theme-toggle-box" role="group" aria-label="Theme selector">
+      <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon points="8,0 100,0 92,100 0,100"/>
+      </svg>
       <button id="theme-cycle" class="theme-cycle-btn" aria-label="Toggle theme selector">
         <span class="theme-icon"></span>
         <span id="theme-label">GREEN</span>
@@ -67,7 +70,10 @@
     </div>
 
     <!-- Speed Toggle -->
-    <div class="speed-toggle" role="group" aria-label="Matrix speed selector">
+    <div class="speed-toggle trapezoid-box" id="speed-toggle-box" role="group" aria-label="Matrix speed selector">
+      <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon points="8,0 100,0 92,100 0,100"/>
+      </svg>
       <button id="speed-cycle" class="speed-cycle-btn" aria-label="Toggle speed selector">
         <span class="speed-icon">&#9654;</span>
         <span id="speed-label">NORMAL</span>
@@ -83,8 +89,13 @@
     <section class="hero-section">
       <h1 class="hero-title" data-text="ChartHustlez">ChartHustlez</h1>
       <h2 class="hero-subtitle glitch-sub" data-text="Cyber Launch">Cyber Launch</h2>
-      <p class="hero-tagline">From Beginner to Builder</p>
-      <button id="cta-btn" class="cta-button">Join the Launch</button>
+      <p class="hero-tagline" id="hero-tagline" aria-label="From Beginner to Builder"></p>
+      <div class="trapezoid-box cta-wrapper" id="cta-box">
+        <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polygon points="8,0 100,0 92,100 0,100"/>
+        </svg>
+        <button id="cta-btn" class="cta-button">Join the Launch</button>
+      </div>
     </section>
 
     <!-- Caution Tapes -->

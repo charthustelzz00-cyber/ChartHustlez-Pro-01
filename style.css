@@ -330,9 +330,9 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 18px;
+  padding: 10px 24px;
   background: rgba(0, 0, 0, 0.7);
-  border: 2px solid var(--primary);
+  border: none;
   color: var(--primary);
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.8rem;
@@ -341,11 +341,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   backdrop-filter: blur(10px);
-  border-radius: 4px;
+  border-radius: 0;
+  position: relative;
+  z-index: 2;
+  min-height: 44px;
 }
 
 .theme-cycle-btn:hover {
-  box-shadow: var(--glow);
   background: rgba(var(--primary-rgb), 0.1);
 }
 
@@ -432,9 +434,9 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 18px;
+  padding: 10px 24px;
   background: rgba(0, 0, 0, 0.7);
-  border: 2px solid var(--primary);
+  border: none;
   color: var(--primary);
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.8rem;
@@ -443,12 +445,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 2px;
   backdrop-filter: blur(10px);
-  border-radius: 4px;
+  border-radius: 0;
   min-height: 44px;
+  position: relative;
+  z-index: 2;
 }
 
 .speed-cycle-btn:hover {
-  box-shadow: var(--glow);
   background: rgba(var(--primary-rgb), 0.1);
 }
 
@@ -871,18 +874,112 @@ body {
   clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
 }
 
+/* Typewriter tagline */
 .hero-tagline {
   font-size: clamp(1rem, 3vw, 1.5rem);
   letter-spacing: 4px;
   margin-bottom: 40px;
-  opacity: 0.9;
   color: var(--primary);
+  font-family: 'Share Tech Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid var(--primary);
+  width: 0;
+  opacity: 0;
+}
+
+.hero-tagline.typing {
+  opacity: 1;
+  animation: typeExpand 2.5s steps(26, end) forwards, blinkCaret 0.6s step-end infinite;
+}
+
+.hero-tagline.typed {
+  border-right-color: transparent;
+  width: auto;
+  animation: taglineFlash 1.8s ease-in-out infinite;
+}
+
+@keyframes typeExpand {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blinkCaret {
+  50% { border-right-color: transparent; }
+}
+
+@keyframes taglineFlash {
+  0%, 100% { opacity: 1; }
+  40% { opacity: 1; }
+  50% { opacity: 0.15; }
+  60% { opacity: 1; }
+  75% { opacity: 1; }
+  80% { opacity: 0.2; }
+  85% { opacity: 1; }
+}
+
+/* Shared trapezoid box styles */
+.trapezoid-box {
+  position: relative;
+  background: transparent;
+  border: none;
+  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+  opacity: 0;
+  transform: translateX(-120px);
+  transition: transform 0.3s ease;
+}
+
+.trapezoid-box.slide-in {
+  animation: slideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.trapezoid-box.slide-in:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.trapezoid-box.slide-in:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-120px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Marching ants SVG border (injected via JS) */
+.trapezoid-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.trapezoid-border polygon {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2.5;
+  stroke-dasharray: 8 6;
+  filter: drop-shadow(0 0 6px rgba(var(--primary-rgb), 0.5));
+  animation: marchingAnts 1.2s linear infinite;
+}
+
+@keyframes marchingAnts {
+  to { stroke-dashoffset: -28; }
 }
 
 .cta-button {
-  padding: 18px 50px;
-  background: transparent;
-  border: 3px solid var(--primary);
+  padding: 18px 60px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
   color: var(--primary);
   font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
@@ -891,29 +988,15 @@ body {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 3px;
-  box-shadow: var(--glow);
   position: relative;
-  overflow: hidden;
-}
-
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.cta-button:hover::before {
-  left: 100%;
+  z-index: 2;
+  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+  text-shadow: var(--text-shadow);
 }
 
 .cta-button:hover {
-  transform: scale(1.08);
-  background: rgba(var(--primary-rgb), 0.1);
+  transform: scale(1.05);
+  background: rgba(var(--primary-rgb), 0.12);
 }
 
 /* ========== SIGNUP PAGE ========== */
