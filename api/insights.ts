@@ -80,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Build daily breakdown from the data
     const dailyMap: Record<string, number> = {};
-    (recentSignups || []).forEach((row) => {
+    (recentSignups || []).forEach((row: { created_at: string }) => {
       const date = new Date(row.created_at).toISOString().split("T")[0];
       dailyMap[date] = (dailyMap[date] || 0) + 1;
     });
