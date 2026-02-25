@@ -650,10 +650,9 @@ body {
     0 0 60px rgba(var(--primary-rgb), 0.3),
     0 0 100px rgba(var(--primary-rgb), 0.15);
   position: relative;
-  animation: titleGlow 4s ease-in-out infinite alternate;
+  animation: glitchText 5s infinite, titleGlow 4s ease-in-out infinite alternate;
 }
 
-/* Solid glow pulse instead of glitch */
 @keyframes titleGlow {
   0% {
     text-shadow:
@@ -671,10 +670,33 @@ body {
   }
 }
 
-/* No glitch pseudo-elements - clean solid text */
+/* Glitch pseudo-elements in solid theme color */
 .hero-title::before,
 .hero-title::after {
-  display: none;
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.hero-title::before {
+  color: var(--primary);
+  text-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+  animation: glitchBefore 3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+.hero-title::after {
+  color: var(--primary);
+  text-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+  animation: glitchAfter 3s infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
 }
 
 @keyframes glitchBefore {
@@ -725,14 +747,37 @@ body {
     0 0 25px rgba(var(--primary-rgb), 0.45),
     0 0 50px rgba(var(--primary-rgb), 0.25);
   margin-bottom: 20px;
-  animation: titleGlow 4s ease-in-out 0.5s infinite alternate;
+  animation: glitchText 4s infinite, titleGlow 4s ease-in-out 0.5s infinite alternate;
   position: relative;
 }
 
-/* No glitch pseudo-elements - clean solid text */
+/* Glitch pseudo-elements in solid theme color */
 .glitch-sub::before,
 .glitch-sub::after {
-  display: none;
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.glitch-sub::before {
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5);
+  animation: glitchBefore 4s infinite 0.1s;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+}
+
+.glitch-sub::after {
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5);
+  animation: glitchAfter 4s infinite 0.2s;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
 }
 
 .hero-tagline {
