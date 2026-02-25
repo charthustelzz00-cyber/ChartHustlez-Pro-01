@@ -66,6 +66,19 @@
       </div>
     </div>
 
+    <!-- Speed Toggle -->
+    <div class="speed-toggle" role="group" aria-label="Matrix speed selector">
+      <button id="speed-cycle" class="speed-cycle-btn" aria-label="Toggle speed selector">
+        <span class="speed-icon">&#9654;</span>
+        <span id="speed-label">NORMAL</span>
+      </button>
+      <div id="speed-drawer" class="speed-drawer" role="listbox" aria-label="Speed options">
+        <button class="speed-btn" data-speed="slow" role="option" aria-selected="false">Slow</button>
+        <button class="speed-btn active" data-speed="normal" role="option" aria-selected="true">Normal</button>
+        <button class="speed-btn" data-speed="fast" role="option" aria-selected="false">Fast</button>
+      </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero-section">
       <h1 class="hero-title" data-text="ChartHustlez">ChartHustlez</h1>

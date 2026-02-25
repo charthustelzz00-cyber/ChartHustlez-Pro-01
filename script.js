@@ -170,6 +170,7 @@ function initLandingPage() {
   initMatrixCanvas();
   initSnowflakes();
   initThemeToggle();
+  initSpeedToggle();
   initCTAButton();
 }
 
@@ -198,42 +199,63 @@ function initMatrixCanvas() {
     return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#6bff2a';
   }
 
-  // Random pulse state - each column group pulses independently
+  // Speed presets: [baseSpeed, jitter, fadeRate]
+  const SPEED_PRESETS = {
+    slow:   { base: 0.12, jitter: 0.08, fade: 0.04, label: 'SLOW' },
+    normal: { base: 0.25, jitter: 0.15, fade: 0.07, label: 'NORMAL' },
+    fast:   { base: 0.50, jitter: 0.25, fade: 0.12, label: 'FAST' },
+  };
+  const SPEED_ORDER = ['slow', 'normal', 'fast'];
+
+  // Current speed - start at normal
+  let currentSpeedKey = localStorage.getItem('charthustlez-speed') || 'normal';
+  if (!SPEED_PRESETS[currentSpeedKey]) currentSpeedKey = 'normal';
+  let currentSpeed = SPEED_PRESETS[currentSpeedKey];
+
+  // Expose speed setter for toggle UI
+  window._setMatrixSpeed = function(key) {
+    if (!SPEED_PRESETS[key]) return;
+    currentSpeedKey = key;
+    currentSpeed = SPEED_PRESETS[key];
+    localStorage.setItem('charthustlez-speed', key);
+  };
+  window._getMatrixSpeed = function() { return currentSpeedKey; };
+
+  // Random pulse state
   let globalPulse = 1;
   let pulseTarget = 1;
   let pulseVelocity = 0;
-  const pulseMin = 0.1;
+  const pulseMin = 0.08;
   const pulseMax = 1.0;
 
   // Schedule random pulse events
   function schedulePulse() {
-    const delay = 800 + Math.random() * 3000; // random 0.8-3.8s between pulses
+    const delay = 600 + Math.random() * 2500;
     setTimeout(() => {
-      // Randomly pick fade-out or fade-in
-      pulseTarget = Math.random() < 0.5 ? (pulseMin + Math.random() * 0.2) : (0.7 + Math.random() * 0.3);
+      pulseTarget = Math.random() < 0.5 ? (pulseMin + Math.random() * 0.2) : (0.65 + Math.random() * 0.35);
       schedulePulse();
     }, delay);
   }
   schedulePulse();
 
   function draw() {
-    // Moderate fade for visible trails
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+    ctx.fillStyle = 'rgba(0, 0, 0, ' + currentSpeed.fade + ')';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Smooth lerp toward pulse target with slight springiness
-    pulseVelocity += (pulseTarget - globalPulse) * 0.02;
-    pulseVelocity *= 0.92; // damping
+    // Smooth lerp toward pulse target with springiness
+    pulseVelocity += (pulseTarget - globalPulse) * 0.025;
+    pulseVelocity *= 0.9;
     globalPulse += pulseVelocity;
     globalPulse = Math.max(pulseMin, Math.min(pulseMax, globalPulse));
 
     const color = getThemeColor();
     ctx.font = fontSize + 'px monospace';
 
+    const speed = currentSpeed;
+
     for (let i = 0; i < drops.length; i++) {
-      // Only draw ~60% of columns each frame for less density
       if (Math.random() > 0.6) {
-        drops[i] += 0.18 + Math.random() * 0.12;
+        drops[i] += speed.base + Math.random() * speed.jitter;
         continue;
       }
 
@@ -242,13 +264,11 @@ function initMatrixCanvas() {
       const y = drops[i] * fontSize;
 
       // Per-column jitter on the pulse for organic randomness
-      const localPulse = globalPulse * (0.8 + Math.random() * 0.4);
+      const localPulse = globalPulse * (0.75 + Math.random() * 0.5);
 
-      // Bright head character modulated by pulse
       ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.7 * localPulse) + ')';
       ctx.fillText(char, x, y);
 
-      // Colored trail modulated by pulse
       ctx.fillStyle = color;
       ctx.globalAlpha = 0.35 * localPulse;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
@@ -262,8 +282,7 @@ function initMatrixCanvas() {
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = Math.random() * -15;
       }
-      // Faster glide speed (~2.5x previous)
-      drops[i] += 0.18 + Math.random() * 0.12;
+      drops[i] += speed.base + Math.random() * speed.jitter;
     }
 
     requestAnimationFrame(draw);
@@ -377,6 +396,66 @@ function initThemeToggle() {
 
     themeButtons.forEach(b => {
       b.classList.toggle('active', b.dataset.theme === theme);
+    });
+  }
+}
+
+// ========== SPEED TOGGLE ==========
+function initSpeedToggle() {
+  const speedBtns = document.querySelectorAll('.speed-btn');
+  const speedLabel = document.getElementById('speed-label');
+  const speedCycleBtn = document.getElementById('speed-cycle');
+  const speedDrawer = document.getElementById('speed-drawer');
+
+  if (!speedCycleBtn) return;
+
+  // Apply saved speed
+  const saved = window._getMatrixSpeed();
+  updateSpeedUI(saved);
+
+  // Toggle drawer
+  speedCycleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    speedDrawer.classList.toggle('open');
+    // Close theme drawer if open
+    const themeDrawer = document.getElementById('theme-drawer');
+    if (themeDrawer) themeDrawer.classList.remove('open');
+  });
+
+  // Close on outside click
+  document.addEventListener('click', () => {
+    speedDrawer.classList.remove('open');
+  });
+  speedDrawer.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  // Speed button clicks
+  speedBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.speed;
+      window._setMatrixSpeed(key);
+      updateSpeedUI(key);
+      speedDrawer.classList.remove('open');
+    });
+  });
+
+  // Keyboard shortcut: S to cycle speed
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 's' || e.key === 'S') {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      const order = ['slow', 'normal', 'fast'];
+      const current = window._getMatrixSpeed();
+      const next = order[(order.indexOf(current) + 1) % order.length];
+      window._setMatrixSpeed(next);
+      updateSpeedUI(next);
+    }
+  });
+
+  function updateSpeedUI(key) {
+    speedLabel.textContent = key.toUpperCase();
+    speedBtns.forEach(b => {
+      b.classList.toggle('active', b.dataset.speed === key);
     });
   }
 }
