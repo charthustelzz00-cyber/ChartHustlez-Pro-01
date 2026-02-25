@@ -19,11 +19,11 @@ window.SITE_CONFIG = {
   },
 
   themes: {
-    green: "#00ff00",
-    cyan: "#00ffff",
-    magenta: "#ff00ff",
-    amber: "#ffbf00",
-    red: "#ff0040"
+    green: "#6bff2a",
+    cyan: "#17c5d0",
+    magenta: "#d42abf",
+    amber: "#d4a017",
+    red: "#d42a3f"
   },
 
   defaultTheme: "green"

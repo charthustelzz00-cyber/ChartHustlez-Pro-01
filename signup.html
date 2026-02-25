@@ -2,24 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ChartHustlez | Signup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <title>ChartHustlez | Join the Launch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Sign up for ChartHustlez.online - From Beginner to Builder">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body data-theme="green">
   <div class="signup-container">
+    <canvas id="signup-canvas" class="signup-canvas"></canvas>
+
+    <a href="index.html" class="signup-back" aria-label="Back to home page">&lt; Back</a>
+
     <div class="signup-box">
       <h1>JOIN THE MATRIX</h1>
+      <p class="signup-subtitle">ChartHustlez.online</p>
 
       <form id="signup-form">
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="email" id="email" placeholder="Email Address" required>
-        <button type="submit">ENTER</button>
+        <label for="name" class="sr-only">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Full Name" required autocomplete="name">
+        <label for="email" class="sr-only">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Email Address" required autocomplete="email">
+        <button type="submit" id="submit-btn">ENTER</button>
       </form>
+
+      <div id="signup-status" class="signup-status"></div>
     </div>
   </div>
+
+  <!-- Vercel Analytics -->
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 
   <script src="signup-script.js"></script>
 </body>
