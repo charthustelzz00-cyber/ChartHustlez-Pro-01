@@ -922,16 +922,23 @@ body {
 
 /* ========== TRAPEZOID BOX SYSTEM ========== */
 
-/* Wrapper that holds the SVG border + button content */
+/* Hidden initially -- no position/transform to avoid breaking fixed toggles */
 .trapezoid-box {
-  position: relative;
   opacity: 0;
-  transform: translateX(-120px);
+  visibility: hidden;
 }
 
-/* Slide-in animation with staggered delays */
-.trapezoid-box.slide-in {
+/* Slide-in: CTA (in-flow, uses translateX) */
+.cta-wrapper.trapezoid-box.slide-in {
+  visibility: visible;
   animation: slideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* Slide-in: fixed toggles (use margin-left trick to avoid transform breaking fixed) */
+.theme-toggle.trapezoid-box.slide-in,
+.speed-toggle.trapezoid-box.slide-in {
+  visibility: visible;
+  animation: fadeSlideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 @keyframes slideInLeft {
@@ -942,6 +949,17 @@ body {
   100% {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    margin-left: -120px;
+  }
+  100% {
+    opacity: 1;
+    margin-left: 0;
   }
 }
 
@@ -1016,10 +1034,18 @@ body {
   z-index: 3;
 }
 
-/* Theme & speed toggles: clip only the button, keep dropdown unclipped */
+/* Theme & speed toggles: keep dropdown unclipped, preserve fixed positioning */
 .theme-toggle.trapezoid-box,
 .speed-toggle.trapezoid-box {
   overflow: visible;
+}
+
+/* Ensure slide-in actually makes them visible (higher specificity) */
+.theme-toggle.trapezoid-box.slide-in,
+.speed-toggle.trapezoid-box.slide-in,
+.cta-wrapper.trapezoid-box.slide-in {
+  visibility: visible;
+  opacity: 1;
 }
 
 .theme-toggle .theme-cycle-btn,
@@ -1274,6 +1300,7 @@ body {
     bottom: 70px;
     right: auto;
     left: 50%;
+    transform: translateX(-50%);
     align-items: center;
   }
 
@@ -1287,42 +1314,19 @@ body {
     top: auto;
     bottom: 120px;
     left: 50%;
+    transform: translateX(-50%);
     align-items: center;
   }
 
-  /* On mobile, slide-in resolves to centered */
-  .trapezoid-box.slide-in {
-    animation: slideInLeftMobile 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  }
-
-  @keyframes slideInLeftMobile {
-    0% {
-      opacity: 0;
-      transform: translateX(-200%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .theme-toggle.trapezoid-box.slide-in {
-    animation: slideInLeftMobileCenter 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  }
-
+  /* Mobile: fixed toggles use fade only (transform already handled by left:50%+translateX) */
+  .theme-toggle.trapezoid-box.slide-in,
   .speed-toggle.trapezoid-box.slide-in {
-    animation: slideInLeftMobileCenter 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
 
-  @keyframes slideInLeftMobileCenter {
-    0% {
-      opacity: 0;
-      transform: translateX(-200%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(-50%);
-    }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 
   .speed-drawer.open {

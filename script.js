@@ -467,6 +467,7 @@ function initEntranceAnimations() {
   const ctaBox = document.getElementById('cta-box');
   const speedBox = document.getElementById('speed-toggle-box');
   const themeBox = document.getElementById('theme-toggle-box');
+  console.log("[v0] initEntranceAnimations:", { tagline: !!tagline, ctaBox: !!ctaBox, speedBox: !!speedBox, themeBox: !!themeBox });
 
   const fullText = 'From Beginner to Builder';
   let charIndex = 0;
