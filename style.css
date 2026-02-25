@@ -922,45 +922,30 @@ body {
 
 /* ========== TRAPEZOID BOX SYSTEM ========== */
 
-/* Hidden initially -- no position/transform to avoid breaking fixed toggles */
+/* All trapezoid-box elements start hidden, JS adds .slide-in to reveal */
 .trapezoid-box {
   opacity: 0;
-  visibility: hidden;
 }
 
-/* Slide-in: CTA (in-flow, uses translateX) */
-.cta-wrapper.trapezoid-box.slide-in {
-  visibility: visible;
-  animation: slideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* CTA slide-in (in-flow, transform is safe) */
+.cta-wrapper.slide-in {
+  animation: ctaSlideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-/* Slide-in: fixed toggles (use margin-left trick to avoid transform breaking fixed) */
-.theme-toggle.trapezoid-box.slide-in,
-.speed-toggle.trapezoid-box.slide-in {
-  visibility: visible;
-  animation: fadeSlideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+@keyframes ctaSlideIn {
+  0% { opacity: 0; transform: translateX(-100px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes slideInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-120px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* Fixed toggles: just fade in (position is handled by fixed layout) */
+.theme-toggle.slide-in,
+.speed-toggle.slide-in {
+  animation: toggleFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-@keyframes fadeSlideIn {
-  0% {
-    opacity: 0;
-    margin-left: -120px;
-  }
-  100% {
-    opacity: 1;
-    margin-left: 0;
-  }
+@keyframes toggleFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* SVG border sits over the button in trapezoid shape */
@@ -1038,14 +1023,6 @@ body {
 .theme-toggle.trapezoid-box,
 .speed-toggle.trapezoid-box {
   overflow: visible;
-}
-
-/* Ensure slide-in actually makes them visible (higher specificity) */
-.theme-toggle.trapezoid-box.slide-in,
-.speed-toggle.trapezoid-box.slide-in,
-.cta-wrapper.trapezoid-box.slide-in {
-  visibility: visible;
-  opacity: 1;
 }
 
 .theme-toggle .theme-cycle-btn,
@@ -1316,17 +1293,6 @@ body {
     left: 50%;
     transform: translateX(-50%);
     align-items: center;
-  }
-
-  /* Mobile: fixed toggles use fade only (transform already handled by left:50%+translateX) */
-  .theme-toggle.trapezoid-box.slide-in,
-  .speed-toggle.trapezoid-box.slide-in {
-    animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  }
-
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
   }
 
   .speed-drawer.open {
