@@ -3,166 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>ChartHustlez | Join the Launch</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Sign up for ChartHustlez.online - From Beginner to Builder">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .signup-container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(ellipse at center, #001100 0%, #000000 100%);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .signup-back {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 10;
-      color: var(--primary);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.85rem;
-      text-decoration: none;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      border: 1px solid rgba(var(--primary-rgb), 0.4);
-      padding: 8px 16px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    .signup-back:hover {
-      border-color: var(--primary);
-      box-shadow: var(--glow);
-      background: rgba(var(--primary-rgb), 0.1);
-    }
-
-    .signup-box {
-      position: relative;
-      z-index: 10;
-      border: 2px solid var(--primary);
-      padding: 50px 40px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-      box-shadow: var(--glow), inset 0 0 30px rgba(var(--primary-rgb), 0.05);
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-    }
-
-    .signup-box h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: var(--primary);
-      text-shadow: var(--text-shadow);
-      margin-bottom: 10px;
-    }
-
-    .signup-box .signup-subtitle {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--primary);
-      opacity: 0.6;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
-    }
-
-    .signup-box input {
-      width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      background: rgba(var(--primary-rgb), 0.05);
-      border: 1px solid rgba(var(--primary-rgb), 0.3);
-      color: var(--primary);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
-      letter-spacing: 1px;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .signup-box input::placeholder {
-      color: rgba(var(--primary-rgb), 0.4);
-    }
-
-    .signup-box input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
-      background: rgba(var(--primary-rgb), 0.08);
-    }
-
-    .signup-box button[type="submit"] {
-      width: 100%;
-      padding: 16px;
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      box-shadow: var(--glow);
-      margin-top: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .signup-box button[type="submit"]::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .signup-box button[type="submit"]:hover::before {
-      left: 100%;
-    }
-
-    .signup-box button[type="submit"]:hover {
-      transform: scale(1.03);
-      background: rgba(var(--primary-rgb), 0.1);
-    }
-
-    .signup-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @media (max-width: 480px) {
-      .signup-box {
-        padding: 40px 24px;
-      }
-
-      .signup-box h1 {
-        font-size: 1.3rem;
-        letter-spacing: 3px;
-      }
-    }
-  </style>
 </head>
-<body>
+<body data-theme="green">
   <div class="signup-container">
     <canvas id="signup-canvas" class="signup-canvas"></canvas>
 
@@ -177,10 +25,18 @@
         <input type="text" id="name" name="name" placeholder="Full Name" required autocomplete="name">
         <label for="email" class="sr-only">Email Address</label>
         <input type="email" id="email" name="email" placeholder="Email Address" required autocomplete="email">
-        <button type="submit">ENTER</button>
+        <button type="submit" id="submit-btn">ENTER</button>
       </form>
+
+      <div id="signup-status" class="signup-status"></div>
     </div>
   </div>
+
+  <!-- Vercel Analytics -->
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 
   <script src="signup-script.js"></script>
 </body>

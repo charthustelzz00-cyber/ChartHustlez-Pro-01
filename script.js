@@ -9,11 +9,11 @@ const SNOW_CHARS = ["\u2744", "\u2746", "\u2745", "\u00B7", "\u2022", "*"];
 // Theme configuration
 const THEMES = ['green', 'cyan', 'magenta', 'amber', 'red'];
 const THEME_COLORS = {
-  green:   { primary: '#00ff00', rgb: [0, 255, 0] },
-  cyan:    { primary: '#00ffff', rgb: [0, 255, 255] },
-  magenta: { primary: '#ff00ff', rgb: [255, 0, 255] },
-  amber:   { primary: '#ffbf00', rgb: [255, 191, 0] },
-  red:     { primary: '#ff0040', rgb: [255, 0, 64] },
+  green:   { primary: '#6bff2a', rgb: [107, 255, 42] },
+  cyan:    { primary: '#17c5d0', rgb: [23, 197, 208] },
+  magenta: { primary: '#d42abf', rgb: [212, 42, 191] },
+  amber:   { primary: '#d4a017', rgb: [212, 160, 23] },
+  red:     { primary: '#d42a3f', rgb: [212, 42, 63] },
 };
 
 // Configuration
@@ -47,7 +47,7 @@ function initPortal() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00ff00';
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#6bff2a';
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
@@ -110,6 +110,11 @@ function initPortal() {
     setTimeout(() => {
       loadingPortal.classList.add('hidden');
       landingPage.classList.remove('hidden');
+
+      // Show caution tapes
+      const cautionTapes = document.getElementById('caution-tapes');
+      if (cautionTapes) cautionTapes.style.display = '';
+
       initLandingPage();
     }, 1200);
   }, CONFIG.portalDuration);
@@ -127,7 +132,6 @@ function initPortalSnowflakes() {
 
     const size = Math.random() * 10 + 8;
     const x = Math.random() * 100;
-    const y = Math.random() * 100;
     const speed = Math.random() * 0.6 + 0.2;
     const drift = Math.random() * 0.3 - 0.15;
 
@@ -191,39 +195,45 @@ function initMatrixCanvas() {
   });
 
   function getThemeColor() {
-    return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#00ff00';
+    return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#6bff2a';
   }
 
   function draw() {
-    // Fade effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    // Faster fade = shorter trails, less dense overall
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const color = getThemeColor();
     ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
+      // Only draw ~60% of columns each frame for less density
+      if (Math.random() > 0.6) {
+        drops[i] += 0.3 + Math.random() * 0.25;
+        continue;
+      }
+
       const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Bright white head
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      // Bright head character (slightly less bright)
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
       ctx.fillText(char, x, y);
 
-      // Colored trail
+      // Colored trail (reduced opacity)
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.35;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       ctx.fillText(trailChar, x, y - fontSize);
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = 0.15;
       ctx.fillText(trailChar, x, y - fontSize * 2);
       ctx.globalAlpha = 1;
 
-      if (y > canvas.height && Math.random() > 0.98) {
-        drops[i] = Math.random() * -10;
+      if (y > canvas.height && Math.random() > 0.975) {
+        drops[i] = Math.random() * -15;
       }
-      drops[i] += 0.4 + Math.random() * 0.3;
+      drops[i] += 0.3 + Math.random() * 0.25;
     }
 
     requestAnimationFrame(draw);
@@ -243,7 +253,7 @@ function initSnowflakes() {
     flake.textContent = SNOW_CHARS[Math.floor(Math.random() * SNOW_CHARS.length)];
 
     const x = Math.random() * 100;
-    const y = Math.random() * 120; // Start scattered across and below viewport
+    const y = Math.random() * 120;
     const speed = Math.random() * 0.8 + 0.2;
     const drift = Math.random() * 0.5 - 0.25;
     const size = Math.random() * 12 + 8;

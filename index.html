@@ -2,87 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ChartHustlez.online - From Beginner to Builder">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ChartHustlez.online | Cyber Launch</title>
-  
-  <!-- Google Fonts -->
+  <meta name="description" content="ChartHustlez.online - From Beginner to Builder. Join the Cyber Launch.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Loading Portal -->
+<body data-theme="green">
+
+  <!-- ========== LOADING PORTAL ========== -->
   <div id="loading-portal" class="loading-portal">
     <canvas id="portal-canvas" class="portal-matrix-canvas"></canvas>
-    
-    <!-- Rising snowflakes in portal -->
+
     <div id="portal-snowflakes" class="portal-snowflakes"></div>
-    
-    <div class="portal-content" id="portal-content">
-      <div class="portal-ring" id="portal-ring">
+
+    <div id="portal-content" class="portal-content">
+      <div id="portal-ring" class="portal-ring">
         <div class="portal-inner">
-          <h1 class="portal-title">CHARTHUSTLEZ</h1>
-          <p class="portal-domain">.online</p>
-          <p class="portal-subtitle" id="loading-text">Initializing... 0%</p>
+          <div class="portal-title">CHARTHUSTLEZ</div>
+          <div class="portal-domain">.online</div>
+          <div id="loading-text" class="portal-subtitle">Initializing... 0%</div>
           <div class="loading-bar-container">
-            <div class="loading-bar" id="loading-bar"></div>
+            <div id="loading-bar" class="loading-bar"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-  <!-- Main Landing Page -->
+
+  <!-- ========== LANDING PAGE ========== -->
   <div id="landing-page" class="landing-page hidden">
-    <!-- Matrix Rain Container (falls from top) -->
+
+    <!-- Matrix rain canvas (falling from top) -->
     <canvas id="matrix-canvas" class="matrix-canvas"></canvas>
-    
-    <!-- Snowflakes Container (rises from bottom) -->
+
+    <!-- Snowflakes (rising from bottom) -->
     <div id="snowflakes" class="snowflakes-container"></div>
-    
+
     <!-- Theme Toggle -->
-    <div class="theme-toggle" id="theme-toggle">
-      <button class="theme-cycle-btn" id="theme-cycle" title="Cycle Theme">
+    <div class="theme-toggle" role="group" aria-label="Theme selector">
+      <button id="theme-cycle" class="theme-cycle-btn" aria-label="Toggle theme selector">
         <span class="theme-icon"></span>
-        <span class="theme-label" id="theme-label">GREEN</span>
+        <span id="theme-label">GREEN</span>
       </button>
-      <div class="theme-drawer" id="theme-drawer">
-        <button class="theme-btn active" data-theme="green"><span class="theme-dot" style="background:#00ff00"></span>Green</button>
-        <button class="theme-btn" data-theme="cyan"><span class="theme-dot" style="background:#00ffff"></span>Cyan</button>
-        <button class="theme-btn" data-theme="magenta"><span class="theme-dot" style="background:#ff00ff"></span>Magenta</button>
-        <button class="theme-btn" data-theme="amber"><span class="theme-dot" style="background:#ffbf00"></span>Amber</button>
-        <button class="theme-btn" data-theme="red"><span class="theme-dot" style="background:#ff0040"></span>Red</button>
+      <div id="theme-drawer" class="theme-drawer" role="listbox" aria-label="Theme options">
+        <button class="theme-btn active" data-theme="green" role="option" aria-selected="true">
+          <span class="theme-dot" style="background: #6bff2a;"></span> Green
+        </button>
+        <button class="theme-btn" data-theme="cyan" role="option" aria-selected="false">
+          <span class="theme-dot" style="background: #17c5d0;"></span> Cyan
+        </button>
+        <button class="theme-btn" data-theme="magenta" role="option" aria-selected="false">
+          <span class="theme-dot" style="background: #d42abf;"></span> Magenta
+        </button>
+        <button class="theme-btn" data-theme="amber" role="option" aria-selected="false">
+          <span class="theme-dot" style="background: #d4a017;"></span> Amber
+        </button>
+        <button class="theme-btn" data-theme="red" role="option" aria-selected="false">
+          <span class="theme-dot" style="background: #d42a3f;"></span> Red
+        </button>
       </div>
     </div>
-    
-    <!-- Top Marquee -->
-    <div class="marquee-container">
-      <div class="marquee">
-        <span>CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING •</span>
-        <span>CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING •</span>
-      </div>
-    </div>
-    
+
     <!-- Hero Section -->
-    <div class="hero-section">
-      <h1 class="hero-title glitch" data-text="ChartHustlez">ChartHustlez</h1>
-      <p class="hero-domain">.online</p>
+    <section class="hero-section">
+      <h1 class="hero-title" data-text="ChartHustlez">ChartHustlez</h1>
+      <h2 class="hero-subtitle glitch-sub" data-text="Cyber Launch">Cyber Launch</h2>
       <p class="hero-tagline">From Beginner to Builder</p>
-      <button class="cta-button" id="cta-btn">Join the Launch</button>
-    </div>
-    
-    <!-- Bottom Marquee -->
-    <div class="marquee-container bottom">
-      <div class="marquee reverse">
-        <span>CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING •</span>
-        <span>CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING • CHARTHUSTLEZ.ONLINE • LAUNCHING •</span>
+      <button id="cta-btn" class="cta-button">Join the Launch</button>
+    </section>
+
+    <!-- Caution Tapes -->
+    <div id="caution-tapes" class="caution-tapes" style="display: none;">
+      <!-- Top Tape -->
+      <div class="caution-tape tape-top">
+        <div class="tape-text-track">
+          <span class="tape-text">CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull;</span>
+          <span class="tape-text">CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull;</span>
+        </div>
+      </div>
+      <!-- Bottom Tape -->
+      <div class="caution-tape tape-bottom">
+        <div class="tape-text-track tape-text-track-reverse">
+          <span class="tape-text">CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull;</span>
+          <span class="tape-text">CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull; CHARTHUSTLEZ CYBER LAUNCH &bull;</span>
+        </div>
       </div>
     </div>
+
   </div>
-  
+
+  <!-- Vercel Analytics -->
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <script src="site.config.js"></script>
   <script src="script.js"></script>
 </body>
