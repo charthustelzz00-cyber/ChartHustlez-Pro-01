@@ -5,7 +5,7 @@ import { attachDatabasePool } from "@vercel/functions";
 
 const signer = new Signer({
   credentials: awsCredentialsProvider({
-    roleArn: process.env.AWS_ROLE_ARN,
+    roleArn: process.env.AWS_ROLE_ARN!,
     clientConfig: { region: process.env.AWS_REGION },
   }),
   region: process.env.AWS_REGION,
