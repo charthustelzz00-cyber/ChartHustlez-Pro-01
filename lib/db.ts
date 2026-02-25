@@ -1,43 +1,13 @@
-import { Pool, ClientBase } from "pg";
-import { Signer } from "@aws-sdk/rds-signer";
-import { awsCredentialsProvider } from "@vercel/functions/oidc";
-import { attachDatabasePool } from "@vercel/functions";
+import { createClient } from "@supabase/supabase-js";
 
-const signer = new Signer({
-  credentials: awsCredentialsProvider({
-    roleArn: process.env.AWS_ROLE_ARN!,
-    clientConfig: { region: process.env.AWS_REGION },
-  }),
-  region: process.env.AWS_REGION!,
-  hostname: process.env.PGHOST!,
-  username: process.env.PGUSER || "postgres",
-  port: 5432,
-});
+// Public client (uses anon key - respects RLS policies)
+export const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
+);
 
-const pool = new Pool({
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE || "postgres",
-  port: 5432,
-  user: process.env.PGUSER || "postgres",
-  password: () => signer.getAuthToken(),
-  ssl: { rejectUnauthorized: false },
-  max: 20,
-});
-attachDatabasePool(pool);
-
-// Single query transactions
-export async function query(text: string, params?: unknown[]) {
-  return pool.query(text, params);
-}
-
-// Multi-query transactions
-export async function withConnection<T>(
-  fn: (client: ClientBase) => Promise<T>
-): Promise<T> {
-  const client = await pool.connect();
-  try {
-    return await fn(client);
-  } finally {
-    client.release();
-  }
-}
+// Admin client (uses service_role key - bypasses RLS for insights)
+export const supabaseAdmin = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
