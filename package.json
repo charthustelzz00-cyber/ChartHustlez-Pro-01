@@ -11,6 +11,11 @@
     "@aws-sdk/client-rds": "latest",
     "@aws-sdk/rds-signer": "latest",
     "@vercel/functions": "latest",
+    "@vercel/node": "latest",
     "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/pg": "^8.11.0"
   }
 }

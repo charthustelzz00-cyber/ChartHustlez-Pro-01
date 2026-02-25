@@ -56,22 +56,63 @@ function initSignupMatrix() {
   draw();
 }
 
-// Form submission
-document.getElementById('signup-form').addEventListener('submit', e => {
+// Form submission - connected to AWS Aurora PostgreSQL via API
+document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusEl = document.getElementById('signup-status');
+
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
 
   if (!name || !email) {
-    alert("Please complete all fields.");
+    showStatus('Please complete all fields.', 'error');
     return;
   }
 
-  console.log("Signup:", { name, email });
-  alert("Welcome to ChartHustlez!");
-  e.target.reset();
+  // Disable form during submission
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'CONNECTING...';
+  showStatus('Transmitting data...', '');
+
+  try {
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      showStatus('ACCESS GRANTED. Welcome to ChartHustlez.', 'success');
+      e.target.reset();
+
+      // Track signup event for Vercel Analytics
+      if (window.si) {
+        window.si('event', { name: 'signup_complete' });
+      }
+    } else {
+      showStatus(data.error || 'Signup failed. Try again.', 'error');
+    }
+  } catch (err) {
+    console.error('Signup error:', err);
+    showStatus('Connection failed. Try again later.', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'ENTER';
+  }
 });
+
+function showStatus(message, type) {
+  const statusEl = document.getElementById('signup-status');
+  if (!statusEl) return;
+  statusEl.textContent = message;
+  statusEl.className = 'signup-status' + (type ? ' ' + type : '');
+}
 
 // Initialize
 document.addEventListener('DOMContentLoaded', initSignupMatrix);
