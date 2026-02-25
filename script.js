@@ -198,20 +198,34 @@ function initMatrixCanvas() {
     return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#6bff2a';
   }
 
-  // Pulse state - controls the breathing fade in/out
-  let pulseTime = 0;
-  const pulseSpeed = 0.008;    // How fast the pulse breathes
-  const pulseMin = 0.15;       // Minimum opacity (faded out)
-  const pulseMax = 0.85;       // Maximum opacity (fully visible)
+  // Random pulse state - each column group pulses independently
+  let globalPulse = 1;
+  let pulseTarget = 1;
+  let pulseVelocity = 0;
+  const pulseMin = 0.1;
+  const pulseMax = 1.0;
+
+  // Schedule random pulse events
+  function schedulePulse() {
+    const delay = 800 + Math.random() * 3000; // random 0.8-3.8s between pulses
+    setTimeout(() => {
+      // Randomly pick fade-out or fade-in
+      pulseTarget = Math.random() < 0.5 ? (pulseMin + Math.random() * 0.2) : (0.7 + Math.random() * 0.3);
+      schedulePulse();
+    }, delay);
+  }
+  schedulePulse();
 
   function draw() {
-    // Slow fade = longer, smoother trails
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+    // Moderate fade for visible trails
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Calculate pulse: smooth sine wave oscillation
-    pulseTime += pulseSpeed;
-    const pulseAlpha = pulseMin + (pulseMax - pulseMin) * (0.5 + 0.5 * Math.sin(pulseTime));
+    // Smooth lerp toward pulse target with slight springiness
+    pulseVelocity += (pulseTarget - globalPulse) * 0.02;
+    pulseVelocity *= 0.92; // damping
+    globalPulse += pulseVelocity;
+    globalPulse = Math.max(pulseMin, Math.min(pulseMax, globalPulse));
 
     const color = getThemeColor();
     ctx.font = fontSize + 'px monospace';
@@ -219,7 +233,7 @@ function initMatrixCanvas() {
     for (let i = 0; i < drops.length; i++) {
       // Only draw ~60% of columns each frame for less density
       if (Math.random() > 0.6) {
-        drops[i] += 0.08 + Math.random() * 0.06;
+        drops[i] += 0.18 + Math.random() * 0.12;
         continue;
       }
 
@@ -227,26 +241,29 @@ function initMatrixCanvas() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
+      // Per-column jitter on the pulse for organic randomness
+      const localPulse = globalPulse * (0.8 + Math.random() * 0.4);
+
       // Bright head character modulated by pulse
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.7 * pulseAlpha) + ')';
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.7 * localPulse) + ')';
       ctx.fillText(char, x, y);
 
       // Colored trail modulated by pulse
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.35 * pulseAlpha;
+      ctx.globalAlpha = 0.35 * localPulse;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       ctx.fillText(trailChar, x, y - fontSize);
-      ctx.globalAlpha = 0.15 * pulseAlpha;
+      ctx.globalAlpha = 0.15 * localPulse;
       ctx.fillText(trailChar, x, y - fontSize * 2);
-      ctx.globalAlpha = 0.06 * pulseAlpha;
+      ctx.globalAlpha = 0.06 * localPulse;
       ctx.fillText(trailChar, x, y - fontSize * 3);
       ctx.globalAlpha = 1;
 
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = Math.random() * -15;
       }
-      // Smooth glide: much slower drop speed
-      drops[i] += 0.08 + Math.random() * 0.06;
+      // Faster glide speed (~2.5x previous)
+      drops[i] += 0.18 + Math.random() * 0.12;
     }
 
     requestAnimationFrame(draw);
