@@ -198,10 +198,20 @@ function initMatrixCanvas() {
     return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#6bff2a';
   }
 
+  // Pulse state - controls the breathing fade in/out
+  let pulseTime = 0;
+  const pulseSpeed = 0.008;    // How fast the pulse breathes
+  const pulseMin = 0.15;       // Minimum opacity (faded out)
+  const pulseMax = 0.85;       // Maximum opacity (fully visible)
+
   function draw() {
-    // Faster fade = shorter trails, less dense overall
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+    // Slow fade = longer, smoother trails
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Calculate pulse: smooth sine wave oscillation
+    pulseTime += pulseSpeed;
+    const pulseAlpha = pulseMin + (pulseMax - pulseMin) * (0.5 + 0.5 * Math.sin(pulseTime));
 
     const color = getThemeColor();
     ctx.font = fontSize + 'px monospace';
@@ -209,7 +219,7 @@ function initMatrixCanvas() {
     for (let i = 0; i < drops.length; i++) {
       // Only draw ~60% of columns each frame for less density
       if (Math.random() > 0.6) {
-        drops[i] += 0.3 + Math.random() * 0.25;
+        drops[i] += 0.08 + Math.random() * 0.06;
         continue;
       }
 
@@ -217,23 +227,26 @@ function initMatrixCanvas() {
       const x = i * fontSize;
       const y = drops[i] * fontSize;
 
-      // Bright head character (slightly less bright)
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      // Bright head character modulated by pulse
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.7 * pulseAlpha) + ')';
       ctx.fillText(char, x, y);
 
-      // Colored trail (reduced opacity)
+      // Colored trail modulated by pulse
       ctx.fillStyle = color;
-      ctx.globalAlpha = 0.35;
+      ctx.globalAlpha = 0.35 * pulseAlpha;
       const trailChar = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
       ctx.fillText(trailChar, x, y - fontSize);
-      ctx.globalAlpha = 0.15;
+      ctx.globalAlpha = 0.15 * pulseAlpha;
       ctx.fillText(trailChar, x, y - fontSize * 2);
+      ctx.globalAlpha = 0.06 * pulseAlpha;
+      ctx.fillText(trailChar, x, y - fontSize * 3);
       ctx.globalAlpha = 1;
 
       if (y > canvas.height && Math.random() > 0.975) {
         drops[i] = Math.random() * -15;
       }
-      drops[i] += 0.3 + Math.random() * 0.25;
+      // Smooth glide: much slower drop speed
+      drops[i] += 0.08 + Math.random() * 0.06;
     }
 
     requestAnimationFrame(draw);
