@@ -882,63 +882,56 @@ body {
   color: var(--primary);
   font-family: 'Share Tech Mono', monospace;
   white-space: nowrap;
-  overflow: hidden;
-  border-right: 2px solid var(--primary);
-  width: 0;
+  display: inline-block;
+  border-right: 3px solid var(--primary);
   opacity: 0;
+  min-height: 1.6em;
+  text-shadow: var(--text-shadow);
 }
 
+/* While typing: blinking caret */
 .hero-tagline.typing {
   opacity: 1;
-  animation: typeExpand 2.5s steps(26, end) forwards, blinkCaret 0.6s step-end infinite;
+  animation: blinkCaret 0.6s step-end infinite;
 }
 
+/* After typing finishes: flash on/off */
 .hero-tagline.typed {
+  opacity: 1;
   border-right-color: transparent;
-  width: auto;
-  animation: taglineFlash 1.8s ease-in-out infinite;
-}
-
-@keyframes typeExpand {
-  from { width: 0; }
-  to { width: 100%; }
+  animation: taglineFlash 2.2s ease-in-out infinite;
 }
 
 @keyframes blinkCaret {
+  0%, 100% { border-right-color: var(--primary); }
   50% { border-right-color: transparent; }
 }
 
 @keyframes taglineFlash {
   0%, 100% { opacity: 1; }
-  40% { opacity: 1; }
-  50% { opacity: 0.15; }
-  60% { opacity: 1; }
-  75% { opacity: 1; }
-  80% { opacity: 0.2; }
-  85% { opacity: 1; }
+  42% { opacity: 1; }
+  48% { opacity: 0.08; }
+  55% { opacity: 1; }
+  72% { opacity: 1; }
+  76% { opacity: 0.1; }
+  82% { opacity: 1; }
+  90% { opacity: 1; }
+  93% { opacity: 0.15; }
+  96% { opacity: 1; }
 }
 
-/* Shared trapezoid box styles */
+/* ========== TRAPEZOID BOX SYSTEM ========== */
+
+/* Wrapper that holds the SVG border + button content */
 .trapezoid-box {
   position: relative;
-  background: transparent;
-  border: none;
-  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
   opacity: 0;
   transform: translateX(-120px);
-  transition: transform 0.3s ease;
 }
 
+/* Slide-in animation with staggered delays */
 .trapezoid-box.slide-in {
   animation: slideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.trapezoid-box.slide-in:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.trapezoid-box.slide-in:nth-child(3) {
-  animation-delay: 0.3s;
 }
 
 @keyframes slideInLeft {
@@ -952,7 +945,7 @@ body {
   }
 }
 
-/* Marching ants SVG border (injected via JS) */
+/* SVG border sits over the button in trapezoid shape */
 .trapezoid-border {
   position: absolute;
   top: 0;
@@ -960,7 +953,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 .trapezoid-border polygon {
@@ -976,7 +969,15 @@ body {
   to { stroke-dashoffset: -28; }
 }
 
+/* CTA wrapper in the hero flow */
+.cta-wrapper {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+/* CTA button inside trapezoid */
 .cta-button {
+  display: block;
   padding: 18px 60px;
   background: rgba(0, 0, 0, 0.6);
   border: none;
@@ -997,6 +998,34 @@ body {
 .cta-button:hover {
   transform: scale(1.05);
   background: rgba(var(--primary-rgb), 0.12);
+}
+
+/* Button wrapper: positions the SVG border over the button only */
+.trapezoid-btn-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.trapezoid-btn-wrap .trapezoid-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Theme & speed toggles: clip only the button, keep dropdown unclipped */
+.theme-toggle.trapezoid-box,
+.speed-toggle.trapezoid-box {
+  overflow: visible;
+}
+
+.theme-toggle .theme-cycle-btn,
+.speed-toggle .speed-cycle-btn {
+  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 /* ========== SIGNUP PAGE ========== */
@@ -1243,8 +1272,8 @@ body {
   .theme-toggle {
     top: auto;
     bottom: 70px;
-    right: 50%;
-    transform: translateX(50%);
+    right: auto;
+    left: 50%;
     align-items: center;
   }
 
@@ -1258,8 +1287,42 @@ body {
     top: auto;
     bottom: 120px;
     left: 50%;
-    transform: translateX(-50%);
     align-items: center;
+  }
+
+  /* On mobile, slide-in resolves to centered */
+  .trapezoid-box.slide-in {
+    animation: slideInLeftMobile 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @keyframes slideInLeftMobile {
+    0% {
+      opacity: 0;
+      transform: translateX(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .theme-toggle.trapezoid-box.slide-in {
+    animation: slideInLeftMobileCenter 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  .speed-toggle.trapezoid-box.slide-in {
+    animation: slideInLeftMobileCenter 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @keyframes slideInLeftMobileCenter {
+    0% {
+      opacity: 0;
+      transform: translateX(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%);
+    }
   }
 
   .speed-drawer.open {

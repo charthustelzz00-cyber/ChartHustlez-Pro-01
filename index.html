@@ -43,13 +43,15 @@
 
     <!-- Theme Toggle -->
     <div class="theme-toggle trapezoid-box" id="theme-toggle-box" role="group" aria-label="Theme selector">
-      <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <polygon points="8,0 100,0 92,100 0,100"/>
-      </svg>
-      <button id="theme-cycle" class="theme-cycle-btn" aria-label="Toggle theme selector">
-        <span class="theme-icon"></span>
-        <span id="theme-label">GREEN</span>
-      </button>
+      <div class="trapezoid-btn-wrap">
+        <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polygon points="8,0 100,0 92,100 0,100"/>
+        </svg>
+        <button id="theme-cycle" class="theme-cycle-btn" aria-label="Toggle theme selector">
+          <span class="theme-icon"></span>
+          <span id="theme-label">GREEN</span>
+        </button>
+      </div>
       <div id="theme-drawer" class="theme-drawer" role="listbox" aria-label="Theme options">
         <button class="theme-btn active" data-theme="green" role="option" aria-selected="true">
           <span class="theme-dot" style="background: #6bff2a;"></span> Green
@@ -71,13 +73,15 @@
 
     <!-- Speed Toggle -->
     <div class="speed-toggle trapezoid-box" id="speed-toggle-box" role="group" aria-label="Matrix speed selector">
-      <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <polygon points="8,0 100,0 92,100 0,100"/>
-      </svg>
-      <button id="speed-cycle" class="speed-cycle-btn" aria-label="Toggle speed selector">
-        <span class="speed-icon">&#9654;</span>
-        <span id="speed-label">NORMAL</span>
-      </button>
+      <div class="trapezoid-btn-wrap">
+        <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polygon points="8,0 100,0 92,100 0,100"/>
+        </svg>
+        <button id="speed-cycle" class="speed-cycle-btn" aria-label="Toggle speed selector">
+          <span class="speed-icon">&#9654;</span>
+          <span id="speed-label">NORMAL</span>
+        </button>
+      </div>
       <div id="speed-drawer" class="speed-drawer" role="listbox" aria-label="Speed options">
         <button class="speed-btn" data-speed="slow" role="option" aria-selected="false">Slow</button>
         <button class="speed-btn active" data-speed="normal" role="option" aria-selected="true">Normal</button>

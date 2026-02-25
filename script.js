@@ -172,6 +172,7 @@ function initLandingPage() {
   initThemeToggle();
   initSpeedToggle();
   initCTAButton();
+  initEntranceAnimations();
 }
 
 // ========== MATRIX RAIN CANVAS (Falling from top) ==========
@@ -458,6 +459,45 @@ function initSpeedToggle() {
       b.classList.toggle('active', b.dataset.speed === key);
     });
   }
+}
+
+// ========== TYPEWRITER + ENTRANCE ANIMATIONS ==========
+function initEntranceAnimations() {
+  const tagline = document.getElementById('hero-tagline');
+  const ctaBox = document.getElementById('cta-box');
+  const speedBox = document.getElementById('speed-toggle-box');
+  const themeBox = document.getElementById('theme-toggle-box');
+
+  const fullText = 'From Beginner to Builder';
+  let charIndex = 0;
+
+  // Start typewriter after a short delay
+  setTimeout(() => {
+    tagline.style.opacity = '1';
+    tagline.classList.add('typing');
+
+    const typeInterval = setInterval(() => {
+      if (charIndex < fullText.length) {
+        tagline.textContent += fullText[charIndex];
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        // Typing done - switch to flash mode
+        setTimeout(() => {
+          tagline.classList.remove('typing');
+          tagline.classList.add('typed');
+        }, 400);
+      }
+    }, 80);
+  }, 300);
+
+  // Stagger the slide-in of the three trapezoid boxes
+  const boxes = [ctaBox, speedBox, themeBox].filter(Boolean);
+  boxes.forEach((box, i) => {
+    setTimeout(() => {
+      box.classList.add('slide-in');
+    }, 800 + i * 250);
+  });
 }
 
 // ========== CTA BUTTON ==========
