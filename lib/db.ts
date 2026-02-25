@@ -8,8 +8,8 @@ const signer = new Signer({
     roleArn: process.env.AWS_ROLE_ARN!,
     clientConfig: { region: process.env.AWS_REGION },
   }),
-  region: process.env.AWS_REGION,
-  hostname: process.env.PGHOST,
+  region: process.env.AWS_REGION!,
+  hostname: process.env.PGHOST!,
   username: process.env.PGUSER || "postgres",
   port: 5432,
 });
