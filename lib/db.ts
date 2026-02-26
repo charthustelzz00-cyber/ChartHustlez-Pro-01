@@ -1,4 +1,4 @@
-import { Pool, ClientBase } from "pg";
+import { Pool } from "pg";
 import { Signer } from "@aws-sdk/rds-signer";
 import { awsCredentialsProvider } from "@vercel/functions/oidc";
 import { attachDatabasePool } from "@vercel/functions";
@@ -30,14 +30,4 @@ export async function query(text: string, params?: unknown[]) {
   return pool.query(text, params);
 }
 
-// Multi-query transactions
-export async function withConnection<T>(
-  fn: (client: ClientBase) => Promise<T>
-): Promise<T> {
-  const client = await pool.connect();
-  try {
-    return await fn(client);
-  } finally {
-    client.release();
-  }
-}
+
