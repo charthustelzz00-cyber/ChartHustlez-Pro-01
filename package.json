@@ -8,16 +8,12 @@
   },
   "dependencies": {
     "serve": "^14.2.0",
-    "@aws-sdk/client-rds": "latest",
-    "@aws-sdk/rds-signer": "latest",
-    "@vercel/functions": "latest",
-    "@vercel/node": "latest",
-    "pg": "^8.13.0"
+    "@supabase/supabase-js": "^2.49.0",
+    "@vercel/node": "latest"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
-    "@types/node": "^20.0.0",
-    "@types/pg": "^8.11.0"
+    "@types/node": "^20.0.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild"]
