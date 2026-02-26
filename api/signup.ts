@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { query } from "../lib/db";
+import { supabase } from "../lib/db";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
@@ -37,29 +37,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const sanitizedName = name.trim().slice(0, 255);
     const sanitizedEmail = email.trim().toLowerCase().slice(0, 255);
 
-    // Insert into database (parameterized query prevents SQL injection)
-    const result = await query(
-      "INSERT INTO signups (name, email) VALUES ($1, $2) RETURNING id, name, email, created_at",
-      [sanitizedName, sanitizedEmail]
-    );
+    // Insert into Supabase (RLS allows anon inserts)
+    const { data, error } = await supabase
+      .from("signups")
+      .insert({ name: sanitizedName, email: sanitizedEmail })
+      .select("id, name, email, created_at")
+      .single();
+
+    if (error) {
+      // Handle duplicate email (Postgres unique constraint code)
+      if (error.code === "23505") {
+        return res.status(409).json({
+          error: "This email is already registered",
+        });
+      }
+      console.error("Supabase insert error:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
 
     return res.status(201).json({
       success: true,
       message: "Welcome to ChartHustlez!",
-      signup: result.rows[0],
+      signup: data,
     });
   } catch (error: unknown) {
-    // Handle duplicate email
-    if (
-      error instanceof Error &&
-      "code" in error &&
-      (error as { code: string }).code === "23505"
-    ) {
-      return res.status(409).json({
-        error: "This email is already registered",
-      });
-    }
-
     console.error("Signup error:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
