@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ChartHustlez | Command Center</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body data-theme="green">
+
+  <!-- Auth Gate -->
+  <div id="auth-gate" class="auth-gate">
+    <canvas id="auth-canvas" class="auth-canvas"></canvas>
+    <div class="auth-box">
+      <div class="auth-lock-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <h1 class="auth-title">COMMAND CENTER</h1>
+      <p class="auth-subtitle">ChartHustlez.online</p>
+      <form id="auth-form">
+        <label for="auth-key" class="sr-only">Access Key</label>
+        <input type="password" id="auth-key" placeholder="Enter Access Key" required autocomplete="off">
+        <button type="submit" id="auth-btn">AUTHENTICATE</button>
+      </form>
+      <div id="auth-status" class="auth-status"></div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard hidden">
+    <canvas id="dash-canvas" class="dash-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <h1 class="dash-logo">CHARTHUSTLEZ</h1>
+        <span class="dash-badge">COMMAND CENTER</span>
+      </div>
+      <div class="dash-header-right">
+        <span id="dash-clock" class="dash-clock"></span>
+        <button id="refresh-btn" class="dash-refresh-btn" aria-label="Refresh data">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+        <a href="index.html" class="dash-back-link" aria-label="Back to site">&lt; EXIT</a>
+      </div>
+    </header>
+
+    <!-- Loading State -->
+    <div id="dash-loading" class="dash-loading">
+      <div class="dash-loading-bar"></div>
+      <span>Decrypting analytics data...</span>
+    </div>
+
+    <!-- Stats Cards -->
+    <section id="stats-section" class="dash-stats hidden" aria-label="Signup statistics">
+      <div class="stat-card" id="stat-total">
+        <div class="stat-label">TOTAL SIGNUPS</div>
+        <div class="stat-value" id="val-total">--</div>
+        <div class="stat-sub" id="sub-total"></div>
+      </div>
+      <div class="stat-card" id="stat-today">
+        <div class="stat-label">TODAY</div>
+        <div class="stat-value" id="val-today">--</div>
+        <div class="stat-sub" id="sub-today"></div>
+      </div>
+      <div class="stat-card" id="stat-week">
+        <div class="stat-label">THIS WEEK</div>
+        <div class="stat-value" id="val-week">--</div>
+        <div class="stat-sub" id="sub-week"></div>
+      </div>
+      <div class="stat-card" id="stat-month">
+        <div class="stat-label">THIS MONTH</div>
+        <div class="stat-value" id="val-month">--</div>
+        <div class="stat-sub" id="sub-month"></div>
+      </div>
+      <div class="stat-card" id="stat-avg">
+        <div class="stat-label">AVG / DAY</div>
+        <div class="stat-value" id="val-avg">--</div>
+        <div class="stat-sub" id="sub-avg"></div>
+      </div>
+      <div class="stat-card" id="stat-peak">
+        <div class="stat-label">PEAK DAY</div>
+        <div class="stat-value" id="val-peak">--</div>
+        <div class="stat-sub" id="sub-peak"></div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section id="charts-section" class="dash-charts hidden" aria-label="Charts">
+      <!-- Daily Trend -->
+      <div class="chart-card chart-wide">
+        <div class="chart-header">
+          <h2 class="chart-title">DAILY SIGNUPS - 30 DAY TREND</h2>
+          <span class="chart-growth" id="chart-weekly-growth"></span>
+        </div>
+        <div class="chart-body">
+          <canvas id="chart-daily" aria-label="Daily signups bar chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Hourly Breakdown -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h2 class="chart-title">TODAY - HOURLY BREAKDOWN</h2>
+        </div>
+        <div class="chart-body">
+          <canvas id="chart-hourly" aria-label="Hourly signups chart for today"></canvas>
+        </div>
+      </div>
+
+      <!-- Growth Comparison -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h2 class="chart-title">GROWTH COMPARISON</h2>
+        </div>
+        <div class="chart-body chart-body-growth">
+          <div class="growth-block">
+            <div class="growth-label">WEEKLY</div>
+            <div class="growth-bars">
+              <div class="growth-bar-row">
+                <span class="growth-period">This week</span>
+                <div class="growth-bar-track"><div class="growth-bar-fill" id="bar-this-week"></div></div>
+                <span class="growth-bar-val" id="val-bar-this-week">0</span>
+              </div>
+              <div class="growth-bar-row">
+                <span class="growth-period">Prev week</span>
+                <div class="growth-bar-track"><div class="growth-bar-fill dim" id="bar-prev-week"></div></div>
+                <span class="growth-bar-val" id="val-bar-prev-week">0</span>
+              </div>
+            </div>
+            <div class="growth-rate" id="growth-weekly-rate"></div>
+          </div>
+          <div class="growth-divider"></div>
+          <div class="growth-block">
+            <div class="growth-label">MONTHLY</div>
+            <div class="growth-bars">
+              <div class="growth-bar-row">
+                <span class="growth-period">This month</span>
+                <div class="growth-bar-track"><div class="growth-bar-fill" id="bar-this-month"></div></div>
+                <span class="growth-bar-val" id="val-bar-this-month">0</span>
+              </div>
+              <div class="growth-bar-row">
+                <span class="growth-period">Prev month</span>
+                <div class="growth-bar-track"><div class="growth-bar-fill dim" id="bar-prev-month"></div></div>
+                <span class="growth-bar-val" id="val-bar-prev-month">0</span>
+              </div>
+            </div>
+            <div class="growth-rate" id="growth-monthly-rate"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Signups Table -->
+    <section id="table-section" class="dash-table-section hidden" aria-label="Recent signups">
+      <div class="table-card">
+        <div class="table-header">
+          <h2 class="chart-title">RECENT SIGNUPS</h2>
+          <span class="table-count" id="table-count"></span>
+        </div>
+        <div class="table-scroll">
+          <table class="dash-table" id="signups-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>NAME</th>
+                <th>EMAIL</th>
+                <th>DATE</th>
+                <th>TIME</th>
+              </tr>
+            </thead>
+            <tbody id="signups-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="dash-footer">
+      <span id="dash-generated-at"></span>
+      <span class="dash-footer-sep">|</span>
+      <span>ChartHustlez.online Command Center</span>
+    </footer>
+  </div>
+
+  <script src="admin-script.js"></script>
+</body>
+</html>
