@@ -56,54 +56,84 @@ function initSignupMatrix() {
   draw();
 }
 
-// Form submission - connected to AWS Aurora PostgreSQL via API
+// Form submission - connected to Supabase
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
+  const subjectInput = document.getElementById('subject');
+  const messageInput = document.getElementById('message');
   const submitBtn = document.getElementById('submit-btn');
-  const statusEl = document.getElementById('signup-status');
 
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
+  const subject = subjectInput.value;
+  const message = messageInput.value.trim();
 
-  if (!name || !email) {
+  if (!name || !email || !subject || !message) {
     showStatus('Please complete all fields.', 'error');
     return;
   }
 
   // Disable form during submission
   submitBtn.disabled = true;
-  submitBtn.textContent = 'CONNECTING...';
-  showStatus('Transmitting data...', '');
+  submitBtn.textContent = 'TRANSMITTING...';
+  showStatus('Sending your request...', '');
 
   try {
-    const response = await fetch('/api/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email }),
-    });
+    // Get visitor IP for the booking record
+    let ip = null;
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      ip = ipData.ip;
+    } catch (err) {
+      console.warn('Could not fetch IP:', err);
+    }
 
-    const data = await response.json();
+    // Insert booking into Supabase
+    const { error: bookingError } = await supabase
+      .from('bookings')
+      .insert([{
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+        ip_address: ip,
+        user_agent: navigator.userAgent
+      }]);
 
-    if (response.ok && data.success) {
-      showStatus('ACCESS GRANTED. Welcome to ChartHustlez.', 'success');
-      e.target.reset();
+    if (bookingError) {
+      throw bookingError;
+    }
 
-      // Track signup event for Vercel Analytics
-      if (window.si) {
-        window.si('event', { name: 'signup_complete' });
-      }
-    } else {
-      showStatus(data.error || 'Signup failed. Try again.', 'error');
+    // Also add to email subscribers
+    const { error: subscriberError } = await supabase
+      .from('email_subscribers')
+      .upsert([{
+        email: email,
+        name: name,
+        source: 'booking_form'
+      }], { onConflict: 'email' });
+
+    if (subscriberError) {
+      console.warn('Subscriber insert warning:', subscriberError);
+    }
+
+    showStatus('REQUEST SENT. I\'ll get back to you soon!', 'success');
+    e.target.reset();
+
+    // Track booking event for Vercel Analytics
+    if (window.si) {
+      window.si('event', { name: 'booking_complete', subject: subject });
     }
   } catch (err) {
-    console.error('Signup error:', err);
-    showStatus('Connection failed. Try again later.', 'error');
+    console.error('Booking error:', err);
+    showStatus('Connection failed. Please try again.', 'error');
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = 'ENTER';
+    submitBtn.textContent = 'SEND REQUEST';
   }
 });
 
