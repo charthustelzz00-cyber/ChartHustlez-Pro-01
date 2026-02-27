@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChartHustlez.online | Cyber Launch</title>
   <meta name="description" content="ChartHustlez.online - From Beginner to Builder. Join the Cyber Launch.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +33,7 @@
   </div>
 
   <!-- ========== LANDING PAGE ========== -->
-  <div id="landing-page" class="landing-page hidden">
+  <main id="landing-page" class="landing-page hidden">
 
     <!-- Matrix rain canvas (falling from top) -->
     <canvas id="matrix-canvas" class="matrix-canvas"></canvas>
@@ -47,8 +47,8 @@
         <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polygon points="8,0 100,0 92,100 0,100"/>
         </svg>
-        <button id="theme-cycle" class="theme-cycle-btn" aria-label="Toggle theme selector">
-          <span class="theme-icon"></span>
+        <button id="theme-cycle" class="theme-cycle-btn" aria-label="Theme: GREEN - Click to toggle theme selector">
+          <span class="theme-icon" aria-hidden="true"></span>
           <span id="theme-label">GREEN</span>
         </button>
       </div>
@@ -77,8 +77,8 @@
         <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polygon points="8,0 100,0 92,100 0,100"/>
         </svg>
-        <button id="speed-cycle" class="speed-cycle-btn" aria-label="Toggle speed selector">
-          <span class="speed-icon">&#9654;</span>
+        <button id="speed-cycle" class="speed-cycle-btn" aria-label="Speed: NORMAL - Click to toggle speed selector">
+          <span class="speed-icon" aria-hidden="true">&#9654;</span>
           <span id="speed-label">NORMAL</span>
         </button>
       </div>
@@ -88,6 +88,14 @@
         <button class="speed-btn" data-speed="fast" role="option" aria-selected="false">Fast</button>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-divider"></div>
+      <a href="https://404labz.com" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="Cyber Launch System v1.0.0 Engineered by 404 Labz - opens in new tab">
+        Cyber Launch System v1.0.0 | Engineered by 404 Labz
+      </a>
+    </footer>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -120,7 +128,7 @@
       </div>
     </div>
 
-  </div>
+  </main>
 
   <!-- Vercel Analytics -->
   <script>
