@@ -1336,16 +1336,14 @@ body {
 
 /* ========== SITE FOOTER ========== */
 .site-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 20px 16px;
-  pointer-events: none;
+  padding: 20px 20px 12px;
+  margin-top: 40px;
 }
 
 .footer-divider {
