@@ -513,15 +513,15 @@ function initCTAButton() {
   const ctaBtn = document.getElementById('cta-btn');
   const ctaBtn2 = document.getElementById('cta-btn-2');
   
-  // Buy Now button
+  // Buy Now button - redirects to future store URL
   ctaBtn.addEventListener('click', () => {
-    window.location.href = 'signup.html';
+    window.location.href = 'https://404labz.com/store';
   });
   
-  // Book Me button
+  // Book Me button - goes to consultation booking form
   if (ctaBtn2) {
     ctaBtn2.addEventListener('click', () => {
-      window.location.href = 'booking.html';
+      window.location.href = 'signup.html';
     });
   }
 }
