@@ -394,6 +394,7 @@ function initThemeToggle() {
   function applyTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     themeLabel.textContent = theme.toUpperCase();
+    cycleBtn.setAttribute('aria-label', `Theme: ${theme.toUpperCase()} - Click to toggle theme selector`);
 
     themeButtons.forEach(b => {
       b.classList.toggle('active', b.dataset.theme === theme);
@@ -455,6 +456,7 @@ function initSpeedToggle() {
 
   function updateSpeedUI(key) {
     speedLabel.textContent = key.toUpperCase();
+    speedCycleBtn.setAttribute('aria-label', `Speed: ${key.toUpperCase()} - Click to toggle speed selector`);
     speedBtns.forEach(b => {
       b.classList.toggle('active', b.dataset.speed === key);
     });

@@ -125,6 +125,11 @@ body {
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
   will-change: transform;
+  contain: layout style;
+  font-size: 14px;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
 }
 
 .portal-content {
@@ -293,6 +298,7 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  contain: strict;
 }
 
 /* ========== SNOWFLAKES (rise from bottom) ========== */
@@ -312,6 +318,11 @@ body {
   color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5), 0 0 15px rgba(var(--primary-rgb), 0.3);
   will-change: transform;
+  contain: layout style;
+  font-size: 14px;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
 }
 
 /* ========== THEME TOGGLE ========== */
