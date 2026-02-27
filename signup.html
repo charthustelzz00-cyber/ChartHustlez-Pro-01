@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ChartHustlez | Join the Launch</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Sign up for ChartHustlez.online - From Beginner to Builder">
+  <title>ChartHustlez | Book a Consultation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Book a consultation with ChartHustlez - Questions, concerns, and personalized guidance">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -16,20 +16,43 @@
 
     <a href="index.html" class="signup-back" aria-label="Back to home page">&lt; Back</a>
 
-    <div class="signup-box">
-      <h1>JOIN THE MATRIX</h1>
-      <p class="signup-subtitle">ChartHustlez.online</p>
+    <div class="signup-box booking-box">
+      <h1>BOOK ME</h1>
+      <p class="signup-subtitle">Questions? Concerns? Let's Talk.</p>
 
       <form id="signup-form">
         <label for="name" class="sr-only">Full Name</label>
         <input type="text" id="name" name="name" placeholder="Full Name" required autocomplete="name">
+        
         <label for="email" class="sr-only">Email Address</label>
         <input type="email" id="email" name="email" placeholder="Email Address" required autocomplete="email">
-        <button type="submit" id="submit-btn">ENTER</button>
+        
+        <label for="subject" class="sr-only">Subject</label>
+        <select id="subject" name="subject" required>
+          <option value="" disabled selected>Select a Topic</option>
+          <option value="consultation">General Consultation</option>
+          <option value="questions">Questions About Services</option>
+          <option value="concerns">Concerns or Issues</option>
+          <option value="collaboration">Collaboration Inquiry</option>
+          <option value="other">Other</option>
+        </select>
+        
+        <label for="message" class="sr-only">Your Message</label>
+        <textarea id="message" name="message" placeholder="Tell me what's on your mind..." rows="4" required></textarea>
+        
+        <button type="submit" id="submit-btn">SEND REQUEST</button>
       </form>
 
       <div id="signup-status" class="signup-status"></div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-divider"></div>
+      <a href="https://404labz.com" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="Cyber Launch System v1.0.0 Engineered by 404 Labz - opens in new tab">
+        Cyber Launch System v1.0.0 | Engineered by 404 Labz
+      </a>
+    </footer>
   </div>
 
   <!-- Vercel Analytics -->
@@ -38,6 +61,9 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="visitor-tracking.js"></script>
   <script src="signup-script.js"></script>
 </body>
 </html>

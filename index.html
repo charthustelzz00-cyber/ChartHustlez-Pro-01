@@ -102,11 +102,19 @@
       <h1 class="hero-title" data-text="ChartHustlez">ChartHustlez</h1>
       <h2 class="hero-subtitle glitch-sub" data-text="Cyber Launch">Cyber Launch</h2>
       <p class="hero-tagline" id="hero-tagline" aria-label="From Beginner to Builder"></p>
-      <div class="trapezoid-box cta-wrapper" id="cta-box">
-        <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <polygon points="8,0 100,0 92,100 0,100"/>
-        </svg>
-        <button id="cta-btn" class="cta-button">Join the Launch</button>
+      <div class="cta-buttons-container">
+        <div class="trapezoid-box cta-wrapper cta-left" id="cta-box">
+          <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="8,0 100,0 92,100 0,100"/>
+          </svg>
+          <button id="cta-btn" class="cta-button">Buy Now!!</button>
+        </div>
+        <div class="trapezoid-box cta-wrapper cta-right" id="cta-box-2">
+          <svg class="trapezoid-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polygon points="8,0 100,0 92,100 0,100"/>
+          </svg>
+          <button id="cta-btn-2" class="cta-button">Book Me</button>
+        </div>
       </div>
     </section>
 
@@ -136,7 +144,10 @@
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="site.config.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="visitor-tracking.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -467,6 +467,7 @@ function initSpeedToggle() {
 function initEntranceAnimations() {
   const tagline = document.getElementById('hero-tagline');
   const ctaBox = document.getElementById('cta-box');
+  const ctaBox2 = document.getElementById('cta-box-2');
   const speedBox = document.getElementById('speed-toggle-box');
   const themeBox = document.getElementById('theme-toggle-box');
   const fullText = 'From Beginner to Builder';
@@ -492,21 +493,37 @@ function initEntranceAnimations() {
     }, 80);
   }, 300);
 
-  // Stagger the slide-in of the three trapezoid boxes
-  const boxes = [ctaBox, speedBox, themeBox].filter(Boolean);
-  boxes.forEach((box, i) => {
+  // Animate both CTA buttons at the same time (they slide in from opposite sides)
+  setTimeout(() => {
+    if (ctaBox) ctaBox.classList.add('slide-in');
+    if (ctaBox2) ctaBox2.classList.add('slide-in');
+  }, 800);
+
+  // Stagger the slide-in of the toggle boxes
+  const toggleBoxes = [speedBox, themeBox].filter(Boolean);
+  toggleBoxes.forEach((box, i) => {
     setTimeout(() => {
       box.classList.add('slide-in');
-    }, 800 + i * 250);
+    }, 1050 + i * 250);
   });
 }
 
-// ========== CTA BUTTON ==========
+// ========== CTA BUTTONS ==========
 function initCTAButton() {
   const ctaBtn = document.getElementById('cta-btn');
+  const ctaBtn2 = document.getElementById('cta-btn-2');
+  
+  // Buy Now button - redirects to future store URL
   ctaBtn.addEventListener('click', () => {
-    window.location.href = 'signup.html';
+    window.location.href = 'https://404labz.com/store';
   });
+  
+  // Book Me button - goes to consultation booking form
+  if (ctaBtn2) {
+    ctaBtn2.addEventListener('click', () => {
+      window.location.href = 'signup.html';
+    });
+  }
 }
 
 // ========== INITIALIZE ==========

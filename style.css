@@ -938,13 +938,34 @@ body {
   opacity: 0;
 }
 
-/* CTA slide-in (in-flow, transform is safe) */
-.cta-wrapper.slide-in {
-  animation: ctaSlideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* CTA buttons container */
+.cta-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-@keyframes ctaSlideIn {
+/* CTA slide-in from left */
+.cta-wrapper.cta-left.slide-in {
+  animation: ctaSlideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* CTA slide-in from right (opposite animation) */
+.cta-wrapper.cta-right.slide-in {
+  animation: ctaSlideInRight 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes ctaSlideInLeft {
   0% { opacity: 0; transform: translateX(-100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ctaSlideInRight {
+  0% { opacity: 0; transform: translateX(100px); }
   100% { opacity: 1; transform: translateX(0); }
 }
 
@@ -986,7 +1007,7 @@ body {
 /* CTA wrapper in the hero flow */
 .cta-wrapper {
   display: inline-block;
-  margin-top: 10px;
+  position: relative;
 }
 
 /* CTA button inside trapezoid */
@@ -1128,10 +1149,62 @@ body {
   color: rgba(var(--primary-rgb), 0.4);
 }
 
-.signup-box input:focus {
+.signup-box input:focus,
+.signup-box select:focus,
+.signup-box textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
   background: rgba(var(--primary-rgb), 0.08);
+}
+
+.signup-box select {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: rgba(var(--primary-rgb), 0.05);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: var(--primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300ff41' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.signup-box select option {
+  background: #0a0a0a;
+  color: var(--primary);
+  padding: 10px;
+}
+
+.signup-box textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: rgba(var(--primary-rgb), 0.05);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: var(--primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 1px;
+  outline: none;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 200px;
+}
+
+.signup-box textarea::placeholder {
+  color: rgba(var(--primary-rgb), 0.4);
+}
+
+.booking-box {
+  max-width: 400px;
 }
 
 .signup-box button[type="submit"] {
