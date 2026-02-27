@@ -1333,3 +1333,51 @@ body {
     letter-spacing: 3px;
   }
 }
+
+/* ========== SITE FOOTER ========== */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 20px 16px;
+  pointer-events: none;
+}
+
+.footer-divider {
+  width: 100%;
+  max-width: 400px;
+  height: 1px;
+  background: rgba(156, 163, 175, 0.3);
+  margin-bottom: 10px;
+}
+
+.footer-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  color: rgba(156, 163, 175, 0.7);
+  text-decoration: none;
+  text-transform: uppercase;
+  pointer-events: auto;
+  transition: color 0.3s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-link:hover {
+  color: rgba(156, 163, 175, 1);
+}
+
+@media (max-width: 480px) {
+  .footer-link {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+  }
+}
