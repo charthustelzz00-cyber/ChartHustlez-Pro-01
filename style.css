@@ -938,13 +938,34 @@ body {
   opacity: 0;
 }
 
-/* CTA slide-in (in-flow, transform is safe) */
-.cta-wrapper.slide-in {
-  animation: ctaSlideIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* CTA buttons container */
+.cta-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-@keyframes ctaSlideIn {
+/* CTA slide-in from left */
+.cta-wrapper.cta-left.slide-in {
+  animation: ctaSlideInLeft 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* CTA slide-in from right (opposite animation) */
+.cta-wrapper.cta-right.slide-in {
+  animation: ctaSlideInRight 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes ctaSlideInLeft {
   0% { opacity: 0; transform: translateX(-100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ctaSlideInRight {
+  0% { opacity: 0; transform: translateX(100px); }
   100% { opacity: 1; transform: translateX(0); }
 }
 
@@ -986,7 +1007,7 @@ body {
 /* CTA wrapper in the hero flow */
 .cta-wrapper {
   display: inline-block;
-  margin-top: 10px;
+  position: relative;
 }
 
 /* CTA button inside trapezoid */
